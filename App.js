@@ -16,5 +16,8 @@ export default function App() {
     LatoBold,
     LatoBlack,
   });
+  if (!fontsLoaded) {
+    return <View />;
+  }
   return <Routes />;
 }

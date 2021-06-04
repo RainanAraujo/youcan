@@ -11,7 +11,7 @@ import { SafeAreaView, StatusBar } from "react-native";
 import Button from "./../../components/Button";
 import LogoApp from "./../../../assets/images/logoApp.png";
 import { AntDesign } from "@expo/vector-icons";
-export default function WelcomeApp() {
+export default function WelcomeApp({ navigation }) {
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />
@@ -25,6 +25,7 @@ export default function WelcomeApp() {
       </Information>
 
       <Button
+        onPress={() => navigation.navigate("home")}
         text="Login com Google"
         Icon={() => <AntDesign name="google" size={24} color="#fff" />}
       />

@@ -1,5 +1,12 @@
 import React from "react";
-import { Container, Logo, Title, Description, Link } from "./styles";
+import {
+  Container,
+  Logo,
+  Title,
+  Description,
+  Link,
+  Information,
+} from "./styles";
 import { SafeAreaView, StatusBar } from "react-native";
 import Button from "./../../components/Button";
 import LogoApp from "./../../../assets/images/logoApp.png";
@@ -9,11 +16,14 @@ export default function WelcomeApp() {
     <Container>
       <StatusBar backgroundColor="#fff" />
       <Logo source={LogoApp} />
-      <Title>Seu companheiro diário</Title>
-      <Description>
-        Buscamos auxiliar você e quem lhe ajuda, acompanhando com você suas
-        experiências diárias.
-      </Description>
+      <Information>
+        <Title>Seu companheiro diário</Title>
+        <Description>
+          Buscamos auxiliar você e quem lhe ajuda, acompanhando com você suas
+          experiências diárias.
+        </Description>
+      </Information>
+
       <Button
         text="Login com Google"
         Icon={() => <AntDesign name="google" size={24} color="#fff" />}

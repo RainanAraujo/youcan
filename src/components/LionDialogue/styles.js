@@ -8,7 +8,6 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  height: 100%;
 `;
 export const LionImage = styled.Image``;
 

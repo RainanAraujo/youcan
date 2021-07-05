@@ -19,7 +19,7 @@ export const Container = styled.TouchableOpacity`
 export const Text = styled.Text`
   color: #fff;
   font-family: "LatoBold";
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
 
   ${(props) =>

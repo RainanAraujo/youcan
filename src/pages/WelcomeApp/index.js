@@ -19,9 +19,9 @@ export default function WelcomeApp({ navigation }) {
   const checkUserStatus = async (userData) => {
     const registered = await isRegistered(userData.user.uid);
     if (registered) {
-      navigation.navigate("home");
+      navigation.replace("home");
     } else {
-      navigation.navigate("register");
+      navigation.replace("register");
     }
   };
 

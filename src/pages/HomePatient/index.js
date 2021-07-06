@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Topic,
@@ -7,6 +7,7 @@ import {
   Profile,
   Name,
   Avatar,
+  ButtonMenu,
 } from "./styles";
 import { SafeAreaView, StatusBar } from "react-native";
 import CardButton from "../../components/CardButton";
@@ -15,12 +16,18 @@ import ButtonNotification from "../../components/ButtonNotification";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-export default function Home() {
+import { Feather } from "@expo/vector-icons";
+
+export default function HomePatient() {
+  const [expandedMenu, setExpandedMenu] = useState(false);
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />
+      <Menu open={expandedMenu} onClose={() => setExpandedMenu(false)} />
       <Header>
-        <Menu />
+        <ButtonMenu onPress={() => setExpandedMenu(true)}>
+          <Feather name="menu" size={24} color="#070C17" />
+        </ButtonMenu>
         <Profile>
           <Name>Jasmim Pereira</Name>
           <Avatar

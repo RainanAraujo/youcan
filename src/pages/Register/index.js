@@ -32,13 +32,15 @@ export default function Register({ navigation }) {
         {typeUserSelected == "patient" && (
           <Registration>
             <Title>Precisamos de algumas informações para continuar</Title>
-            <FormPatient onValidate={() => navigation.replace("home")} />
+            <FormPatient onValidate={() => navigation.replace("homePatient")} />
           </Registration>
         )}
         {typeUserSelected == "professional" && (
           <Registration>
             <Title>Precisamos de algumas informações para continuar</Title>
-            <FormProfessional onValidate={() => navigation.replace("home")} />
+            <FormProfessional
+              onValidate={() => navigation.replace("homePatient")}
+            />
           </Registration>
         )}
       </ScrollView>

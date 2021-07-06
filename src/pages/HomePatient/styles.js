@@ -56,3 +56,9 @@ export const Avatar = styled.Image`
   height: 40px;
   border-radius: 100px;
 `;
+
+export const ButtonMenu = styled.TouchableOpacity`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

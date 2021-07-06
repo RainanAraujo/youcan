@@ -1,7 +1,16 @@
 import React from "react";
-import { Container, Topic, Title } from "./styles";
+import {
+  Container,
+  Topic,
+  Title,
+  Header,
+  Profile,
+  Name,
+  Avatar,
+} from "./styles";
 import { SafeAreaView, StatusBar } from "react-native";
 import CardButton from "../../components/CardButton";
+import Menu from "../../components/Menu";
 import ButtonNotification from "../../components/ButtonNotification";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -10,6 +19,17 @@ export default function Home() {
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />
+      <Header>
+        <Menu />
+        <Profile>
+          <Name>Jasmim Pereira</Name>
+          <Avatar
+            source={{
+              uri: "https://psicoter.com.br/wp-content/uploads/2019/01/pessoa-flexivel-seja-mais-flexivel-800x533.jpg",
+            }}
+          />
+        </Profile>
+      </Header>
       <Title>Dashboard</Title>
       <Topic>Avisos</Topic>
       <ButtonNotification

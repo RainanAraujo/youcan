@@ -32,7 +32,7 @@ export default function WelcomeApp({ navigation }) {
       <Information>
         <Title>Seu companheiro diário</Title>
         <Description>
-          Buscamos auxiliar você e quem lher ajuda, acompanhando com você suas
+          Buscamos auxiliar você e quem lhe ajuda, acompanhando com você suas
           experiências diárias.
         </Description>
       </Information>

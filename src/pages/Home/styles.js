@@ -20,3 +20,12 @@ export const Topic = styled.Text`
   font-family: "LatoBold";
   color: #7e7e7e;
 `;
+
+export const Title = styled.Text`
+  margin-top: 12px;
+  margin-bottom: 8px;
+  width: 100%;
+  font-size: 22px;
+  font-family: "LatoBold";
+  color: #070c17;
+`;

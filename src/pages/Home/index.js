@@ -1,14 +1,27 @@
 import React from "react";
-import { Container, Topic } from "./styles";
+import { Container, Topic, Title } from "./styles";
 import { SafeAreaView, StatusBar } from "react-native";
 import CardButton from "../../components/CardButton";
+import ButtonNotification from "../../components/ButtonNotification";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 export default function Home() {
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />
+      <Title>Dashboard</Title>
       <Topic>Avisos</Topic>
+      <ButtonNotification
+        title="Nova agenda de atendimento"
+        Icon={() => (
+          <MaterialCommunityIcons
+            name="account-clock-outline"
+            size={20}
+            color="#fff"
+          />
+        )}
+      />
       <Topic>Sobre você</Topic>
       <CardButton
         category="Alerta"

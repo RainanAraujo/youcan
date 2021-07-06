@@ -19,7 +19,7 @@ export default function CardButton({
   type,
 }) {
   return (
-    <Container type={type}>
+    <Container type={type} onPress={onPress}>
       <LeftContent>
         <HeaderCategory>
           {Icon && <Icon />}
@@ -29,7 +29,7 @@ export default function CardButton({
         <Description type={type}>{description}</Description>
       </LeftContent>
       <RightContent>
-        <Button onPress={onPress}>
+        <Button>
           <MaterialIcons name="arrow-forward-ios" size={24} color="#070C17" />
         </Button>
       </RightContent>

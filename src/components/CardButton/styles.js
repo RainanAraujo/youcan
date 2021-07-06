@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   width: 100%;
   padding: 18px;
   background-color: ${(props) =>
@@ -68,7 +68,7 @@ export const HeaderCategory = styled.View`
   flex-direction: row;
 `;
 
-export const Button = styled.TouchableOpacity`
+export const Button = styled.View`
   background-color: #fff;
   border-radius: 100px;
   width: 48px;
@@ -76,7 +76,6 @@ export const Button = styled.TouchableOpacity`
   display: flex;
   align-items: center;
   justify-content: center;
-  elevation: 2;
 `;
 
 export const LeftContent = styled.View`

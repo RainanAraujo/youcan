@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeApp from "./src/pages/WelcomeApp";
 import Register from "./src/pages/Register";
-import Home from "./src/pages/Home";
+import HomePatient from "./src/pages/HomePatient";
 const Stack = createStackNavigator();
 export default function App() {
   return (
@@ -15,8 +15,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="home"
-          component={Home}
+          name="homePatient"
+          component={HomePatient}
           options={{ headerShown: false }}
         />
         <Stack.Screen

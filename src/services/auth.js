@@ -1,6 +1,8 @@
 import { auth, firebase } from "../config/firebase";
 import * as Google from "expo-google-app-auth";
 
+export const currentUser = () => firebase.auth().currentUser;
+
 export const signInWithGoogleAsync = () => {
   return new Promise(async (resolve, reject) => {
     const result = await Google.logInAsync({
@@ -22,4 +24,8 @@ export const signInWithGoogleAsync = () => {
       reject({ cancelled: true });
     }
   });
+};
+
+export const signOut = async () => {
+  await Google.logOutAsync();
 };

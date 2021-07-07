@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Topic,
@@ -17,9 +17,19 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import { currentUser } from "../../services/auth";
+import { getUserData } from "../../services/firestore";
 
 export default function HomePatient() {
   const [expandedMenu, setExpandedMenu] = useState(false);
+  const [userData, setUserData] = useState({});
+
+  const { uid } = currentUser();
+
+  useEffect(() => {
+    getUserData(uid).then((data) => setUserData(data));
+  }, []);
+
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />

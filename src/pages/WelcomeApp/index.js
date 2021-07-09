@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Logo,
@@ -13,17 +13,29 @@ import LogoApp from "./../../../assets/images/logoApp.png";
 import { AntDesign } from "@expo/vector-icons";
 import { auth, firebase } from "../../config/firebase";
 import { signInWithGoogleAsync } from "../../services/auth";
-import { isRegistered } from "../../services/firestore";
+import { getUserData } from "../../services/firestore";
+import { currentUser } from "../../services/auth";
 
 export default function WelcomeApp({ navigation }) {
-  const checkUserStatus = async (userData) => {
-    const registered = await isRegistered(userData.user.uid);
-    if (registered) {
-      navigation.replace("home");
-    } else {
-      navigation.replace("register");
-    }
+  const checkUserStatus = async (userID) => {
+    getUserData(userID)
+      .then((user) => {
+        if (user.type === "patient") {
+          navigation.replace("homePatient");
+        } else {
+          navigation.replace("homeProfessional");
+        }
+      })
+      .catch(() => {
+        navigation.replace("register");
+      });
   };
+
+  useEffect(() => {
+    if (currentUser() != null) {
+      checkUserStatus(currentUser().uid);
+    }
+  }, []);
 
   return (
     <Container>
@@ -39,7 +51,9 @@ export default function WelcomeApp({ navigation }) {
 
       <Button
         onPress={() =>
-          signInWithGoogleAsync().then((userData) => checkUserStatus(userData))
+          signInWithGoogleAsync().then((userData) =>
+            checkUserStatus(userData.user.uid)
+          )
         }
         text="Login com Google"
         Icon={() => <AntDesign name="google" size={24} color="#fff" />}

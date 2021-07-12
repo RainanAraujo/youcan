@@ -12,18 +12,16 @@ import {
   TextOption,
 } from "./styles";
 import { SafeAreaView, StatusBar, Text } from "react-native";
-import CardButton from "../../components/CardButton";
 import Menu from "../../components/Menu";
-import ButtonNotification from "../../components/ButtonNotification";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { currentUser } from "../../services/auth";
 import { getUserData } from "../../services/firestore";
 import { Ionicons } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
-export default function HomePatient() {
+import Input from "../../components/Input";
+import ButtonPatient from "../../components/ButtonPatient";
+
+export default function HomeProfessional() {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [userData, setUserData] = useState({});
 
@@ -40,27 +38,11 @@ export default function HomePatient() {
         <Menu open={expandedMenu} onClose={() => setExpandedMenu(false)}>
           <ButtonOption>
             <Ionicons name="qr-code" size={22} color="#53555f" />
-            <TextOption>Vincular Profissional</TextOption>
+            <TextOption>Código de vinculação</TextOption>
           </ButtonOption>
           <ButtonOption>
             <Ionicons name="ios-list-outline" size={22} color="#53555f" />
-            <TextOption>Relatório pessoal</TextOption>
-          </ButtonOption>
-          <ButtonOption>
-            <MaterialCommunityIcons name="pill" size={22} color="#53555f" />
-            <TextOption>Receita médica</TextOption>
-          </ButtonOption>
-          <ButtonOption>
-            <MaterialCommunityIcons name="history" size={22} color="#53555f" />
-            <TextOption>Agenda</TextOption>
-          </ButtonOption>
-          <ButtonOption>
-            <Feather name="user" size={22} color="#53555f" />
-            <TextOption>Seus profissionais</TextOption>
-          </ButtonOption>
-          <ButtonOption>
-            <SimpleLineIcons name="location-pin" size={22} color="#53555f" />
-            <TextOption>Localizar atendimento</TextOption>
+            <TextOption>Sua Agenda</TextOption>
           </ButtonOption>
           <ButtonOption>
             <MaterialCommunityIcons
@@ -85,35 +67,13 @@ export default function HomePatient() {
           </Profile>
         </Header>
         <Title>Dashboard</Title>
-        <Topic>Avisos</Topic>
-        <ButtonNotification
-          title="Nova agenda de atendimento"
+        <Input
           Icon={() => (
-            <MaterialCommunityIcons
-              name="account-clock-outline"
-              size={20}
-              color="#fff"
-            />
+            <Ionicons name="ios-search-outline" size={24} color="black" />
           )}
+          Placeholder="Buscar paciente"
         />
-        <Topic>Sobre você</Topic>
-        <CardButton
-          category="Alerta"
-          description="Registrar alguma grande experiência positiva ou negativa neste momento."
-          title="Está acontecendo algo?"
-          Icon={() => (
-            <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
-          )}
-          type="red"
-        />
-        <CardButton
-          category="Ultima Semana"
-          description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
-          title="Tristeza"
-          Icon={() => (
-            <MaterialIcons name="history" size={18} color="#929292" />
-          )}
-        />
+        <ButtonPatient alertYellow alertGreen alertRed />
       </Container>
     </SafeAreaView>
   );

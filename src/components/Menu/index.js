@@ -7,16 +7,16 @@ import {
   BackgroundMenu,
 } from "./styles";
 
-export default function Menu({ open, onClose }) {
+export default function Menu(props) {
   const expandMenuAnim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
-    open == true && expandMenuIn();
-  }, [open]);
+    props.open == true && expandMenuIn();
+  }, [props.open]);
 
   const expandMenuIn = () => {
     Animated.timing(expandMenuAnim, {
       toValue: -Dimensions.get("window").height * 0.6,
-      duration: 500,
+      duration: 200,
       useNativeDriver: true,
     }).start();
   };
@@ -24,19 +24,19 @@ export default function Menu({ open, onClose }) {
   const expandMenuOut = () => {
     Animated.timing(expandMenuAnim, {
       toValue: 0,
-      duration: 300,
+      duration: 200,
       useNativeDriver: true,
     }).start();
   };
 
   return (
     <Container
-      open={open}
+      open={props.open}
       onPress={() => (
         expandMenuOut(),
         setTimeout(() => {
-          onClose();
-        }, 300)
+          props.onClose();
+        }, 100)
       )}
       activeOpacity={1}
     >
@@ -53,10 +53,11 @@ export default function Menu({ open, onClose }) {
           onPress={() => (
             expandMenuOut(),
             setTimeout(() => {
-              onClose();
-            }, 300)
+              props.onClose();
+            }, 100)
           )}
         />
+        {props.children}
       </MenuContainer>
     </Container>
   );

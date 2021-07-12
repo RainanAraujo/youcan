@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, TextInput, IconViewer } from "./styles";
-import { AntDesign } from "@expo/vector-icons";
+
 export default function Input({ Icon, Placeholder, onChangeText, value }) {
   return (
     <Container>
@@ -13,7 +13,7 @@ export default function Input({ Icon, Placeholder, onChangeText, value }) {
       />
       {Icon && (
         <IconViewer>
-          <AntDesign name="google" size={24} color="#929292" />
+          <Icon />
         </IconViewer>
       )}
     </Container>

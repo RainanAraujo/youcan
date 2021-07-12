@@ -16,7 +16,7 @@ export const TextInput = styled.TextInput`
     css`
       padding-left: 50px;
     `}
-  height: 65px;
+  height: 55px;
   background-color: #f5f6fa;
   border-radius: 10px;
   color: #7a7d87;
@@ -27,5 +27,5 @@ export const TextInput = styled.TextInput`
 export const IconViewer = styled.View`
   position: absolute;
   left: 15px;
-  top: 20px;
+  top: 15px;
 `;

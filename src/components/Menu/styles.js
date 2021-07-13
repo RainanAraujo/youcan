@@ -5,7 +5,7 @@ const deviceHeight = Dimensions.get("window").height;
 
 export const Container = styled.TouchableOpacity`
   position: absolute;
-  z-index: 999;
+  z-index: 1;
   left: 0px;
   background-color: #00000030;
   height: ${deviceHeight * 1.1}px;

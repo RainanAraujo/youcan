@@ -5,11 +5,13 @@ import WelcomeApp from "./src/pages/WelcomeApp";
 import Register from "./src/pages/Register";
 import HomePatient from "./src/pages/HomePatient";
 import HomeProfessional from "./src/pages/HomeProfessional";
+import PatientDetails from "./src/pages/PatientDetails";
+
 const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="welcomeApp">
+      <Stack.Navigator initialRouteName="patientDetails">
         <Stack.Screen
           name="welcomeApp"
           component={WelcomeApp}
@@ -23,6 +25,11 @@ export default function App() {
         <Stack.Screen
           name="homeProfessional"
           component={HomeProfessional}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="patientDetails"
+          component={PatientDetails}
           options={{ headerShown: false }}
         />
         <Stack.Screen

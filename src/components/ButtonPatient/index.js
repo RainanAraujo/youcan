@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Avatar,
@@ -11,26 +11,31 @@ import {
 
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { getUserData } from "../../services/firestore";
 
-export default function ButtonPatient({
-  onPress,
-  avatar,
-  name,
-  diagnostic,
-  alertYellow,
-  alertGreen,
-  alertRed,
-}) {
+export default function ButtonPatient({ patientID, status, onPress }) {
+  const [patientData, setPatientData] = useState(null);
+
+  const alertGreen = true;
+  const alertRed = true;
+  const alertYellow = true;
+
+  useEffect(() => {
+    if (patientID) {
+      getUserData(patientID).then((data) => setPatientData(data));
+    }
+  }, [patientID]);
+
   return (
     <Container onPress={onPress}>
       <Avatar
         source={{
-          uri: "https://psicoter.com.br/wp-content/uploads/2019/01/pessoa-flexivel-seja-mais-flexivel-800x533.jpg",
+          uri: patientData?.photoURL,
         }}
       />
       <Data>
-        <Name>Jasmim Pereira</Name>
-        <Diagnostic>Depressão</Diagnostic>
+        <Name>{patientData?.name}</Name>
+        <Diagnostic>{status}</Diagnostic>
       </Data>
       <Alerts>
         {alertGreen && (

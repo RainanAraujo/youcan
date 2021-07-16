@@ -12,7 +12,7 @@ import { currentUser } from "../../services/auth";
 
 export default function Register({ navigation }) {
   const [typeUserSelected, setTypeUserSelected] = useState("");
-  const { uid } = currentUser();
+  const { uid, photoURL } = currentUser();
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -40,7 +40,7 @@ export default function Register({ navigation }) {
             <Title>Precisamos de algumas informações para continuar</Title>
             <FormPatient
               onValidate={(userData) =>
-                registerPatient(uid, userData)
+                registerPatient(uid, { photoURL, ...userData })
                   .then(() => navigation.replace("homePatient"))
                   .catch(() =>
                     Alert.alert("Erro", "Não foi possível registar usuário")
@@ -54,7 +54,7 @@ export default function Register({ navigation }) {
             <Title>Precisamos de algumas informações para continuar</Title>
             <FormProfessional
               onValidate={(userData) =>
-                registerProfessional(uid, userData)
+                registerProfessional(uid, { photoURL, ...userData })
                   .then(() => navigation.replace("homeProfessional"))
                   .catch(() =>
                     Alert.alert("Erro", "Não foi possível registar usuário")

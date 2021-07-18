@@ -19,7 +19,7 @@ export default function QuizManage({ navigation }) {
         >
           <>
             <Name>Jasmim Pereira</Name>
-            <NewTopicButton ton text="Nova Pergunta" />
+            <NewTopicButton text="Nova Pergunta" />
             <InteractionButton
               onPress={() => navigation.navigate("questionEditor")}
               description="Audio / Texto"

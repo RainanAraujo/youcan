@@ -9,6 +9,7 @@ import {
   Lato_900Black as LatoBlack,
 } from "@expo-google-fonts/lato";
 import { SelectedUserProvider } from "./src/context/selectedUserContext";
+import { GlobalComponents } from "./src/context/globalComponentsContext";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -22,7 +23,9 @@ export default function App() {
   }
   return (
     <SelectedUserProvider>
-      <Routes />
+      <GlobalComponents>
+        <Routes />
+      </GlobalComponents>
     </SelectedUserProvider>
   );
 }

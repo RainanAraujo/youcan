@@ -8,49 +8,60 @@ import HomeProfessional from "./src/pages/HomeProfessional";
 import PatientDetails from "./src/pages/PatientDetails";
 import QuestionEditor from "./src/pages/QuestionEditor";
 import QuizManage from "./src/pages/QuizManage";
+import QuestionPreview from "./src/pages/QuestionPreview";
+import Menu from "./src/components/Menu";
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="welcomeApp">
-        <Stack.Screen
+      <RootStack.Navigator initialRouteName="welcomeApp">
+        <RootStack.Screen
           name="welcomeApp"
           component={WelcomeApp}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+
+        <RootStack.Screen
           name="homePatient"
           component={HomePatient}
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen
+        <RootStack.Screen
           name="homeProfessional"
           component={HomeProfessional}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        <RootStack.Screen
           name="patientDetails"
           component={PatientDetails}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        <RootStack.Screen
           name="register"
           component={Register}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        <RootStack.Screen
           name="questionEditor"
           component={QuestionEditor}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="quizManage"
-          component={QuizManage}
+        <RootStack.Screen
+          name="questionPreview"
+          component={QuestionPreview}
           options={{ headerShown: false }}
         />
-      </Stack.Navigator>
+        <RootStack.Screen
+          name="quizManage"
+          component={QuizManage}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }

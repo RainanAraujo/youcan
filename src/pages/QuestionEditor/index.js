@@ -49,7 +49,6 @@ export default function QuestionEditor({ navigation }) {
                   selectedValue
                   enabled={false}
                 />
-                <DropDown.Item label="Áudio" value="audio" />
                 <DropDown.Item label="Texto" value="text" />
                 <DropDown.Item label="Texto ou Aúdio" value="textOrAudio" />
                 <DropDown.Item label="Múltipla Escolha" value="multiply" />
@@ -92,8 +91,12 @@ export default function QuestionEditor({ navigation }) {
                   ))}
               </>
             )}
-            <Button text="Salvar" onPress={() => console.log(options)} />
-            <Button buttonText text="Visualizar pergunta" />
+            <Button text="Salvar" />
+            <Button
+              buttonText
+              text="Visualizar pergunta"
+              onPress={() => navigation.navigate("questionPreview")}
+            />
           </>
         </ScrollView>
       </Container>

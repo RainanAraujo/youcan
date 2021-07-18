@@ -11,6 +11,7 @@ export const Container = styled.TouchableOpacity`
   height: ${deviceHeight * 1.1}px;
   width: ${deviceWidth * 1}px;
   display: flex;
+  overflow: hidden;
   align-items: center;
   ${(props) =>
     props.open == false

@@ -27,7 +27,7 @@ export default function ButtonPatient({ patientID, status, onPress }) {
   }, [patientID]);
 
   return (
-    <Container onPress={onPress}>
+    <Container onPress={() => onPress(patientData)}>
       <Avatar
         source={{
           uri: patientData?.photoURL,

@@ -6,7 +6,8 @@ export const Container = styled.View`
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 16px;
+
+  margin-bottom: 25px;
 `;
 
 export const ButtonBack = styled.TouchableOpacity``;
@@ -16,4 +17,5 @@ export const Title = styled.Text`
   font-family: "LatoBold";
   font-size: 20px;
   text-align: center;
+  margin-left: -20px;
 `;

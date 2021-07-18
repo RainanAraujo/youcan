@@ -21,30 +21,33 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
+import { useSelectedUser } from "../../context/selectedUserContext";
 
 export default function PatientDetails({ navigation }) {
+  const { selectedUser } = useSelectedUser();
+
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        <Header title="Visão Geral" />
+        <Header title="Visão Geral" navigation={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <>
             <ProfileDescriptions>
               <LeftContent>
                 <Avatar
                   source={{
-                    uri: "https://psicoter.com.br/wp-content/uploads/2019/01/pessoa-flexivel-seja-mais-flexivel-800x533.jpg",
+                    uri: selectedUser.photoURL,
                   }}
                 />
               </LeftContent>
               <RightContent>
-                <Name>Jasmim Pereira</Name>
+                <Name>{selectedUser.name}</Name>
                 <Description>Depressão</Description>
                 <Status>
                   <Item>
                     <Title>Idade</Title>
-                    <TextItem>18</TextItem>
+                    <TextItem>{selectedUser.age}</TextItem>
                   </Item>
                   <Item>
                     <Title>Última atualização</Title>
@@ -100,7 +103,8 @@ export default function PatientDetails({ navigation }) {
                   color="#373D53"
                 />
               )}
-              type="grey"
+              type="gray"
+              onPress={() => navigation.navigate("quizManage")}
             />
           </>
         </ScrollView>

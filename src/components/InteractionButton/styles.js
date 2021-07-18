@@ -8,7 +8,7 @@ export const Container = styled.TouchableOpacity`
       ? (props.type == "yellow" && "#F2C029") ||
         (props.type == "red" && "#FE6161") ||
         (props.type == "green" && "#36D994") ||
-        (props.type == "grey" && "#F5F6FA") ||
+        (props.type == "gray" && "#F5F6FA") ||
         (props.type == "blue" && "#05AFF2")
       : "#F5F6FA"};
   border-radius: 10px;
@@ -39,7 +39,7 @@ export const Title = styled.Text`
       ? (props.type == "yellow" && "#fff") ||
         (props.type == "red" && "#fff") ||
         (props.type == "green" && "#fff") ||
-        (props.type == "grey" && "#373D53") ||
+        (props.type == "gray" && "#373D53") ||
         (props.type == "blue" && "#fff")
       : "#05AFF2"};
   font-size: 18px;
@@ -54,7 +54,7 @@ export const Description = styled.Text`
       ? (props.type == "yellow" && "#fff") ||
         (props.type == "red" && "#fff") ||
         (props.type == "green" && "#fff") ||
-        (props.type == "grey" && "#373D53") ||
+        (props.type == "gray" && "#373D53") ||
         (props.type == "blue" && "#fff")
       : "#929292"};
   font-size: 12px;

@@ -8,6 +8,7 @@ import {
   Lato_700Bold as LatoBold,
   Lato_900Black as LatoBlack,
 } from "@expo-google-fonts/lato";
+import { SelectedUserProvider } from "./src/context/selectedUserContext";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -19,5 +20,9 @@ export default function App() {
   if (!fontsLoaded) {
     return <View />;
   }
-  return <Routes />;
+  return (
+    <SelectedUserProvider>
+      <Routes />
+    </SelectedUserProvider>
+  );
 }

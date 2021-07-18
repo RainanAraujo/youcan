@@ -9,10 +9,17 @@ export const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
   ${(props) =>
     !props.isButtonIcon &&
     css`
       justify-content: center;
+    `}
+  ${(props) =>
+    props.isButtonText == true &&
+    css`
+      background-color: transparent;
+      width: auto;
     `}
 `;
 
@@ -27,5 +34,11 @@ export const Text = styled.Text`
     css`
       width: 100%;
       padding-right: 15px;
+    `}
+  ${(props) =>
+    props.isButtonText == true &&
+    css`
+      color: #f2c029;
+      font-size: 16px;
     `}
 `;

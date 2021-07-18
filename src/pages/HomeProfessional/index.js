@@ -31,8 +31,9 @@ import PopUp from "../../components/PopUp";
 import QRCode from "react-native-qrcode-svg";
 import logoApp from "../../../assets/images/happyLion.png";
 import FeedbackAction from "../../components/FeedbackAction";
+import { useSelectedUser } from "../../context/selectedUserContext";
 
-export default function HomeProfessional() {
+export default function HomeProfessional({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [userData, setUserData] = useState({});
   const [patientList, setPatientList] = useState([]);
@@ -40,6 +41,7 @@ export default function HomeProfessional() {
 
   const [popUpQRCode, setPopUpQRCode] = useState(false);
   const { uid } = currentUser();
+  const { setSelectedUser } = useSelectedUser();
 
   const loadPatientList = async () => {
     try {
@@ -60,10 +62,6 @@ export default function HomeProfessional() {
     getUserData(uid).then((data) => setUserData(data));
     loadPatientList();
   }, []);
-
-  useEffect(() => {
-    console.log("teste", patientList);
-  }, [patientList]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -136,7 +134,10 @@ export default function HomeProfessional() {
           />
           {patientList.map((patientData) => (
             <ButtonPatient
-              onPress={() => navigation.navigate("patientDetails")}
+              onPress={(patientData) => {
+                setSelectedUser(patientData);
+                navigation.navigate("patientDetails");
+              }}
               patientID={patientData.patient}
             />
           ))}

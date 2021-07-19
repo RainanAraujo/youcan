@@ -139,3 +139,19 @@ export const getProfessionalList = (userID) => {
       .catch((err) => reject(err));
   });
 };
+
+export const editUserConnection = (userConnectionID, newData) => {
+  return new Promise(async (resolve, reject) => {
+    userConnection
+      .doc(userConnectionID)
+      .update(newData)
+      .then((docList) => {
+        const professionalList = docList.docs.map((doc) => ({
+          userConnectionID: doc.id,
+          professional: doc.data().professional,
+        }));
+        resolve(professionalList);
+      })
+      .catch((err) => reject(err));
+  });
+};

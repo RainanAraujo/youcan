@@ -1,7 +1,6 @@
 import { firestore } from "../config/firebase";
 
 const users = firestore.collection("users");
-const userConnection = firestore.collection("userConnection");
 
 export const isRegistered = (userID) => {
   return new Promise(async (resolve, reject) => {
@@ -35,7 +34,7 @@ export const getUserData = (userID) => {
 
 export const registerPatient = (
   userID,
-  { name, phoneNumber, age, schooling, photoURL }
+  { name, phoneNumber, age, schooling }
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -44,7 +43,6 @@ export const registerPatient = (
         phoneNumber,
         age,
         schooling,
-        photoURL,
         type: "patient",
       });
       resolve();
@@ -56,7 +54,7 @@ export const registerPatient = (
 
 export const registerProfessional = (
   userID,
-  { name, CAPS, schooling, CRP, photoURL }
+  { name, CAPS, schooling, CRP }
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -65,7 +63,6 @@ export const registerProfessional = (
         CAPS,
         schooling,
         CRP,
-        photoURL,
         type: "professional",
       });
       resolve();
@@ -75,67 +72,22 @@ export const registerProfessional = (
   });
 };
 
-export const createUserConnection = (userData, targetUserID) => {
+export const registerProfessional = (
+  userID,
+  { name, CAPS, schooling, CRP }
+) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const targetUser = await getUserData(targetUserID);
-      const duplicate = await userConnection
-        .where(userData.type, "==", userData.uid)
-        .where(
-          userData.type == "patient" ? "professional" : "patient",
-          "==",
-          targetUserID
-        )
-        .get();
-      if (duplicate.docs.length) {
-        throw "Error: Target User is already connected";
-      }
-      if (userData.type != targetUser.type) {
-        await userConnection.add({
-          [userData.type]: userData.uid,
-          [targetUser.type]: targetUserID,
-        });
-      } else {
-        throw (
-          "Error: Target User is not a" +
-          (userData.type == "patient" ? "professional" : "patient")
-        );
-      }
+      await users.doc(userID).set({
+        name,
+        CAPS,
+        schooling,
+        CRP,
+        type: "professional",
+      });
       resolve();
     } catch (error) {
       reject(error);
     }
-  });
-};
-
-export const getPatientList = (userID) => {
-  return new Promise(async (resolve, reject) => {
-    userConnection
-      .where("professional", "==", userID)
-      .get()
-      .then((docList) => {
-        const patientList = docList.docs.map((doc) => ({
-          userConnectionID: doc.id,
-          patient: doc.data().patient,
-        }));
-        resolve(patientList);
-      })
-      .catch((err) => reject(err));
-  });
-};
-
-export const getProfessionalList = (userID) => {
-  return new Promise(async (resolve, reject) => {
-    userConnection
-      .where("patient", "==", userID)
-      .get()
-      .then((docList) => {
-        const professionalList = docList.docs.map((doc) => ({
-          userConnectionID: doc.id,
-          professional: doc.data().professional,
-        }));
-        resolve(professionalList);
-      })
-      .catch((err) => reject(err));
   });
 };

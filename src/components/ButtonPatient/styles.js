@@ -23,6 +23,7 @@ export const Avatar = styled.Image`
 export const Data = styled.View`
   display: flex;
   flex-direction: column;
+  width: 60%;
   justify-content: center;
 `;
 

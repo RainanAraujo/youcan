@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, Dimensions } from "react-native";
+import { Animated, Dimensions, StatusBar } from "react-native";
 import {
   Container,
   MenuContainer,
@@ -9,11 +9,14 @@ import {
 
 export default function Menu(props) {
   const expandMenuAnim = useRef(new Animated.Value(0)).current;
+  const [lastColor, setLastColor] = useState();
+
   useEffect(() => {
     props.open == true && expandMenuIn();
   }, [props.open]);
 
   const expandMenuIn = () => {
+    StatusBar.setBackgroundColor("#00000030");
     Animated.timing(expandMenuAnim, {
       toValue: -Dimensions.get("window").height * 0.6,
       duration: 200,
@@ -26,7 +29,7 @@ export default function Menu(props) {
       toValue: 0,
       duration: 200,
       useNativeDriver: true,
-    }).start();
+    }).start(() => StatusBar.setBackgroundColor("#fff"));
   };
 
   return (

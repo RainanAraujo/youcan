@@ -1,5 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, Dimensions, StatusBar } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  StatusBar,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   Container,
   MenuContainer,
@@ -43,25 +48,31 @@ export default function Menu(props) {
       )}
       activeOpacity={1}
     >
-      <MenuContainer
-        style={{
-          transform: [
-            {
-              translateY: expandMenuAnim,
-            },
-          ],
-        }}
+      <KeyboardAvoidingView
+        behavior={"position"}
+        keyboardVerticalOffset={-100}
+        style={{ position: "relative", zIndex: 3, flex: 1 }}
       >
-        <ButtonClose
-          onPress={() => (
-            expandMenuOut(),
-            setTimeout(() => {
-              props.onClose();
-            }, 100)
-          )}
-        />
-        {props.children}
-      </MenuContainer>
+        <MenuContainer
+          style={{
+            transform: [
+              {
+                translateY: expandMenuAnim,
+              },
+            ],
+          }}
+        >
+          <ButtonClose
+            onPress={() => (
+              expandMenuOut(),
+              setTimeout(() => {
+                props.onClose();
+              }, 100)
+            )}
+          />
+          {props.children}
+        </MenuContainer>
+      </KeyboardAvoidingView>
     </Container>
   );
 }

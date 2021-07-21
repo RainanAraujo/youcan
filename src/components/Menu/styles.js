@@ -29,7 +29,7 @@ export const MenuContainer = styled(Animated.View)`
   z-index: 2;
   height: ${deviceHeight * 0.6}px;
   background-color: #fff;
-  width: 100%;
+  width: ${deviceWidth * 1}px;
   elevation: 15;
   top: ${deviceHeight * 1 + 50}px;
   padding: 20px;

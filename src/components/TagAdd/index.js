@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Text,
@@ -16,48 +16,63 @@ import { FlatList, ScrollView } from "react-native";
 
 import { SafeAreaView, KeyboardAvoidingView } from "react-native";
 
+const MenuExpanded = ({ onSubmit, onClose }) => {
+  const [search, setSearch] = useState("");
+
+  return (
+    <>
+      <TitleMenu>Palavra Chave</TitleMenu>
+      <DescriptionMenu>
+        Busque e selecione uma palavra que defina você no momento.
+      </DescriptionMenu>
+      <Input
+        value={search}
+        onChangeText={(value) => {
+          setSearch(value);
+        }}
+        Icon={() => (
+          <Ionicons name="ios-search-outline" size={24} color="black" />
+        )}
+        Placeholder="Buscar palavra chave"
+      />
+      <FlatList
+        style={{ width: "100%" }}
+        data={feelings.data.filter((word) =>
+          word.toUpperCase().includes(search.toUpperCase())
+        )}
+        renderItem={(word, index) => {
+          return (
+            <FeelingButton
+              key={index}
+              onPress={() => (onSubmit(word.item), onClose())}
+            >
+              <FeelingText>{word.item}</FeelingText>
+            </FeelingButton>
+          );
+        }}
+        keyExtractor={(item) => item.index}
+        showsVerticalScrollIndicator={false}
+      />
+    </>
+  );
+};
+
 export default function TagAdd({ onPress }) {
   const { setExpandedMenu } = useGlobalComponents();
-
-  const [tag, setTag] = useState("Tag");
+  const [tag, setTag] = useState("");
   return (
     <SafeAreaView>
       <Container
         onPress={() =>
           setExpandedMenu(() => (
-            <>
-              <TitleMenu>Palavra Chave</TitleMenu>
-              <DescriptionMenu>
-                Busque e selecione uma palavra que defina você no momento.
-              </DescriptionMenu>
-              <Input
-                value={tag == "Tag" ? null : tag}
-                onChangeText={(value) => setTag(value)}
-                Icon={() => (
-                  <Ionicons name="ios-search-outline" size={24} color="black" />
-                )}
-                Placeholder="Buscar palavra chave"
-              />
-              <FlatList
-                style={{ width: "100%" }}
-                data={feelings.data.filter((word) =>
-                  word.toUpperCase().includes(tag.toUpperCase())
-                )}
-                renderItem={(item) => {
-                  return (
-                    <FeelingButton onPress={() => setTag(item.item)}>
-                      <FeelingText>{item.item + " "}</FeelingText>
-                    </FeelingButton>
-                  );
-                }}
-                keyExtractor={(item) => item.index}
-                showsVerticalScrollIndicator={false}
-              />
-            </>
+            <MenuExpanded
+              onSubmit={setTag}
+              onClose={() => setExpandedMenu(null)}
+            />
           ))
         }
       >
-        <Text>{tag}</Text>
+        <Text>{tag == "" ? "Tag" : tag}</Text>
         <Ionicons name="add" size={20} color="#f2c029" />
       </Container>
     </SafeAreaView>

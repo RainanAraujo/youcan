@@ -12,16 +12,23 @@ import {
   BackgroundMenu,
 } from "./styles";
 
-export default function Menu(props) {
+export default function Menu({ children, open, onClose }) {
+  const [visible, setVisible] = useState(false);
+
   const expandMenuAnim = useRef(new Animated.Value(0)).current;
   const [lastColor, setLastColor] = useState();
 
   useEffect(() => {
-    props.open == true && expandMenuIn();
-  }, [props.open]);
+    if (open) {
+      expandMenuIn();
+    } else {
+      expandMenuOut();
+    }
+  }, [open]);
 
   const expandMenuIn = () => {
     StatusBar.setBackgroundColor("#00000030");
+    setVisible(true);
     Animated.timing(expandMenuAnim, {
       toValue: -Dimensions.get("window").height * 0.6,
       duration: 200,
@@ -34,20 +41,16 @@ export default function Menu(props) {
       toValue: 0,
       duration: 200,
       useNativeDriver: true,
-    }).start(() => StatusBar.setBackgroundColor("#fff"));
+    }).start();
+    setTimeout(() => {
+      onClose();
+      setVisible(false);
+      StatusBar.setBackgroundColor("#fff");
+    }, 200);
   };
 
   return (
-    <Container
-      open={props.open}
-      onPress={() => (
-        expandMenuOut(),
-        setTimeout(() => {
-          props.onClose();
-        }, 100)
-      )}
-      activeOpacity={1}
-    >
+    <Container open={visible} onPress={() => expandMenuOut()} activeOpacity={1}>
       <KeyboardAvoidingView
         behavior={"position"}
         keyboardVerticalOffset={-100}
@@ -62,15 +65,8 @@ export default function Menu(props) {
             ],
           }}
         >
-          <ButtonClose
-            onPress={() => (
-              expandMenuOut(),
-              setTimeout(() => {
-                props.onClose();
-              }, 100)
-            )}
-          />
-          {props.children}
+          <ButtonClose onPress={() => expandMenuOut()} />
+          {children}
         </MenuContainer>
       </KeyboardAvoidingView>
     </Container>

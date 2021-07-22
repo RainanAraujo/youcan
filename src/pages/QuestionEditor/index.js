@@ -16,39 +16,73 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
 import { Ionicons } from "@expo/vector-icons";
+import { editQuestion, createQuestion } from "../../services/firestore";
 
-export default function QuestionEditor({ navigation }) {
+export default function QuestionEditor({ navigation, route }) {
+  const _question = route.params?.question || {};
+
   const { selectedUser } = useSelectedUser();
-  const [dataType, setDataType] = useState();
-  const [options, setOptions] = useState([]);
+  const [name, setName] = useState(_question.name || "");
+  const [description, setDescription] = useState(_question.description || "");
+  const [dataType, setDataType] = useState(_question.dataType || "text");
+  const [options, setOptions] = useState(_question.options || []);
+
+  const saveQuestion = async () => {
+    if ([name, description, dataType, options].some((val) => val != null)) {
+      const question = {
+        userConnectionID: selectedUser.userConnectionID,
+        name,
+        description,
+        dataType,
+        options,
+      };
+      console.log(question);
+      if (route.params?.question) {
+        await editQuestion(_question.questionID, question);
+      } else {
+        await createQuestion(question);
+      }
+      navigation.goBack();
+    }
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        <Header title="Editar pergunta" navigation={navigation} />
+        {route.params?.question == null ? (
+          <Header
+            title="Criar pergunta"
+            onBackButtonPress={() => navigation.goBack()}
+          />
+        ) : (
+          <Header
+            title="Editar pergunta"
+            onBackButtonPress={() => navigation.goBack()}
+          />
+        )}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ width: "100%" }}
         >
           <>
             <Label>Pergunta</Label>
-            <Input></Input>
+            <Input
+              value={name}
+              onChangeText={(value) => setName(value)}
+            ></Input>
             <Label>Detalhes</Label>
-            <Input></Input>
+            <Input
+              value={description}
+              onChangeText={(value) => setDescription(value)}
+            ></Input>
             <Label>Tipo de resposta</Label>
             <DropDownContainer>
               <DropDown
                 mode="dropdown"
                 selectedValue={dataType}
-                onValueChange={(itemValue, itemIndex) => setDataType(itemValue)}
+                onValueChange={(value) => setDataType(value)}
               >
-                <DropDown.Item
-                  label="Selecionar"
-                  value=""
-                  selectedValue
-                  enabled={false}
-                />
                 <DropDown.Item label="Texto" value="text" />
                 <DropDown.Item label="Texto ou Aúdio" value="textOrAudio" />
                 <DropDown.Item label="Múltipla Escolha" value="multiply" />
@@ -91,11 +125,21 @@ export default function QuestionEditor({ navigation }) {
                   ))}
               </>
             )}
-            <Button text="Salvar" />
+            <Button text="Salvar" onPress={saveQuestion} />
             <Button
               buttonText
               text="Visualizar pergunta"
-              onPress={() => navigation.navigate("questionPreview")}
+              onPress={() =>
+                navigation.navigate("questionPreview", {
+                  question: {
+                    userConnectionID: selectedUser.userConnectionID,
+                    name,
+                    description,
+                    dataType,
+                    options,
+                  },
+                })
+              }
             />
           </>
         </ScrollView>

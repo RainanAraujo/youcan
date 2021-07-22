@@ -1,5 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Animated, Dimensions, KeyboardAvoidingView } from "react-native";
+import {
+  Animated,
+  Dimensions,
+  StatusBar,
+  KeyboardAvoidingView,
+} from "react-native";
 import {
   Container,
   MenuContainer,
@@ -11,6 +16,8 @@ export default function Menu({ children, open, onClose }) {
   const [visible, setVisible] = useState(false);
 
   const expandMenuAnim = useRef(new Animated.Value(0)).current;
+  const [lastColor, setLastColor] = useState();
+
   useEffect(() => {
     if (open) {
       expandMenuIn();
@@ -20,6 +27,7 @@ export default function Menu({ children, open, onClose }) {
   }, [open]);
 
   const expandMenuIn = () => {
+    StatusBar.setBackgroundColor("#00000030");
     setVisible(true);
     Animated.timing(expandMenuAnim, {
       toValue: -Dimensions.get("window").height * 0.6,
@@ -37,6 +45,7 @@ export default function Menu({ children, open, onClose }) {
     setTimeout(() => {
       onClose();
       setVisible(false);
+      StatusBar.setBackgroundColor("#fff");
     }, 200);
   };
 

@@ -2,6 +2,7 @@ import { firestore } from "../config/firebase";
 
 const users = firestore.collection("users");
 const userConnection = firestore.collection("userConnection");
+const questions = firestore.collection("questions");
 
 export const isRegistered = (userID) => {
   return new Promise(async (resolve, reject) => {
@@ -115,7 +116,7 @@ export const getPatientList = (userID) => {
       .get()
       .then((docList) => {
         const patientList = docList.docs.map((doc) => ({
-          userConnectionID: doc.id,
+          id: doc.id,
           patient: doc.data().patient,
         }));
         resolve(patientList);
@@ -131,7 +132,7 @@ export const getProfessionalList = (userID) => {
       .get()
       .then((docList) => {
         const professionalList = docList.docs.map((doc) => ({
-          userConnectionID: doc.id,
+          id: doc.id,
           professional: doc.data().professional,
         }));
         resolve(professionalList);
@@ -145,13 +146,63 @@ export const editUserConnection = (userConnectionID, newData) => {
     userConnection
       .doc(userConnectionID)
       .update(newData)
+      .then(() => resolve(professionalList))
+      .catch((err) => reject(err));
+  });
+};
+
+export const getQuestionList = (userConnectionID) => {
+  return new Promise(async (resolve, reject) => {
+    questions
+      .where("userConnectionID", "==", userConnectionID)
+      .get()
       .then((docList) => {
-        const professionalList = docList.docs.map((doc) => ({
-          userConnectionID: doc.id,
-          professional: doc.data().professional,
+        const questionList = docList.docs.map((doc) => ({
+          questionID: doc.id,
+          ...doc.data(),
         }));
-        resolve(professionalList);
+        resolve(questionList);
       })
+      .catch((err) => reject(err));
+  });
+};
+
+export const createQuestion = ({
+  userConnectionID,
+  name,
+  description,
+  dataType,
+  options,
+}) => {
+  return new Promise(async (resolve, reject) => {
+    questions
+      .add({
+        userConnectionID,
+        name,
+        description,
+        dataType,
+        options,
+      })
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
+
+export const editQuestion = (
+  questionID,
+  { userConnectionID, name, description, dataType, options }
+) => {
+  return new Promise(async (resolve, reject) => {
+    questions
+      .doc(questionID)
+      .update({
+        userConnectionID,
+        name,
+        description,
+        dataType,
+        options,
+      })
+      .then(() => resolve())
       .catch((err) => reject(err));
   });
 };

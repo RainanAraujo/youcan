@@ -132,13 +132,16 @@ export default function HomeProfessional({ navigation }) {
             )}
             Placeholder="Buscar paciente"
           />
-          {patientList.map((patientData) => (
+          {patientList.map((connectionData) => (
             <ButtonPatient
               onPress={(patientData) => {
-                setSelectedUser(patientData);
+                setSelectedUser({
+                  ...patientData,
+                  userConnectionID: connectionData.id,
+                });
                 navigation.navigate("patientDetails");
               }}
-              patientID={patientData.patient}
+              patientID={connectionData.patient}
             />
           ))}
         </ScrollView>

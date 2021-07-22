@@ -30,7 +30,10 @@ export default function PatientDetails({ navigation }) {
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        <Header title="Visão Geral" navigation={navigation} />
+        <Header
+          title="Visão Geral"
+          onBackButtonPress={() => navigation.goBack()}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <>
             <ProfileDescriptions>

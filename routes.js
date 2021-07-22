@@ -10,6 +10,7 @@ import QuestionEditor from "./src/pages/QuestionEditor";
 import QuizManage from "./src/pages/QuizManage";
 import QuestionPreview from "./src/pages/QuestionPreview";
 import Menu from "./src/components/Menu";
+import QuizDiary from "./src/pages/QuizDiary";
 
 const RootStack = createStackNavigator();
 
@@ -57,6 +58,13 @@ export default function App() {
         <RootStack.Screen
           name="quizManage"
           component={QuizManage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="quizDiary"
+          component={QuizDiary}
           options={{
             headerShown: false,
           }}

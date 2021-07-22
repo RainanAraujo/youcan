@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components/native";
 
 export const Container = styled.TouchableOpacity`
-  width: 100%;
   padding: 18px 32px;
   background-color: #f2c029;
   border-radius: 10px;
@@ -9,6 +8,20 @@ export const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  ${(props) =>
+    props.gray == true &&
+    css`
+      background-color: #f5f6fa;
+    `}
+  ${(props) =>
+    props.buttonSmall == true
+      ? css`
+          width: 48%;
+        `
+      : css`
+          width: 100%;
+        `}
 
   ${(props) =>
     !props.isButtonIcon &&
@@ -28,6 +41,12 @@ export const Text = styled.Text`
   font-family: "LatoBold";
   font-size: 18px;
   text-align: center;
+
+  ${(props) =>
+    props.gray == true &&
+    css`
+      color: #373d53;
+    `}
 
   ${(props) =>
     props.isButtonIcon &&

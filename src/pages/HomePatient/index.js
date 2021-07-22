@@ -26,7 +26,7 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { createUserConnection } from "../../services/firestore";
 
-export default function HomePatient() {
+export default function HomePatient({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [userData, setUserData] = useState({});
   const [enableScanner, setEnableScanner] = useState(false);
@@ -147,6 +147,7 @@ export default function HomePatient() {
                 <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
               )}
               type="red"
+              onPress={() => navigation.navigate("quizDiary")}
             />
             <CardButton
               category="Ultima Semana"

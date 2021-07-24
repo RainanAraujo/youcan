@@ -15,10 +15,36 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function QuizDiary({ navigation }) {
   const questions = [
     { name: "teste", description: "teste", dataType: "text", options: [] },
-    { name: "teste", description: "teste", dataType: "text", options: [] },
-    { name: "teste", description: "teste", dataType: "text", options: [] },
+    { name: "teste", description: "teste", dataType: "tags", options: [] },
+    {
+      name: "teste",
+      description: "teste",
+      dataType: "textOrAudio",
+      options: [],
+    },
+    {
+      name: "teste",
+      description: "teste",
+      dataType: "multiply",
+      options: ["teste", "teste2", "teste3"],
+    },
   ];
+  const [questiona, setQuestions] = useState([]);
   const [step, setStep] = useState(1);
+
+  const nextStep = () => {
+    if (step < questions.length) {
+      setStep((value) => value + 1);
+    }
+  };
+
+  const previousStep = () => {
+    if (step > 1) {
+      setStep((value) => value - 1);
+    }
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -38,18 +64,18 @@ export default function QuizDiary({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Question />
+            <Question questionData={questions[step - 1]} />
             <ButtonGroup>
               <Button
                 text={"Voltar"}
                 buttonSmall
                 gray
-                onPress={() => setStep(step - 1)}
+                onPress={() => previousStep()}
               />
               <Button
                 text={step == questions.length ? "Finalizar" : "Próximo"}
                 buttonSmall
-                onPress={() => setStep(step + 1)}
+                onPress={() => nextStep()}
               />
             </ButtonGroup>
           </>

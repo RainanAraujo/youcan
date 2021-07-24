@@ -42,24 +42,26 @@ const MenuExpanded = ({ onSubmit, onClose }) => {
         )}
         renderItem={(word, index) => {
           return (
-            <FeelingButton
-              key={index}
-              onPress={() => (onSubmit(word.item), onClose())}
-            >
+            <FeelingButton onPress={() => (onSubmit(word.item), onClose())}>
               <FeelingText>{word.item}</FeelingText>
             </FeelingButton>
           );
         }}
-        keyExtractor={(item) => item.index}
+        keyExtractor={(item) => item}
         showsVerticalScrollIndicator={false}
       />
     </>
   );
 };
 
-export default function TagAdd({ onPress }) {
+export default function TagAdd({ onChange }) {
   const { setExpandedMenu } = useGlobalComponents();
   const [tag, setTag] = useState("");
+
+  useEffect(() => {
+    onChange(tag);
+  }, [tag]);
+
   return (
     <SafeAreaView>
       <Container

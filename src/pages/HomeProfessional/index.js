@@ -128,7 +128,7 @@ export default function HomeProfessional({ navigation }) {
           <Title>Dashboard</Title>
           <Input
             Icon={() => (
-              <Ionicons name="ios-search-outline" size={24} color="black" />
+              <Ionicons name="ios-search-outline" size={24} color="#373D53" />
             )}
             Placeholder="Buscar paciente"
           />

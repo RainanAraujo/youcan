@@ -9,8 +9,11 @@ import PatientDetails from "./src/pages/PatientDetails";
 import QuestionEditor from "./src/pages/QuestionEditor";
 import QuizManage from "./src/pages/QuizManage";
 import QuestionPreview from "./src/pages/QuestionPreview";
-import Menu from "./src/components/Menu";
 import QuizDiary from "./src/pages/QuizDiary";
+import Annotation from "./src/pages/Annotation";
+import AnnotationEditor from "./src/pages/AnnotationEditor";
+import HistoricPanel from "./src/pages/HistoricPanel";
+import Historic from "./src/pages/Historic";
 
 const RootStack = createStackNavigator();
 
@@ -65,6 +68,34 @@ export default function App() {
         <RootStack.Screen
           name="quizDiary"
           component={QuizDiary}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="annotation"
+          component={Annotation}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="annotationEditor"
+          component={AnnotationEditor}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="historicPanel"
+          component={HistoricPanel}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="historic"
+          component={Historic}
           options={{
             headerShown: false,
           }}

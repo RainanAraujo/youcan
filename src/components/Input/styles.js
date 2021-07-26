@@ -16,12 +16,18 @@ export const TextInput = styled.TextInput`
     css`
       padding-left: 50px;
     `}
-  height: 55px;
+
+  height:  ${(props) => (props.bigArea ? 200 : 55)}px;
   background-color: #f5f6fa;
   border-radius: 10px;
   color: #7a7d87;
   font-family: "LatoRegular";
   font-size: 16px;
+  ${(props) =>
+    props.textAlignVertical &&
+    css`
+      padding-top: 12px;
+    `}
 `;
 
 export const IconViewer = styled.View`

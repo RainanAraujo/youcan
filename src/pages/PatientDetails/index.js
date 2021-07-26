@@ -83,6 +83,7 @@ export default function PatientDetails({ navigation }) {
             />
             <Topic>Interações</Topic>
             <InteractionButton
+              onPress={() => navigation.navigate("annotation")}
               description="Adicionar observações sobre o paciente."
               title="Anotações"
               Icon={() => <Feather name="list" size={40} color="#fff" />}
@@ -95,6 +96,7 @@ export default function PatientDetails({ navigation }) {
                 <MaterialIcons name="history" size={40} color="#fff" />
               )}
               type="blue"
+              onPress={() => navigation.navigate("historicPanel")}
             />
             <InteractionButton
               description="Editar/Adicionar perguntas no questionário diário"

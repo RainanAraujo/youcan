@@ -31,6 +31,7 @@ export default function HomePatient({ navigation }) {
   const [userData, setUserData] = useState({});
   const [enableScanner, setEnableScanner] = useState(false);
   const { uid } = currentUser();
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     return () =>
@@ -118,10 +119,10 @@ export default function HomePatient({ navigation }) {
                 <Feather name="menu" size={24} color="#070C17" />
               </ButtonMenu>
               <Profile>
-                <Name>Jasmim Pereira</Name>
+                <Name>{userData.name}</Name>
                 <Avatar
                   source={{
-                    uri: "https://psicoter.com.br/wp-content/uploads/2019/01/pessoa-flexivel-seja-mais-flexivel-800x533.jpg",
+                    uri: userData.photoURL,
                   }}
                 />
               </Profile>

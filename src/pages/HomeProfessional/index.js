@@ -108,10 +108,10 @@ export default function HomeProfessional({ navigation }) {
             <Feather name="menu" size={24} color="#070C17" />
           </ButtonMenu>
           <Profile>
-            <Name>Jasmim Pereira</Name>
+            <Name>{userData.name}</Name>
             <Avatar
               source={{
-                uri: "https://psicoter.com.br/wp-content/uploads/2019/01/pessoa-flexivel-seja-mais-flexivel-800x533.jpg",
+                uri: userData.photoURL,
               }}
             />
           </Profile>

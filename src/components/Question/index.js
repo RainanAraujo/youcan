@@ -13,21 +13,31 @@ import ButtonAudioRecord from "../ButtonAudioRecord";
 import CheckBox from "@react-native-community/checkbox";
 import TagAdd from "../TagAdd";
 
-export default function Question({ questionData }) {
-  const { name, description, dataType, options } = questionData;
+export default function Question({ questionData, onChange }) {
+  const { name, description, dataType, options } = questionData || {};
   const [text, setText] = useState("");
   const [tags, setTags] = useState([]);
-  const [audio, setAudio] = useState();
+  const [audio, setAudio] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
+
+  useEffect(() => {
+    const inputTypes = {
+      text,
+      tags,
+      textOrAudio: { text, audio },
+      multiply: selectedOptions,
+    };
+    onChange(inputTypes[dataType]);
+  }, [text, tags, audio, selectedOptions]);
 
   useEffect(() => {
     setText("");
     setTags([]);
-    setAudio();
+    setAudio("");
     setSelectedOptions(options.map(() => false));
   }, [questionData]);
 
-  const typeSelector = {
+  const inputTypes = {
     text: <Input onChangeText={setText} Placeholder="Digite sua resposta" />,
     textOrAudio: (
       <>
@@ -90,7 +100,7 @@ export default function Question({ questionData }) {
     <Container>
       <QuestionText>{name || "[Preencha esse campo]"}</QuestionText>
       <Description>{description || "[Preencha esse campo]"}</Description>
-      {typeSelector[dataType]}
+      {inputTypes[dataType]}
     </Container>
   );
 }

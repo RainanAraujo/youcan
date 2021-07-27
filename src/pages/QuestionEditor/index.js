@@ -11,7 +11,7 @@ import {
 } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
-import { useSelectedUser } from "../../context/selectedUserContext";
+import { useUserContext } from "../../context/userContext";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
@@ -21,7 +21,7 @@ import { editQuestion, createQuestion } from "../../services/firestore";
 export default function QuestionEditor({ navigation, route }) {
   const _question = route.params?.question || {};
 
-  const { selectedUser } = useSelectedUser();
+  const { selectedUser } = useUserContext();
   const [name, setName] = useState(_question.name || "");
   const [description, setDescription] = useState(_question.description || "");
   const [dataType, setDataType] = useState(_question.dataType || "text");

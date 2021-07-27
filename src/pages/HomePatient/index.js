@@ -20,17 +20,22 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { currentUser } from "../../services/auth";
-import { getUserData } from "../../services/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { createUserConnection } from "../../services/firestore";
+import {
+  createUserConnection,
+  getUserData,
+  getProfessionalList,
+} from "../../services/firestore";
+import { useUserContext } from "../../context/userContext";
 
 export default function HomePatient({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [userData, setUserData] = useState({});
   const [enableScanner, setEnableScanner] = useState(false);
   const { uid } = currentUser();
+  const { userConnections, setUserConnections } = useUserContext();
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -64,6 +69,7 @@ export default function HomePatient({ navigation }) {
 
   useEffect(() => {
     getUserData(uid).then((data) => setUserData(data));
+    getProfessionalList(uid).then((list) => setUserConnections(list));
   }, []);
 
   return (
@@ -148,7 +154,9 @@ export default function HomePatient({ navigation }) {
                 <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
               )}
               type="red"
-              onPress={() => navigation.navigate("quizDiary")}
+              onPress={() =>
+                navigation.navigate("quizDiary", { userConnections })
+              }
             />
             <CardButton
               category="Ultima Semana"

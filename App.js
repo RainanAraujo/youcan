@@ -8,7 +8,7 @@ import {
   Lato_700Bold as LatoBold,
   Lato_900Black as LatoBlack,
 } from "@expo-google-fonts/lato";
-import { SelectedUserProvider } from "./src/context/selectedUserContext";
+import { UserProvider } from "./src/context/userContext";
 import { GlobalComponents } from "./src/context/globalComponentsContext";
 
 export default function App() {
@@ -22,10 +22,10 @@ export default function App() {
     return <View />;
   }
   return (
-    <SelectedUserProvider>
+    <UserProvider>
       <GlobalComponents>
         <Routes />
       </GlobalComponents>
-    </SelectedUserProvider>
+    </UserProvider>
   );
 }

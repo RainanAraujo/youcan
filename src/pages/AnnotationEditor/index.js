@@ -11,38 +11,43 @@ import {
 } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
-import { useSelectedUser } from "../../context/selectedUserContext";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
 import { Ionicons } from "@expo/vector-icons";
-import { editQuestion, createQuestion } from "../../services/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AnnotationEditor({ navigation, route }) {
-  const _question = route.params?.question || {};
+  const { userConnectionID, annotation } = route.params || {};
 
-  const { selectedUser } = useSelectedUser();
-  const [title, setTitle] = useState(_question.title || "");
-  const [annotation, setAnnotation] = useState(_question.annotation || "");
-  const [dataType, setDataType] = useState(_question.dataType || "text");
-  const [options, setOptions] = useState(_question.options || []);
+  const [title, setTitle] = useState(annotation?.title || "");
+  const [text, setText] = useState(annotation?.text || "");
 
-  const saveQuestion = async () => {
-    if ([title, annotation, dataType, options].some((val) => val != null)) {
-      const question = {
-        userConnectionID: selectedUser.userConnectionID,
-        title,
-        annotation,
-        dataType,
-        options,
-      };
-      console.log(question);
-      if (route.params?.question) {
-        await editQuestion(_question.questionID, question);
+  const saveAnnotation = async () => {
+    const annotationID =
+      annotation?.id || Math.random().toString(36).substring(2);
+    if ([title, text].some((val) => val != null)) {
+      const dataString = await AsyncStorage.getItem(userConnectionID);
+      if (dataString != null) {
+        let data = JSON.parse(dataString);
+        data.annotations = data.annotations.filter(
+          (item) => item.id !== annotationID
+        );
+        console.log(data);
+        data.annotations.push({
+          id: annotationID,
+          title,
+          text,
+        });
+        await AsyncStorage.setItem(userConnectionID, JSON.stringify(data));
+
+        navigation.goBack();
       } else {
-        await createQuestion(question);
+        await AsyncStorage.setItem(
+          userConnectionID,
+          JSON.stringify({ annotations: [{ id: annotationID, title, text }] })
+        );
       }
-      navigation.goBack();
     }
   };
 
@@ -50,7 +55,7 @@ export default function AnnotationEditor({ navigation, route }) {
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        {route.params?.question == null ? (
+        {route.params?.annotation == null ? (
           <Header
             title="Criar anotação"
             onBackButtonPress={() => navigation.goBack()}
@@ -74,26 +79,11 @@ export default function AnnotationEditor({ navigation, route }) {
             <Label>Anotação</Label>
             <Input
               bigArea
-              value={annotation}
-              onChangeText={(value) => setAnnotation(value)}
+              value={text}
+              onChangeText={(value) => setText(value)}
             ></Input>
 
-            <Button text="Salvar" onPress={saveQuestion} />
-            <Button
-              buttonText
-              text="Visualizar pergunta"
-              onPress={() =>
-                navigation.navigate("questionPreview", {
-                  question: {
-                    userConnectionID: selectedUser.userConnectionID,
-                    title,
-                    annotation,
-                    dataType,
-                    options,
-                  },
-                })
-              }
-            />
+            <Button text="Salvar" onPress={saveAnnotation} />
           </>
         </ScrollView>
       </Container>

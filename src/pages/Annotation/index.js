@@ -3,9 +3,28 @@ import { Container, Name } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import NewTopicButton from "../../components/NewTopicButton";
 import Header from "../../components/Header";
-import AnswerButton from "../../components/AnnotationButton";
+import AnnotationButton from "../../components/AnnotationButton";
+import { useUserContext } from "../../context/userContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Annotation({ navigation, route }) {
+export default function Annotation({ navigation }) {
+  const { selectedUser } = useUserContext();
+  const [annotations, setAnnotations] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      AsyncStorage.getItem(selectedUser.userConnectionID)
+        .then((dataString) => {
+          const data = JSON.parse(dataString);
+          if (data) {
+            setAnnotations(data.annotations);
+          }
+        })
+        .catch((err) => console.log(err));
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
@@ -24,18 +43,23 @@ export default function Annotation({ navigation, route }) {
               text="Nova Anotação"
               onPress={() =>
                 navigation.navigate("annotationEditor", {
-                  question: null,
+                  userConnectionID: selectedUser.userConnectionID,
+                  annotation: null,
                 })
               }
             />
-            <AnswerButton
-              title="Anotação do dia em que ele vomitou na roupa"
-              description="asasdfçlsad asdç lasd çlfksad çlfasd çflasçldsaçldf çlas   asçld açsldçasld çlasdçl sa dlasç dçlasdçl  çlasd çlasfasdçf~lasmdf çasld mfsçal m"
-            />
-            <AnswerButton
-              title="Anotação do dia em que ele vomitou na roupa"
-              description="asasdfçlsad asdç lasd çlfksad çlfasd çflasçldsaçldf çlas   asçld açsldçasld çlasdçl sa dlasç dçlasdçl  çlasd çlasfasdçf~lasmdf çasld mfsçal m"
-            />
+            {annotations?.map((annotation) => (
+              <AnnotationButton
+                title={annotation.title}
+                description={annotation.text}
+                onPress={() =>
+                  navigation.navigate("annotationEditor", {
+                    userConnectionID: selectedUser.userConnectionID,
+                    annotation,
+                  })
+                }
+              />
+            ))}
           </>
         </ScrollView>
       </Container>

@@ -55,7 +55,11 @@ export default function QuizDiary({ navigation, route }) {
   };
 
   useEffect(() => {
-    getQuestionList(userConnections).then((list) => setQuestions(list));
+    console.log(userConnections);
+    const userConnectionsIDList = userConnections.map(
+      (userConnection) => userConnection.id
+    );
+    getQuestionList(userConnectionsIDList).then((list) => setQuestions(list));
   }, []);
 
   return (

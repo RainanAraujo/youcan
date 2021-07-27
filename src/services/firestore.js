@@ -1,8 +1,10 @@
-import { firestore } from "../config/firebase";
+import { firestore, firebase } from "../config/firebase";
+import { getFormattedDate } from "../utils/date";
 
 const users = firestore.collection("users");
 const userConnection = firestore.collection("userConnection");
 const questions = firestore.collection("questions");
+const answers = firestore.collection("answers");
 
 export const isRegistered = (userID) => {
   return new Promise(async (resolve, reject) => {
@@ -151,14 +153,18 @@ export const editUserConnection = (userConnectionID, newData) => {
   });
 };
 
-export const getQuestionList = (userConnectionID) => {
+export const getQuestionList = (userConnectionList) => {
   return new Promise(async (resolve, reject) => {
     questions
-      .where("userConnectionID", "==", userConnectionID)
+      .where(
+        "userConnectionID",
+        "in",
+        userConnectionList.map((userConnection) => userConnection.id)
+      )
       .get()
       .then((docList) => {
         const questionList = docList.docs.map((doc) => ({
-          questionID: doc.id,
+          id: doc.id,
           ...doc.data(),
         }));
         resolve(questionList);
@@ -201,6 +207,25 @@ export const editQuestion = (
         description,
         dataType,
         options,
+      })
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
+
+export const createAnswer = (questionID, { dataType, data }) => {
+  return new Promise(async (resolve, reject) => {
+    const formattedDate = getFormattedDate();
+
+    console.log(data);
+
+    answers
+      .doc(questionID + "_" + formattedDate)
+      .set({
+        questionID,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        dataType,
+        data,
       })
       .then(() => resolve())
       .catch((err) => reject(err));

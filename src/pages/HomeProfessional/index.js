@@ -31,17 +31,17 @@ import PopUp from "../../components/PopUp";
 import QRCode from "react-native-qrcode-svg";
 import logoApp from "../../../assets/images/happyLion.png";
 import FeedbackAction from "../../components/FeedbackAction";
-import { useSelectedUser } from "../../context/selectedUserContext";
+import { useUserContext } from "../../context/userContext";
 
 export default function HomeProfessional({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
   const [userData, setUserData] = useState({});
   const [patientList, setPatientList] = useState([]);
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [popUpQRCode, setPopUpQRCode] = useState(false);
   const { uid } = currentUser();
-  const { setSelectedUser } = useSelectedUser();
+  const { setSelectedUser } = useUserContext();
 
   const loadPatientList = async () => {
     try {
@@ -52,7 +52,7 @@ export default function HomeProfessional({ navigation }) {
     }
   };
 
-  const onRefresh = React.useCallback(async () => {
+  const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await loadPatientList();
     setRefreshing(false);

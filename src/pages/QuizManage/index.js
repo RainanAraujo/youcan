@@ -3,13 +3,13 @@ import { Container, Name } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import NewTopicButton from "../../components/NewTopicButton";
 import Header from "../../components/Header";
-import { useSelectedUser } from "../../context/selectedUserContext";
+import { useUserContext } from "../../context/userContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
 import { getQuestionList } from "../../services/firestore";
 
 export default function QuizManage({ navigation, route }) {
-  const { selectedUser } = useSelectedUser();
+  const { selectedUser } = useUserContext();
 
   const [questionList, setQuestionList] = useState([]);
 

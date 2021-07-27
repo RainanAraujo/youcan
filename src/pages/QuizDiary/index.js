@@ -11,40 +11,52 @@ import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Question from "../../components/Question";
 import Button from "../../components/Button";
 import { MaterialIcons } from "@expo/vector-icons";
+import { currentUser } from "../../services/auth";
+import { getQuestionList, createAnswer } from "../../services/firestore";
+import { uploadFile } from "../../services/storage";
+import { getFormattedDate } from "../../utils/date";
 
-export default function QuizDiary({ navigation }) {
-  const questions = [
-    { name: "teste", description: "teste", dataType: "text", options: [] },
-    { name: "teste", description: "teste", dataType: "tags", options: [] },
-    {
-      name: "teste",
-      description: "teste",
-      dataType: "textOrAudio",
-      options: [],
-    },
-    {
-      name: "teste",
-      description: "teste",
-      dataType: "multiply",
-      options: ["teste", "teste2", "teste3"],
-    },
-  ];
-  const [questiona, setQuestions] = useState([]);
+export default function QuizDiary({ navigation, route }) {
+  const { userConnections } = route.params;
+  const { uid } = currentUser();
+  const [questions, setQuestions] = useState([]);
+  const [answer, setAnswer] = useState({});
   const [step, setStep] = useState(1);
 
-  const nextStep = () => {
+  const nextStep = async () => {
+    const question = questions[step - 1];
+
     if (step < questions.length) {
+      let currentAnswer = answer;
+
+      if (question.dataType === "textOrAudio" && answer.audio !== "") {
+        console.log(question.dataType);
+        const formattedDate = getFormattedDate();
+        currentAnswer.audio = await uploadFile(
+          uid,
+          question.id + "_" + formattedDate,
+          answer.audio
+        );
+      }
+
+      console.log(currentAnswer.audio);
+      await createAnswer(question.id, {
+        dataType: question.dataType,
+        data: currentAnswer,
+      });
       setStep((value) => value + 1);
     }
   };
 
-  const previousStep = () => {
+  const previousStep = async () => {
     if (step > 1) {
       setStep((value) => value - 1);
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getQuestionList(userConnections).then((list) => setQuestions(list));
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -64,18 +76,18 @@ export default function QuizDiary({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Question questionData={questions[step - 1]} />
-            <ButtonGroup>
-              <Button
-                text={"Voltar"}
-                buttonSmall
-                gray
-                onPress={() => previousStep()}
+            {questions.length > 0 && (
+              <Question
+                questionData={questions[step - 1]}
+                onChange={setAnswer}
               />
+            )}
+            <ButtonGroup>
+              <Button text={"Voltar"} buttonSmall gray onPress={previousStep} />
               <Button
                 text={step == questions.length ? "Finalizar" : "Próximo"}
                 buttonSmall
-                onPress={() => nextStep()}
+                onPress={nextStep}
               />
             </ButtonGroup>
           </>

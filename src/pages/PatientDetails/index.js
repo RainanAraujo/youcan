@@ -21,10 +21,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
-import { useSelectedUser } from "../../context/selectedUserContext";
+import { useUserContext } from "../../context/userContext";
 
 export default function PatientDetails({ navigation }) {
-  const { selectedUser } = useSelectedUser();
+  const { selectedUser } = useUserContext();
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>

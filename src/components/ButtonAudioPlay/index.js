@@ -23,7 +23,10 @@ export default function ButtonAudioPlay({ currentTime, timeTotal }) {
       )}
 
       <ProgressBarContainer>
-        <ProgressBar currentTime={30} timeTotal={60}></ProgressBar>
+        <ProgressBar
+          currentTime={currentTime}
+          timeTotal={timeTotal}
+        ></ProgressBar>
       </ProgressBarContainer>
       <Timer>3:20</Timer>
     </Container>

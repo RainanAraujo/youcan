@@ -22,7 +22,7 @@ export default function Historic({ navigation, route }) {
             <Period>26/06</Period>
             <Status>Neste deia você sentiu: ALEGRIA</Status>
             <Title>Acontecimento extraordinário</Title>
-            <ButtonAudioPlay />
+            <ButtonAudioPlay currentTime={30} timeTotal={60} />
             <PreviewAnswer
               text={
                 "Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto "
@@ -34,6 +34,8 @@ export default function Historic({ navigation, route }) {
               Qual seu humor que poderia descrever seu dia hoje?
             </Question>
             <PreviewAnswer text={"Teste de texto T"} />
+            <Question>Descreva como foi seu dia.</Question>
+            <ButtonAudioPlay currentTime={30} timeTotal={60} />
           </>
         </ScrollView>
       </Container>

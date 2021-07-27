@@ -156,11 +156,7 @@ export const editUserConnection = (userConnectionID, newData) => {
 export const getQuestionList = (userConnectionList) => {
   return new Promise(async (resolve, reject) => {
     questions
-      .where(
-        "userConnectionID",
-        "in",
-        userConnectionList.map((userConnection) => userConnection.id)
-      )
+      .where("userConnectionID", "in", userConnectionList)
       .get()
       .then((docList) => {
         const questionList = docList.docs.map((doc) => ({

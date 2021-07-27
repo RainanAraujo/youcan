@@ -8,14 +8,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
 import { getQuestionList } from "../../services/firestore";
 
-export default function QuizManage({ navigation, route }) {
+export default function QuizManage({ navigation }) {
   const { selectedUser } = useUserContext();
 
   const [questionList, setQuestionList] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      getQuestionList(selectedUser.userConnectionID)
+      getQuestionList([selectedUser.userConnectionID])
         .then((list) => setQuestionList(list))
         .catch((err) => console.log(err));
     });

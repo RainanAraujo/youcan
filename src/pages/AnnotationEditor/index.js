@@ -11,6 +11,10 @@ import {
 } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
+<<<<<<< HEAD
+=======
+
+>>>>>>> e69115839d50d63ecf64647bde759e0ff87f5109
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
@@ -20,8 +24,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function AnnotationEditor({ navigation, route }) {
   const { userConnectionID, annotation } = route.params || {};
 
+<<<<<<< HEAD
   const [title, setTitle] = useState(annotation?.title || "");
   const [text, setText] = useState(annotation?.text || "");
+=======
+  const [title, setTitle] = useState(_question.title || "");
+  const [annotation, setAnnotation] = useState(_question.annotation || "");
+  const [dataType, setDataType] = useState(_question.dataType || "text");
+  const [options, setOptions] = useState(_question.options || []);
+>>>>>>> e69115839d50d63ecf64647bde759e0ff87f5109
 
   const saveAnnotation = async () => {
     const annotationID =

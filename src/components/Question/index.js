@@ -27,7 +27,7 @@ export default function Question({ questionData, onChange }) {
       textOrAudio: { text, audio },
       multiply: selectedOptions,
     };
-    onChange(inputTypes[dataType]);
+    if (onChange) onChange(inputTypes[dataType]);
   }, [text, tags, audio, selectedOptions]);
 
   useEffect(() => {

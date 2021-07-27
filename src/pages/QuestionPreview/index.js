@@ -5,7 +5,7 @@ import Question from "../../components/Question";
 import Header from "../../components/Header";
 
 export default function QuestionPreview({ navigation, route }) {
-  const _question = route.params?.question || {};
+  const question = route.params?.question || {};
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -20,7 +20,7 @@ export default function QuestionPreview({ navigation, route }) {
           style={{ width: "100%" }}
         >
           <>
-            <Question questionData={_question} />
+            <Question questionData={question} />
           </>
         </ScrollView>
       </Container>

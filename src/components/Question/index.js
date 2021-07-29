@@ -14,7 +14,7 @@ import CheckBox from "@react-native-community/checkbox";
 import TagAdd from "../TagAdd";
 
 export default function Question({ questionData, onChange }) {
-  const { name, description, dataType, options } = questionData || {};
+  const { id, name, description, dataType, options } = questionData || {};
   const [text, setText] = useState("");
   const [tags, setTags] = useState([]);
   const [audio, setAudio] = useState("");
@@ -35,15 +35,26 @@ export default function Question({ questionData, onChange }) {
     setTags([]);
     setAudio("");
     setSelectedOptions(options.map(() => false));
-  }, [questionData]);
+    console.log(id);
+  }, [id]);
 
   const inputTypes = {
-    text: <Input onChangeText={setText} Placeholder="Digite sua resposta" />,
+    text: (
+      <Input
+        value={text}
+        onChangeText={setText}
+        Placeholder="Digite sua resposta"
+      />
+    ),
     textOrAudio: (
       <>
-        <Input onChangeText={setText} Placeholder="Digite sua resposta" />
+        <Input
+          value={text}
+          onChangeText={setText}
+          Placeholder="Digite sua resposta"
+        />
         <Or>ou</Or>
-        <ButtonAudioRecord onRecord={setAudio} />
+        <ButtonAudioRecord key={id} onRecord={setAudio} />
       </>
     ),
     multiply: (

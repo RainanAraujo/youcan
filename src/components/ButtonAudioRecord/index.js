@@ -1,40 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Container, Text } from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
+import ButtonAudioPlay from "../ButtonAudioPlay";
 import { Audio } from "expo-av";
 
-export default function ButtonAudioRecord({ onRecord }) {
+export default function ButtonAudioRecord({ key, onRecord }) {
   const [recording, setRecording] = useState();
   const [audio, setAudio] = useState("");
 
-  const [bellSound, setBellSound] = useState();
-
-  const playSound = async () => {
-    console.log("playing sound");
-    await bellSound?.replayAsync();
-  };
-
-  const handleOnPress = () => {
-    playSound();
-  };
-
   useEffect(() => {
-    const loadSounds = async () => {
-      console.log("loading sound");
-
-      const { sound } = await Audio.Sound.createAsync({
-        uri: "https://www.kozco.com/tech/piano2.wav",
-      });
-      setBellSound(sound);
-    };
-
-    loadSounds();
-
-    return () => {
-      console.log("unloading sound");
-      bellSound?.unloadAsync();
-    };
-  }, []);
+    setAudio("");
+  }, [key]);
 
   const startRecording = async () => {
     try {
@@ -70,28 +46,35 @@ export default function ButtonAudioRecord({ onRecord }) {
     }
   };
 
-  const playAudio = async () => {
-    try {
-      const { sound } = await Audio.Sound.createAsync({
-        uri: audio,
-      });
-      await sound.replayAsync();
-    } catch (error) {
-      console.log(error);
+  const containerHandle = () => {
+    if (audio != "") {
+      setAudio("");
+    } else {
+      if (recording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
     }
   };
 
   return (
-    <Container onPress={recording ? stopRecording : startRecording}>
-      <Text>Gravar audio</Text>
-      {recording ? (
-        <>
+    <>
+      <Container onPress={containerHandle}>
+        <Text>{audio == "" ? "Gravar" : "Apagar"} Audio</Text>
+        {recording ? (
           <FontAwesome name="stop" size={20} color="#fff" />
-          <FontAwesome name="stop" size={20} color="#fff" />
-        </>
-      ) : (
-        <FontAwesome name="microphone" size={20} color="#fff" />
-      )}
-    </Container>
+        ) : (
+          <>
+            {audio == "" ? (
+              <FontAwesome name="microphone" size={20} color="#fff" />
+            ) : (
+              <FontAwesome name="trash" size={20} color="#fff" />
+            )}
+          </>
+        )}
+      </Container>
+      {audio != "" && <ButtonAudioPlay uri={audio} />}
+    </>
   );
 }

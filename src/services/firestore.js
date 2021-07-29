@@ -227,3 +227,19 @@ export const createAnswer = (questionID, { dataType, data }) => {
       .catch((err) => reject(err));
   });
 };
+
+export const getAnswers = (questionIDList) => {
+  return new Promise(async (resolve, reject) => {
+    answers
+      .where("questionID", "in", questionIDList)
+      .get()
+      .then((docList) => {
+        const answersList = docList.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        resolve(answersList);
+      })
+      .catch((err) => reject(err));
+  });
+};

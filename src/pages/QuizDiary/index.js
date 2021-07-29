@@ -26,7 +26,7 @@ export default function QuizDiary({ navigation, route }) {
   const nextStep = async () => {
     const question = questions[step - 1];
 
-    if (step < questions.length) {
+    if (step <= questions.length) {
       let currentAnswer = answer;
 
       if (question.dataType === "textOrAudio" && answer.audio !== "") {
@@ -38,19 +38,23 @@ export default function QuizDiary({ navigation, route }) {
           answer.audio
         );
       }
-
-      console.log(currentAnswer.audio);
       await createAnswer(question.id, {
         dataType: question.dataType,
         data: currentAnswer,
       });
-      setStep((value) => value + 1);
+      if (step < questions.length) {
+        setStep((value) => value + 1);
+      } else {
+        navigation.goBack();
+      }
     }
   };
 
   const previousStep = async () => {
     if (step > 1) {
       setStep((value) => value - 1);
+    } else {
+      navigation.goBack();
     }
   };
 

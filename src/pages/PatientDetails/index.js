@@ -23,9 +23,21 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
 import { useUserContext } from "../../context/userContext";
+import { getQuestionList } from "../../services/firestore";
 
 export default function PatientDetails({ navigation }) {
-  const { selectedUser } = useUserContext();
+  const { selectedUser, setSelectedUser } = useUserContext();
+
+  useEffect(() => {
+    getQuestionList([selectedUser.userConnectionID])
+      .then((list) =>
+        setSelectedUser((data) => {
+          data.questions = list;
+          return data;
+        })
+      )
+      .catch((err) => console.log(err));
+  });
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>

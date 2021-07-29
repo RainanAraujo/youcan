@@ -7,10 +7,12 @@ export default function Input({
   onChangeText,
   value,
   bigArea,
+  onPress,
 }) {
   return (
     <Container>
       <TextInput
+        onFocus={onPress}
         bigArea={bigArea}
         multiline={bigArea && true}
         onChangeText={onChangeText}

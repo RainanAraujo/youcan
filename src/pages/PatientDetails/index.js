@@ -19,6 +19,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+
 import { MaterialIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
 import { useUserContext } from "../../context/userContext";
@@ -83,19 +84,28 @@ export default function PatientDetails({ navigation }) {
             />
             <Topic>Interações</Topic>
             <InteractionButton
+              onPress={() => navigation.navigate("agenda")}
+              description="Exibir/Adicionar agendas do paciente."
+              title="Agenda"
+              Icon={() => (
+                <Ionicons name="book-outline" size={40} color="#373D53" />
+              )}
+              type="gray"
+            />
+            <InteractionButton
               onPress={() => navigation.navigate("annotation")}
               description="Adicionar observações sobre o paciente."
               title="Anotações"
-              Icon={() => <Feather name="list" size={40} color="#fff" />}
-              type="red"
+              Icon={() => <Feather name="list" size={40} color="#373D53" />}
+              type="gray"
             />
             <InteractionButton
               description="Editar/Adicionar uma receita médica para este paciente"
               title="Histórico"
               Icon={() => (
-                <MaterialIcons name="history" size={40} color="#fff" />
+                <MaterialIcons name="history" size={40} color="#373D53" />
               )}
-              type="blue"
+              type="gray"
               onPress={() => navigation.navigate("historicPanel")}
             />
             <InteractionButton

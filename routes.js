@@ -14,6 +14,8 @@ import Annotation from "./src/pages/Annotation";
 import AnnotationEditor from "./src/pages/AnnotationEditor";
 import HistoricPanel from "./src/pages/HistoricPanel";
 import Historic from "./src/pages/Historic";
+import Agenda from "./src/pages/Agenda";
+import NewAgenda from "./src/pages/NewAgenda";
 
 const RootStack = createStackNavigator();
 
@@ -96,6 +98,20 @@ export default function App() {
         <RootStack.Screen
           name="historic"
           component={Historic}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="agenda"
+          component={Agenda}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="newAgenda"
+          component={NewAgenda}
           options={{
             headerShown: false,
           }}

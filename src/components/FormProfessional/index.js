@@ -4,7 +4,7 @@ import { StatusBar, Alert } from "react-native";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
-export default function FormProfessional({ onValidate }) {
+export default function FormProfessional({ onValidate, loading }) {
   const [name, setName] = useState("");
   const [CAPS, setCAPS] = useState("");
   const [schooling, setSchooling] = useState("");
@@ -49,7 +49,7 @@ export default function FormProfessional({ onValidate }) {
       </DropDownContainer>
       <Label>CRP</Label>
       <Input value={CRP} onChangeText={(text) => setCRP(text)} />
-      <Button text="Finalizar" onPress={validForm}></Button>
+      <Button loading={loading} text="Finalizar" onPress={validForm}></Button>
     </Container>
   );
 }

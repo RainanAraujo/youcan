@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Text } from "./styles";
+import { ActivityIndicator } from "react-native";
 
 export default function Button({
   Icon,
@@ -8,6 +9,7 @@ export default function Button({
   buttonText,
   buttonSmall,
   gray,
+  loading,
 }) {
   return (
     <Container
@@ -16,10 +18,16 @@ export default function Button({
       isButtonText={buttonText}
       buttonSmall={buttonSmall}
     >
-      {Icon && <Icon />}
-      <Text isButtonIcon={Icon} isButtonText={buttonText} gray={gray}>
-        {text}
-      </Text>
+      {loading ? (
+        <ActivityIndicator size="small" color="#fff" />
+      ) : (
+        <>
+          {Icon && <Icon />}
+          <Text isButtonIcon={Icon} isButtonText={buttonText} gray={gray}>
+            {text}
+          </Text>
+        </>
+      )}
     </Container>
   );
 }

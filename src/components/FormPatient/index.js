@@ -4,7 +4,7 @@ import { StatusBar, ScrollView, Alert } from "react-native";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
-export default function FormPatient({ onValidate }) {
+export default function FormPatient({ onValidate, loading }) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [age, setAge] = useState("");
@@ -52,7 +52,7 @@ export default function FormPatient({ onValidate }) {
             <DropDown.Item label="Superior - Completo" value="SC" />
           </DropDown>
         </DropDownContainer>
-        <Button text="Finalizar" onPress={validForm}></Button>
+        <Button text="Finalizar" loading={loading} onPress={validForm}></Button>
       </ScrollView>
     </Container>
   );

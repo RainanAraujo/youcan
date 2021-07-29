@@ -13,6 +13,7 @@ import { currentUser } from "../../services/auth";
 export default function Register({ navigation }) {
   const [typeUserSelected, setTypeUserSelected] = useState("");
   const { uid, photoURL } = currentUser();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -39,13 +40,18 @@ export default function Register({ navigation }) {
           <Registration>
             <Title>Precisamos de algumas informações para continuar</Title>
             <FormPatient
-              onValidate={(userData) =>
+              loading={loading}
+              onValidate={(userData) => (
                 registerPatient(uid, { photoURL, ...userData })
                   .then(() => navigation.replace("homePatient"))
-                  .catch(() =>
-                    Alert.alert("Erro", "Não foi possível registar usuário")
-                  )
-              }
+                  .catch(
+                    () => (
+                      setLoading(false),
+                      Alert.alert("Erro", "Não foi possível registar usuário")
+                    )
+                  ),
+                setLoading(true)
+              )}
             />
           </Registration>
         )}
@@ -53,13 +59,18 @@ export default function Register({ navigation }) {
           <Registration>
             <Title>Precisamos de algumas informações para continuar</Title>
             <FormProfessional
-              onValidate={(userData) =>
+              loading={loading}
+              onValidate={(userData) => (
                 registerProfessional(uid, { photoURL, ...userData })
                   .then(() => navigation.replace("homeProfessional"))
-                  .catch(() =>
-                    Alert.alert("Erro", "Não foi possível registar usuário")
-                  )
-              }
+                  .catch(
+                    () => (
+                      setLoading(false),
+                      Alert.alert("Erro", "Não foi possível registar usuário")
+                    )
+                  ),
+                setLoading(true)
+              )}
             />
           </Registration>
         )}

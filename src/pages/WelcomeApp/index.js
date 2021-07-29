@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Logo,
@@ -17,6 +17,8 @@ import { getUserData } from "../../services/firestore";
 import { currentUser } from "../../services/auth";
 
 export default function WelcomeApp({ navigation }) {
+  const [loading, setLoading] = useState(false);
+
   const checkUserStatus = async (userID) => {
     getUserData(userID)
       .then((user) => {
@@ -33,6 +35,7 @@ export default function WelcomeApp({ navigation }) {
 
   useEffect(() => {
     if (currentUser() != null) {
+      setLoading(true);
       checkUserStatus(currentUser().uid);
     }
   }, []);
@@ -50,13 +53,15 @@ export default function WelcomeApp({ navigation }) {
       </Information>
 
       <Button
-        onPress={() =>
+        onPress={() => (
           signInWithGoogleAsync().then((userData) =>
             checkUserStatus(userData.user.uid)
-          )
-        }
+          ),
+          setLoading(true)
+        )}
         text="Login com Google"
         Icon={() => <AntDesign name="google" size={24} color="#fff" />}
+        loading={loading}
       />
       <Link>Não possuo conta do Google</Link>
     </Container>

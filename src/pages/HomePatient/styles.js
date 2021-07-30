@@ -76,3 +76,10 @@ export const TextOption = styled.Text`
   font-family: "LatoRegular";
   font-size: 16px;
 `;
+
+export const ButtonQuestionaryDiary = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+`;
+export const LionImage = styled.Image``;

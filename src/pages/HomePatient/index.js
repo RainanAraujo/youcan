@@ -10,8 +10,10 @@ import {
   ButtonMenu,
   ButtonOption,
   TextOption,
+  ButtonQuestionaryDiary,
+  LionImage,
 } from "./styles";
-import { SafeAreaView, StatusBar, BackHandler } from "react-native";
+import { SafeAreaView, StatusBar, BackHandler, ScrollView } from "react-native";
 import CardButton from "../../components/CardButton";
 import Menu from "../../components/Menu";
 import ButtonNotification from "../../components/ButtonNotification";
@@ -29,6 +31,8 @@ import {
   getProfessionalList,
 } from "../../services/firestore";
 import { useUserContext } from "../../context/userContext";
+import DialogFinished from "../../../assets/images/dialogFinished.png";
+import DialogLion from "../../../assets/images/dialogLion.png";
 
 export default function HomePatient({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
@@ -79,46 +83,55 @@ export default function HomePatient({ navigation }) {
           <>
             <StatusBar backgroundColor="#fff" />
             <Menu open={expandedMenu} onClose={() => setExpandedMenu(false)}>
-              <ButtonOption onPress={openCameraScan}>
-                <Ionicons name="qr-code" size={22} color="#53555f" />
-                <TextOption>Vincular Profissional</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <Ionicons name="ios-list-outline" size={22} color="#53555f" />
-                <TextOption>Relatório pessoal</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <MaterialCommunityIcons name="pill" size={22} color="#53555f" />
-                <TextOption>Receita médica</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <MaterialCommunityIcons
-                  name="history"
-                  size={22}
-                  color="#53555f"
-                />
-                <TextOption>Agenda</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <Feather name="user" size={22} color="#53555f" />
-                <TextOption>Seus profissionais</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <SimpleLineIcons
-                  name="location-pin"
-                  size={22}
-                  color="#53555f"
-                />
-                <TextOption>Localizar atendimento</TextOption>
-              </ButtonOption>
-              <ButtonOption>
-                <MaterialCommunityIcons
-                  name="exit-to-app"
-                  size={22}
-                  color="#FE6161"
-                />
-                <TextOption style={{ color: "#FE6161" }}>Sair</TextOption>
-              </ButtonOption>
+              <ScrollView
+                style={{ width: "100%" }}
+                showsVerticalScrollIndicator={false}
+              >
+                <ButtonOption onPress={openCameraScan}>
+                  <Ionicons name="qr-code" size={22} color="#53555f" />
+                  <TextOption>Vincular Profissional</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <Ionicons name="ios-list-outline" size={22} color="#53555f" />
+                  <TextOption>Relatório pessoal</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <MaterialCommunityIcons
+                    name="pill"
+                    size={22}
+                    color="#53555f"
+                  />
+                  <TextOption>Receita médica</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <MaterialCommunityIcons
+                    name="history"
+                    size={22}
+                    color="#53555f"
+                  />
+                  <TextOption>Agenda</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <Feather name="user" size={22} color="#53555f" />
+                  <TextOption>Seus profissionais</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <SimpleLineIcons
+                    name="location-pin"
+                    size={22}
+                    color="#53555f"
+                  />
+                  <TextOption>Localizar atendimento</TextOption>
+                </ButtonOption>
+                <ButtonOption>
+                  <MaterialCommunityIcons
+                    name="exit-to-app"
+                    size={22}
+                    color="#FE6161"
+                  />
+                  <TextOption style={{ color: "#FE6161" }}>Sair</TextOption>
+                </ButtonOption>
+              </ScrollView>
             </Menu>
             <Header>
               <ButtonMenu onPress={() => setExpandedMenu(true)}>
@@ -154,9 +167,6 @@ export default function HomePatient({ navigation }) {
                 <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
               )}
               type="red"
-              onPress={() =>
-                navigation.navigate("quizDiary", { userConnections })
-              }
             />
             <CardButton
               category="Ultima Semana"
@@ -166,6 +176,13 @@ export default function HomePatient({ navigation }) {
                 <MaterialIcons name="history" size={18} color="#929292" />
               )}
             />
+            <ButtonQuestionaryDiary
+              onPress={() =>
+                navigation.navigate("quizDiary", { userConnections })
+              }
+            >
+              <LionImage source={DialogLion} />
+            </ButtonQuestionaryDiary>
           </>
         ) : (
           <BarCodeScanner

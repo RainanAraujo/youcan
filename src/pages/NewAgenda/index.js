@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Container, Label } from "./styles";
-import { SafeAreaView, ScrollView, StatusBar } from "react-native";
+import { SafeAreaView, ScrollView, StatusBar, Platform } from "react-native";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -16,41 +16,13 @@ export default function NewAgenda({ navigation, route }) {
 
   // const [title, setTitle] = useState(annotation?.title || "");
   // const [text, setText] = useState(annotation?.text || "");
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [time, setTime] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
 
   const [showTime, setShowTime] = useState(false);
 
   const [text, setText] = useState("");
-
-  // const saveAnnotation = async () => {
-  //   const annotationID =
-  //     annotation?.id || Math.random().toString(36).substring(2);
-  //   if ([title, text].some((val) => val != null)) {
-  //     const dataString = await AsyncStorage.getItem(userConnectionID);
-  //     if (dataString != null) {
-  //       let data = JSON.parse(dataString);
-  //       data.annotations = data.annotations.filter(
-  //         (item) => item.id !== annotationID
-  //       );
-  //       console.log(data);
-  //       data.annotations.push({
-  //         id: annotationID,
-  //         title,
-  //         text,
-  //       });
-  //       await AsyncStorage.setItem(userConnectionID, JSON.stringify(data));
-
-  //       navigation.goBack();
-  //     } else {
-  //       await AsyncStorage.setItem(
-  //         userConnectionID,
-  //         JSON.stringify({ annotations: [{ id: annotationID, title, text }] })
-  //       );
-  //     }
-  //   }
-  // };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -80,30 +52,34 @@ export default function NewAgenda({ navigation, route }) {
                 mode={"date"}
                 is24Hour={true}
                 display="default"
-                onChange={(evt, selectedDate) => (
-                  setDate(new Date(selectedDate)), setShowDate(false)
-                )}
+                minimumDate={new Date()}
+                onChange={(evt, value) => {
+                  const selectedDate = value || date;
+                  setDate(new Date(selectedDate));
+                  setShowDate(false);
+                }}
                 onTouchCancel={() => setShowDate(false)}
               />
             )}
             {showTime && (
               <DateTimePicker
-                testID="dateTimePicker"
+                testID="timeTimePicker"
                 value={time}
                 mode={"time"}
                 is24Hour={true}
                 display="default"
-                onChange={(evt, selectedDate) => (
-                  setTime(new Date(selectedDate)), setShowTime(false)
-                )}
+                onChange={(evt, value) => {
+                  const selectedTime = value || date;
+                  setTime(new Date(selectedTime));
+                  setShowTime(false);
+                }}
                 onTouchCancel={() => setShowTime(false)}
               />
             )}
 
             <Label>Data</Label>
             <Input
-              value={text}
-              onChangeText={(value) => setText(value)}
+              value={date.getDate() + ""}
               onPress={() => setShowDate(true)}
               Icon={() => (
                 <MaterialIcons name="date-range" size={24} color="#373D53" />
@@ -111,8 +87,7 @@ export default function NewAgenda({ navigation, route }) {
             />
             <Label>Horas</Label>
             <Input
-              value={text}
-              onChangeText={(value) => setText(value)}
+              value={time.getHours() + ""}
               onPress={() => setShowTime(true)}
               Icon={() => (
                 <AntDesign name="clockcircleo" size={24} color="#373D53" />

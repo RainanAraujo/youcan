@@ -7,11 +7,7 @@ import ButtonHistoric from "../../components/ButtonHistoric";
 import { getAnswers } from "../../services/firestore";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useUserContext } from "../../context/userContext";
-import {
-  timestampToDayMonth,
-  timestampToDayName,
-  getFormattedDate,
-} from "../../utils/date";
+import { getFormattedDate } from "../../utils/date";
 
 export default function HistoricPanel({ navigation, route }) {
   const { selectedUser } = useUserContext();
@@ -58,9 +54,9 @@ export default function HistoricPanel({ navigation, route }) {
             <Period>Este mês</Period>
             {answers.map((answer) => (
               <ButtonHistoric
-                day={timestampToDayName(answer[0].createdAt)}
-                date={timestampToDayMonth(answer[0].createdAt)}
+                date={answer[0].createdAt}
                 onPress={() => navigation.navigate("historic", { answer })}
+                tags={answer.filter((item) => item.dataType == "tags")[0]?.data}
               />
             ))}
           </>

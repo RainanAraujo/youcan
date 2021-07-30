@@ -10,7 +10,6 @@ export const getFormattedDate = (timestamp) => {
 
 export const timestampToDayName = (timestamp) => {
   const date = timestamp.toDate();
-  console.log(date);
   const days = [
     "Domingo",
     "Segunda-Feira",

@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
 import { Container, Name, Period, Status, Title, Question } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import PreviewAnswer from "../../components/PreviewAnswer";
 import Header from "../../components/Header";
 import ButtonAudioPlay from "../../components/ButtonAudioPlay";
 import { timestampToDayMonth } from "../../utils/date";
-import { useUserContext } from "../../context/userContext";
 
 export default function Historic({ navigation, route }) {
-  const { selectedUser } = useUserContext();
   const answerList = route.params?.answer || [];
 
   return (
@@ -34,24 +31,21 @@ export default function Historic({ navigation, route }) {
             />
             <Title>Relato do dia</Title>
             {answerList.map((answer) => {
-              const question = selectedUser.questions.filter(
-                (item) => item.id === answer.questionID
-              )[0];
-
-              console.log(answer);
-
               if (answer.dataType === "text") {
                 if (answer.data === null) return;
                 return (
                   <>
-                    <Question>{question.description} | Texto</Question>
+                    <Question>{answer.questionText} | Texto</Question>
                     <PreviewAnswer text={answer.data} />
                   </>
                 );
-              } else if (answer.dataType === "textOrAudio") {
+              } else if (
+                answer.dataType === "textOrAudio" &&
+                (answer.data.text != "" || answer.data.audio != "")
+              ) {
                 return (
                   <>
-                    <Question>{question.description} | Texto ou Áudio</Question>
+                    <Question>{answer.questionText} | Texto ou Áudio</Question>
                     {answer.data.text != "" && (
                       <PreviewAnswer text={answer.data.text} />
                     )}
@@ -62,16 +56,13 @@ export default function Historic({ navigation, route }) {
                 );
               } else if (answer.dataType === "multiply") {
                 let text = "";
-                for (let index in answer.data) {
-                  if (answer.data[index]) {
-                    text +=
-                      (text == "" ? "" : ", ") + selectedUser.options[index];
-                  }
+                for (let option of answer.data) {
+                  text += (text == "" ? "" : ", ") + option;
                 }
                 return (
                   <>
                     <Question>
-                      {question.description} | Múltipla Escolha
+                      {answer.questionText} | Múltipla Escolha
                     </Question>
                     <PreviewAnswer text={text} />
                   </>
@@ -85,7 +76,7 @@ export default function Historic({ navigation, route }) {
                 return (
                   <>
                     <Question>
-                      {question.description} | Tags de Sentimento
+                      {answer.questionText} | Tags de Sentimento
                     </Question>
                     <PreviewAnswer text={text} />
                   </>

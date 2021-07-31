@@ -209,7 +209,7 @@ export const editQuestion = (
   });
 };
 
-export const createAnswer = (questionID, { dataType, data }) => {
+export const createAnswer = (questionID, { dataType, data, questionText }) => {
   return new Promise(async (resolve, reject) => {
     const formattedDate = getFormattedDate();
 
@@ -219,6 +219,7 @@ export const createAnswer = (questionID, { dataType, data }) => {
       .doc(questionID + "_" + formattedDate)
       .set({
         questionID,
+        questionText,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         dataType,
         data,

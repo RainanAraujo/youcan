@@ -25,7 +25,7 @@ export default function Question({ questionData, onChange }) {
       text,
       tags,
       textOrAudio: { text, audio },
-      multiply: selectedOptions,
+      multiply: options.filter((value, index) => selectedOptions[index]),
     };
     if (onChange) onChange(inputTypes[dataType]);
   }, [text, tags, audio, selectedOptions]);

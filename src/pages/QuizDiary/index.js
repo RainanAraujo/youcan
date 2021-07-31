@@ -40,6 +40,7 @@ export default function QuizDiary({ navigation, route }) {
       }
       await createAnswer(question.id, {
         dataType: question.dataType,
+        questionText: question.description,
         data: currentAnswer,
       });
       if (step < questions.length) {

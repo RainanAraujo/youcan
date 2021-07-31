@@ -8,6 +8,7 @@ import {
   Circle,
   NameOption,
   RemoveOption,
+  TrashButton,
 } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
@@ -17,6 +18,7 @@ import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
 import { Ionicons } from "@expo/vector-icons";
 import { editQuestion, createQuestion } from "../../services/firestore";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function QuestionEditor({ navigation, route }) {
   const _question = route.params?.question || {};
@@ -61,6 +63,9 @@ export default function QuestionEditor({ navigation, route }) {
             onBackButtonPress={() => navigation.goBack()}
           />
         )}
+        <TrashButton>
+          <FontAwesome5 name="trash" size={16} color="#FE6161" />
+        </TrashButton>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ width: "100%" }}

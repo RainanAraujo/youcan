@@ -70,3 +70,9 @@ export const NameOption = styled.TextInput`
 export const RemoveOption = styled.TouchableOpacity`
   margin-left: 8px;
 `;
+
+export const TrashButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 25px;
+  right: 20px;
+`;

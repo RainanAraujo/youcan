@@ -98,3 +98,9 @@ export const DateText = styled.Text`
   color: #fff;
   font-family: "LatoBold";
 `;
+
+export const TrashButton = styled.TouchableOpacity`
+  width: 100%;
+  align-items: flex-end;
+  margin-bottom: 6px;
+`;

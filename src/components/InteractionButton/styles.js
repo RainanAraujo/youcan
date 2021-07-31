@@ -71,3 +71,11 @@ export const RightContent = styled.View`
   justify-content: center;
   width: 30%;
 `;
+
+export const TrashButton = styled.TouchableOpacity`
+  width: 100%;
+  align-items: flex-end;
+  margin-bottom: 6px;
+`;
+
+export const ViewFlexHorizontal = styled.View``;

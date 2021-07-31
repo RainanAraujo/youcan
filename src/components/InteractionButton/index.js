@@ -6,6 +6,7 @@ import {
   LeftContent,
   RightContent,
 } from "./styles";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 export default function InteractionButton({
   onPress,
@@ -13,6 +14,7 @@ export default function InteractionButton({
   description,
   Icon,
   type,
+  onDelete,
 }) {
   return (
     <Container type={type} onPress={onPress}>

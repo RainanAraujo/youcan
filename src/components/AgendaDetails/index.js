@@ -11,11 +11,13 @@ import {
   BottomInformation,
   ButtonRoom,
   Room,
+  TrashButton,
 } from "./styles";
 import { Linking } from "react-native";
 import { getUserData } from "../../services/firestore";
+import { FontAwesome5 } from "@expo/vector-icons";
 
-export default function AgendaDetails({ patientID, onPress, link }) {
+export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
   const [patientData, setPatientData] = useState(null);
   useEffect(() => {
     if (patientID) {
@@ -25,6 +27,9 @@ export default function AgendaDetails({ patientID, onPress, link }) {
 
   return (
     <Container>
+      <TrashButton onPress={onDelete}>
+        <FontAwesome5 name="trash" size={16} color="#FE6161" />
+      </TrashButton>
       <TopInformation>
         <Avatar
           source={{

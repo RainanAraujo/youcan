@@ -59,7 +59,7 @@ export default function PatientDetails({ navigation }) {
               </LeftContent>
               <RightContent>
                 <Name>{selectedUser.name}</Name>
-                <Description>Depressão</Description>
+
                 <Status>
                   <Item>
                     <Title>Idade</Title>
@@ -68,10 +68,6 @@ export default function PatientDetails({ navigation }) {
                   <Item>
                     <Title>Última atualização</Title>
                     <TextItem>Há 5 dias</TextItem>
-                  </Item>
-                  <Item>
-                    <Title>Tag da semana</Title>
-                    <TextItem>Tristeza</TextItem>
                   </Item>
                 </Status>
               </RightContent>

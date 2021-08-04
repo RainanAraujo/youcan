@@ -78,4 +78,3 @@ export const TrashButton = styled.TouchableOpacity`
   margin-bottom: 6px;
 `;
 
-export const ViewFlexHorizontal = styled.View``;

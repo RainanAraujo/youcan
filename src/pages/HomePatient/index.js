@@ -169,6 +169,14 @@ export default function HomePatient({ navigation }) {
               type="red"
             />
             <CardButton
+              category="Medicação"
+              description="Adicione as medicações prescritas por o seu profissional"
+              title="Adicionar medicação"
+              Icon={() => (
+                <MaterialCommunityIcons name="pill" size={18} color="#929292" />
+              )}
+            />
+            <CardButton
               category="Ultima Semana"
               description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
               title="Tristeza"

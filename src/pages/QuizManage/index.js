@@ -43,7 +43,7 @@ export default function QuizManage({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>Jasmim Pereira</Name>
+            <Name>{selectedUser.name}</Name>
             <NewTopicButton
               text="Nova Pergunta"
               onPress={() =>

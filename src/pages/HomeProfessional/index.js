@@ -124,14 +124,10 @@ export default function HomeProfessional({ navigation }) {
               colors={["#f2c029"]}
             />
           }
+          style={{ width: "100%" }}
         >
           <Title>Dashboard</Title>
-          <Input
-            Icon={() => (
-              <Ionicons name="ios-search-outline" size={24} color="#373D53" />
-            )}
-            Placeholder="Buscar paciente"
-          />
+
           {patientList.map((connectionData) => (
             <ButtonPatient
               onPress={(patientData) => {

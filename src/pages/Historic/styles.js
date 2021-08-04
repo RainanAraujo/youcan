@@ -42,7 +42,7 @@ export const Title = styled.Text`
 export const Question = styled.Text`
   text-align: left;
   width: 100%;
-  color: #7e7e7e;
+  color: #070c17;
   font-family: "LatoRegular";
   font-size: 14px;
   margin-bottom: 4px;

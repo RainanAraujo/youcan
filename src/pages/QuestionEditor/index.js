@@ -17,7 +17,11 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
 import { Ionicons } from "@expo/vector-icons";
-import { editQuestion, createQuestion } from "../../services/firestore";
+import {
+  editQuestion,
+  createQuestion,
+  deleteQuestion,
+} from "../../services/firestore";
 import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function QuestionEditor({ navigation, route }) {
@@ -30,21 +34,29 @@ export default function QuestionEditor({ navigation, route }) {
   const [options, setOptions] = useState(_question.options || []);
 
   const saveQuestion = async () => {
-    if ([name, description, dataType, options].some((val) => val != null)) {
-      const question = {
-        userConnectionID: selectedUser.userConnectionID,
-        name,
-        description,
-        dataType,
-        options,
-      };
-      console.log(question);
-      if (route.params?.question) {
-        await editQuestion(_question.questionID, question);
-      } else {
-        await createQuestion(question);
-      }
+    const question = {
+      userConnectionID: selectedUser.userConnectionID,
+      name,
+      description,
+      dataType,
+      options,
+    };
+    console.log(question);
+    if (route.params?.question) {
+      await editQuestion(_question.questionID, question);
+    } else {
+      await createQuestion(question);
+    }
+    navigation.goBack();
+  };
+
+  const deleteHandle = () => {
+    if (route.params?.question == null) {
       navigation.goBack();
+    } else {
+      deleteQuestion(_question.questionID)
+        .then(() => navigation.goBack())
+        .catch((err) => console.log(err));
     }
   };
 
@@ -52,18 +64,15 @@ export default function QuestionEditor({ navigation, route }) {
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        {route.params?.question == null ? (
-          <Header
-            title="Criar pergunta"
-            onBackButtonPress={() => navigation.goBack()}
-          />
-        ) : (
-          <Header
-            title="Editar pergunta"
-            onBackButtonPress={() => navigation.goBack()}
-          />
-        )}
-        <TrashButton>
+        <Header
+          title={
+            route.params?.question == null
+              ? "Criar pergunta"
+              : "Editar pergunta"
+          }
+          onBackButtonPress={() => navigation.goBack()}
+        />
+        <TrashButton onPress={deleteHandle}>
           <FontAwesome5 name="trash" size={16} color="#FE6161" />
         </TrashButton>
         <ScrollView
@@ -130,7 +139,13 @@ export default function QuestionEditor({ navigation, route }) {
                   ))}
               </>
             )}
-            <Button text="Salvar" onPress={saveQuestion} />
+            <Button
+              disable={[name, description, dataType, options].some(
+                (val) => val != null
+              )}
+              text="Salvar"
+              onPress={saveQuestion}
+            />
             <Button
               buttonText
               text="Visualizar pergunta"

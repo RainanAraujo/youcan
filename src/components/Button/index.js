@@ -10,6 +10,7 @@ export default function Button({
   buttonSmall,
   gray,
   loading,
+  disable,
 }) {
   return (
     <Container
@@ -17,7 +18,7 @@ export default function Button({
       onPress={onPress}
       isButtonText={buttonText}
       buttonSmall={buttonSmall}
-      disable={loading}
+      disable={loading || disable}
     >
       {loading ? (
         <ActivityIndicator size="small" color="#fff" />

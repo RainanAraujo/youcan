@@ -209,6 +209,16 @@ export const editQuestion = (
   });
 };
 
+export const deleteQuestion = (questionID) => {
+  return new Promise(async (resolve, reject) => {
+    questions
+      .doc(questionID)
+      .delete()
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
+
 export const createAnswer = (questionID, { dataType, data, questionText }) => {
   return new Promise(async (resolve, reject) => {
     const formattedDate = getFormattedDate();

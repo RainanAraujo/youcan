@@ -1,3 +1,4 @@
+import React from "react";
 import { Container, Name, Period, Status, Title, Question } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import PreviewAnswer from "../../components/PreviewAnswer";

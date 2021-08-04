@@ -43,7 +43,7 @@ export default function QuestionEditor({ navigation, route }) {
     };
     console.log(question);
     if (route.params?.question) {
-      await editQuestion(_question.questionID, question);
+      await editQuestion(_question.id, question);
     } else {
       await createQuestion(question);
     }
@@ -54,7 +54,7 @@ export default function QuestionEditor({ navigation, route }) {
     if (route.params?.question == null) {
       navigation.goBack();
     } else {
-      deleteQuestion(_question.questionID)
+      deleteQuestion(_question.id)
         .then(() => navigation.goBack())
         .catch((err) => console.log(err));
     }

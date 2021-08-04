@@ -22,11 +22,13 @@ export default function QuizDiary({ navigation, route }) {
   const [questions, setQuestions] = useState([]);
   const [answer, setAnswer] = useState({});
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const nextStep = async () => {
     const question = questions[step - 1];
 
     if (step <= questions.length) {
+      setLoading(true);
       let currentAnswer = answer;
 
       if (question.dataType === "textOrAudio" && answer.audio !== "") {
@@ -48,6 +50,7 @@ export default function QuizDiary({ navigation, route }) {
       } else {
         navigation.goBack();
       }
+      setLoading(false);
     }
   };
 
@@ -94,6 +97,7 @@ export default function QuizDiary({ navigation, route }) {
             <ButtonGroup>
               <Button text={"Voltar"} buttonSmall gray onPress={previousStep} />
               <Button
+                loading={loading}
                 text={step == questions.length ? "Finalizar" : "Próximo"}
                 buttonSmall
                 onPress={nextStep}

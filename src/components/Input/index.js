@@ -8,10 +8,12 @@ export default function Input({
   value,
   bigArea,
   onPress,
+  type,
 }) {
   return (
     <Container>
       <TextInput
+        keyboardType={type}
         onFocus={onPress}
         bigArea={bigArea}
         multiline={bigArea && true}

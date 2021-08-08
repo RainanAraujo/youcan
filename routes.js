@@ -15,7 +15,9 @@ import AnnotationEditor from "./src/pages/AnnotationEditor";
 import HistoricPanel from "./src/pages/HistoricPanel";
 import Historic from "./src/pages/Historic";
 import Agenda from "./src/pages/Agenda";
+import MedicationManage from "./src/pages/MedicationManage";
 import NewAgenda from "./src/pages/NewAgenda";
+import MedicationEditor from "./src/pages/MedicationEditor";
 
 const RootStack = createStackNavigator();
 
@@ -112,6 +114,20 @@ export default function App() {
         <RootStack.Screen
           name="newAgenda"
           component={NewAgenda}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="medicationManage"
+          component={MedicationManage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="medicationEditor"
+          component={MedicationEditor}
           options={{
             headerShown: false,
           }}

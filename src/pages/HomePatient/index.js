@@ -146,44 +146,54 @@ export default function HomePatient({ navigation }) {
                 />
               </Profile>
             </Header>
-            <Title>Dashboard</Title>
-            <Topic>Avisos</Topic>
-            <ButtonNotification
-              title="Nova agenda de atendimento"
-              Icon={() => (
-                <MaterialCommunityIcons
-                  name="account-clock-outline"
-                  size={20}
-                  color="#fff"
-                />
-              )}
-            />
-            <Topic>Sobre você</Topic>
-            <CardButton
-              category="Alerta"
-              description="Registrar alguma grande experiência positiva ou negativa neste momento."
-              title="Está acontecendo algo?"
-              Icon={() => (
-                <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
-              )}
-              type="red"
-            />
-            <CardButton
-              category="Medicação"
-              description="Adicione as medicações prescritas por o seu profissional"
-              title="Adicionar medicação"
-              Icon={() => (
-                <MaterialCommunityIcons name="pill" size={18} color="#929292" />
-              )}
-            />
-            <CardButton
-              category="Ultima Semana"
-              description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
-              title="Tristeza"
-              Icon={() => (
-                <MaterialIcons name="history" size={18} color="#929292" />
-              )}
-            />
+            <ScrollView
+              style={{ width: "100%" }}
+              showsVerticalScrollIndicator={false}
+            >
+              <Title>Dashboard</Title>
+              <Topic>Avisos</Topic>
+              <ButtonNotification
+                title="Nova agenda de atendimento"
+                Icon={() => (
+                  <MaterialCommunityIcons
+                    name="account-clock-outline"
+                    size={20}
+                    color="#fff"
+                  />
+                )}
+              />
+              <Topic>Sobre você</Topic>
+              <CardButton
+                category="Alerta"
+                description="Registrar alguma grande experiência positiva ou negativa neste momento."
+                title="Está acontecendo algo?"
+                Icon={() => (
+                  <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
+                )}
+                type="red"
+              />
+              <CardButton
+                onPress={() => navigation.navigate("medicationManage")}
+                category="Medicação"
+                description="Adicione as medicações prescritas por o seu profissional"
+                title="Adicionar medicação"
+                Icon={() => (
+                  <MaterialCommunityIcons
+                    name="pill"
+                    size={18}
+                    color="#929292"
+                  />
+                )}
+              />
+              <CardButton
+                category="Ultima Semana"
+                description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
+                title="Seu histórico"
+                Icon={() => (
+                  <MaterialIcons name="history" size={18} color="#929292" />
+                )}
+              />
+            </ScrollView>
             <ButtonQuestionaryDiary
               onPress={() =>
                 navigation.navigate("quizDiary", { userConnections })

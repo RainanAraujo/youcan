@@ -76,7 +76,6 @@ export default function NewAgenda({ navigation, route }) {
                 onTouchCancel={() => setShowTime(false)}
               />
             )}
-
             <Label>Data</Label>
             <Input
               value={date.getDate() + ""}
@@ -85,7 +84,7 @@ export default function NewAgenda({ navigation, route }) {
                 <MaterialIcons name="date-range" size={24} color="#373D53" />
               )}
             />
-            <Label>Horas</Label>
+            <Label>Horas</Label>+
             <Input
               value={time.getHours() + ""}
               onPress={() => setShowTime(true)}

@@ -39,7 +39,8 @@ export default function HomePatient({ navigation }) {
   const [userData, setUserData] = useState({});
   const [enableScanner, setEnableScanner] = useState(false);
   const { uid } = currentUser();
-  const { userConnections, setUserConnections } = useUserContext();
+  const { userConnections, setUserConnections, setSelectedUser } =
+    useUserContext();
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -72,7 +73,10 @@ export default function HomePatient({ navigation }) {
   };
 
   useEffect(() => {
-    getUserData(uid).then((data) => setUserData(data));
+    getUserData(uid).then((data) => {
+      setUserData(data);
+      setSelectedUser(data);
+    });
     getProfessionalList(uid).then((list) => setUserConnections(list));
   }, []);
 

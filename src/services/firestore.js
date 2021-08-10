@@ -254,3 +254,15 @@ export const getAnswers = (questionIDList) => {
       .catch((err) => reject(err));
   });
 };
+
+export const addMeet = (userConnectionID, meetingData) => {
+  return new Promise(async (resolve, reject) => {
+    userConnection
+      .doc(userConnectionID)
+      .update({
+        meetingData,
+      })
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};

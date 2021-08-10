@@ -8,6 +8,23 @@ import { useUserContext } from "../../context/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MedicationManage({ navigation }) {
+  const { selectedUser } = useUserContext();
+  const [medications, setMedications] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      AsyncStorage.getItem("medications")
+        .then((dataString) => {
+          const data = JSON.parse(dataString);
+          if (data) {
+            setMedications(data.medications);
+          }
+        })
+        .catch((err) => console.log(err));
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
@@ -18,22 +35,23 @@ export default function MedicationManage({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>Jasmim Pereira</Name>
+            <Name>{selectedUser.name}</Name>
             <NewTopicButton
               text="Nova medicação"
               onPress={() => navigation.navigate("medicationEditor")}
             />
 
-            <MedicationButton
-              name={"Rifocina"}
-              hours={"16H|17H|20H"}
-              onPress={() =>
-                navigation.navigate("medicationEditor", {
-                  userConnectionID: selectedUser.userConnectionID,
-                  annotation,
-                })
-              }
-            />
+            {medications.map((medication) => (
+              <MedicationButton
+                name={medication.name}
+                hours={"16H|17H|20H"}
+                onPress={() =>
+                  navigation.navigate("medicationEditor", {
+                    medication,
+                  })
+                }
+              />
+            ))}
           </>
         </ScrollView>
       </Container>

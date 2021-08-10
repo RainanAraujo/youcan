@@ -10,48 +10,52 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MedicationEditor({ navigation, route }) {
-  const { userConnectionID, annotation } = route.params || {};
   const [showTime, setShowTime] = useState(false);
-  const [title, setTitle] = useState(annotation?.title || "");
-  const [text, setText] = useState(annotation?.text || "");
-  const [time, setTime] = useState(new Date());
-  const [useInterval, setUseInterval] = useState();
-  const [hours, setHours] = useState([]);
 
-  const saveAnnotation = async () => {
-    const annotationID =
-      annotation?.id || Math.random().toString(36).substring(2);
+  const { medication } = route.params || {};
+  const [title, setTitle] = useState(medication?.title || "");
+  const [initialHour, setInitialHour] = useState(
+    medication?.initialHour || new Date()
+  );
+  const [interval, setInterval] = useState(medication?.interval);
+  const [hours, setHours] = useState(medication?.hours || []);
+
+  const saveMedicationAlert = async () => {
+    const medicationID =
+      medication?.id || Math.random().toString(36).substring(2);
+    const medicationAlert = {
+      id: medicationID,
+      title,
+      initialHour,
+      interval,
+    };
     if ([title, text].some((val) => val != null)) {
-      const dataString = await AsyncStorage.getItem(userConnectionID);
+      const dataString = await AsyncStorage.getItem("medications");
       if (dataString != null) {
         let data = JSON.parse(dataString);
-        data.annotations = data.annotations.filter(
-          (item) => item.id !== annotationID
+        data.medication = data.medication.filter(
+          (item) => item.id !== medicationID
         );
         console.log(data);
-        data.annotations.push({
-          id: annotationID,
-          title,
-          text,
-        });
-        await AsyncStorage.setItem(userConnectionID, JSON.stringify(data));
+        data.medication.push(medicationAlert);
+        await AsyncStorage.setItem("medications", JSON.stringify(data));
 
         navigation.goBack();
       } else {
         await AsyncStorage.setItem(
-          userConnectionID,
-          JSON.stringify({ annotations: [{ id: annotationID, title, text }] })
+          "medication",
+          JSON.stringify({ medications: [medicationAlert] })
         );
       }
     }
   };
 
   useEffect(() => {
-    const numIntervals = 24 / useInterval;
+    const numIntervals = 24 / interval;
     setHours([]);
     for (var i = 0; i < numIntervals; i++) {
       let currentTime = new Date(
-        time.getTime() + useInterval * 60 * 60 * 1000 * i
+        initialHour.getTime() + interval * 60 * 60 * 1000 * i
       );
       setHours((list) => {
         list.push(
@@ -61,7 +65,7 @@ export default function MedicationEditor({ navigation, route }) {
       });
     }
     console.log(hours);
-  }, [time, useInterval]);
+  }, [initialHour, interval]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -69,13 +73,13 @@ export default function MedicationEditor({ navigation, route }) {
         {showTime && (
           <DateTimePicker
             testID="timeTimePicker"
-            value={time}
+            value={initialHour}
             mode={"time"}
             is24Hour={true}
             display="default"
             onChange={(evt, value) => {
               const selectedTime = value || time;
-              setTime(new Date(selectedTime));
+              setInitialHour(new Date(selectedTime));
               setShowTime(false);
             }}
             onTouchCancel={() => setShowTime(false)}
@@ -106,9 +110,9 @@ export default function MedicationEditor({ navigation, route }) {
             <Label>Intervalo de uso (horas)</Label>
             <Input
               type={"numeric"}
-              value={useInterval}
+              value={interval}
               Placeholder={"8"}
-              onChangeText={(value) => setUseInterval(value)}
+              onChangeText={(value) => setInterval(value)}
             ></Input>
             <Label>Hora de início</Label>
             <Input
@@ -122,7 +126,7 @@ export default function MedicationEditor({ navigation, route }) {
               })}
             </ContainerHour>
 
-            <Button text="Salvar" onPress={saveAnnotation} />
+            <Button text="Salvar" onPress={saveMedicationAlert} />
           </>
         </ScrollView>
       </Container>

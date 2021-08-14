@@ -35,11 +35,6 @@ export default function Agenda({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>Jasmim Pereira</Name>
-            <NewTopicButton
-              text="Nova Reunião"
-              onPress={() => navigation.navigate("newAgenda")}
-            />
             <AgendaDetails />
           </>
         </ScrollView>

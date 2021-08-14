@@ -10,6 +10,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign } from "@expo/vector-icons";
+import ButtonPicker from "../../components/ButtonPicker";
 
 export default function NewAgenda({ navigation, route }) {
   // const { userConnectionID, annotation } = route.params || {};
@@ -77,21 +78,22 @@ export default function NewAgenda({ navigation, route }) {
               />
             )}
             <Label>Data</Label>
-            <Input
-              value={date.getDate() + ""}
+            <ButtonPicker
+              text={date.getDate() + ""}
               onPress={() => setShowDate(true)}
               Icon={() => (
                 <MaterialIcons name="date-range" size={24} color="#373D53" />
               )}
             />
-            <Label>Horas</Label>+
-            <Input
-              value={time.getHours() + ""}
+            <Label>Horas</Label>
+            <ButtonPicker
+              text={time.getHours() + ""}
               onPress={() => setShowTime(true)}
               Icon={() => (
                 <AntDesign name="clockcircleo" size={24} color="#373D53" />
               )}
             />
+
             <Label>Link da reunião</Label>
             <Input value={text} onChangeText={(value) => setText(value)} />
             <Button text="Salvar" />

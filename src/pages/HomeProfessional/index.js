@@ -90,7 +90,7 @@ export default function HomeProfessional({ navigation }) {
             <Ionicons name="qr-code" size={22} color="#53555f" />
             <TextOption>Código de vinculação</TextOption>
           </ButtonOption>
-          <ButtonOption>
+          <ButtonOption onPress={() => navigation.navigate("agenda")}>
             <Ionicons name="ios-list-outline" size={22} color="#53555f" />
             <TextOption>Sua Agenda</TextOption>
           </ButtonOption>

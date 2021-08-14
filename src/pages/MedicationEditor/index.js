@@ -115,10 +115,10 @@ export default function MedicationEditor({ navigation, route }) {
               onChangeText={(value) => setInterval(value)}
             ></Input>
             <Label>Hora de início</Label>
-            <Input
-              value={time.getHours() + ":" + time.getMinutes()}
+            <ButtonPicker
+              text={time.getHours() + ":" + time.getMinutes()}
               onPress={() => setShowTime(true)}
-            ></Input>
+            ></ButtonPicker>
             <TextCentred>Horários de uso</TextCentred>
             <ContainerHour>
               {hours.map((item, index) => {

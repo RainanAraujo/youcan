@@ -10,7 +10,7 @@ import {
 } from "./styles";
 import Input from "../Input";
 import ButtonAudioRecord from "../ButtonAudioRecord";
-import CheckBox from "@react-native-community/checkbox";
+import CheckBox from "expo-checkbox";
 import TagAdd from "../TagAdd";
 
 export default function Question({ questionData, onChange }) {

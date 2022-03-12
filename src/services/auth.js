@@ -3,18 +3,23 @@ import * as Google from "expo-google-app-auth";
 
 export const currentUser = () => firebase.auth().currentUser;
 
+const config = {
+  androidClientId:
+    "984739924695-6v82llqe6ivnmcprsnj80bkojrnlcrb6.apps.googleusercontent.com",
+  iosClientId:
+    "984739924695-r3a84528dt66a3e4q2jgudn43mapsfta.apps.googleusercontent.com",
+  scopes: ["profile", "email"],
+};
+
+var userAccessToken = "";
+
 export const signInWithGoogleAsync = () => {
   return new Promise(async (resolve, reject) => {
-    const result = await Google.logInAsync({
-      androidClientId:
-        "984739924695-6v82llqe6ivnmcprsnj80bkojrnlcrb6.apps.googleusercontent.com",
-      iosClientId:
-        "984739924695-r3a84528dt66a3e4q2jgudn43mapsfta.apps.googleusercontent.com",
-      scopes: ["profile", "email"],
-    });
+    const result = await Google.logInAsync(config);
 
     if (result.type === "success") {
       const { idToken, accessToken } = result;
+      userAccessToken = accessToken;
       const credential = firebase.auth.GoogleAuthProvider.credential(
         idToken,
         accessToken
@@ -27,5 +32,5 @@ export const signInWithGoogleAsync = () => {
 };
 
 export const signOut = async () => {
-  await Google.logOutAsync();
+  await auth.signOut();
 };

@@ -21,7 +21,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { currentUser } from "../../services/auth";
+import { currentUser, signOut } from "../../services/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { BarCodeScanner } from "expo-barcode-scanner";
@@ -70,6 +70,11 @@ export default function HomePatient({ navigation }) {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const logoff = async () => {
+    await signOut();
+    navigation.replace("welcomeApp");
   };
 
   useEffect(() => {
@@ -127,7 +132,7 @@ export default function HomePatient({ navigation }) {
                   />
                   <TextOption>Localizar atendimento</TextOption>
                 </ButtonOption>
-                <ButtonOption>
+                <ButtonOption onPress={logoff}>
                   <MaterialCommunityIcons
                     name="exit-to-app"
                     size={22}

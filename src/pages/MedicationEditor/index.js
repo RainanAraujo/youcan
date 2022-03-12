@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Container, Label, ContainerHour, TextCentred, Hour } from "./styles";
+import React, { useState, useEffect } from "react";
+import { Container, Label, TextCentred } from "./styles";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
@@ -7,6 +7,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import NewTopicButton from "../../components/NewTopicButton";
 import { Ionicons } from "@expo/vector-icons";
+import ButtonPicker from "../../components/ButtonPicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function MedicationEditor({ navigation, route }) {
@@ -15,10 +16,8 @@ export default function MedicationEditor({ navigation, route }) {
   const { medication } = route.params || {};
   const [title, setTitle] = useState(medication?.title || "");
   const [initialHour, setInitialHour] = useState(
-    medication?.initialHour || new Date()
-  );
-  const [interval, setInterval] = useState(medication?.interval);
-  const [hours, setHours] = useState(medication?.hours || []);
+    new Date(medication?.initialHour || Date.now()));
+  const [interval, setInterval] = useState(medication?.interval || 6);
 
   const saveMedicationAlert = async () => {
     const medicationID =
@@ -29,7 +28,7 @@ export default function MedicationEditor({ navigation, route }) {
       initialHour,
       interval,
     };
-    if ([title, text].some((val) => val != null)) {
+    if (title != null) {
       const dataString = await AsyncStorage.getItem("medications");
       if (dataString != null) {
         let data = JSON.parse(dataString);
@@ -43,7 +42,7 @@ export default function MedicationEditor({ navigation, route }) {
         navigation.goBack();
       } else {
         await AsyncStorage.setItem(
-          "medication",
+          "medications",
           JSON.stringify({ medications: [medicationAlert] })
         );
       }
@@ -52,19 +51,11 @@ export default function MedicationEditor({ navigation, route }) {
 
   useEffect(() => {
     const numIntervals = 24 / interval;
-    setHours([]);
     for (var i = 0; i < numIntervals; i++) {
       let currentTime = new Date(
         initialHour.getTime() + interval * 60 * 60 * 1000 * i
       );
-      setHours((list) => {
-        list.push(
-          currentTime.getHours() + ":" + currentTime.getMinutes() + "h"
-        );
-        return list;
-      });
     }
-    console.log(hours);
   }, [initialHour, interval]);
 
   return (
@@ -78,8 +69,7 @@ export default function MedicationEditor({ navigation, route }) {
             is24Hour={true}
             display="default"
             onChange={(evt, value) => {
-              const selectedTime = value || time;
-              setInitialHour(new Date(selectedTime));
+              setInitialHour(new Date(value));
               setShowTime(false);
             }}
             onTouchCancel={() => setShowTime(false)}
@@ -116,16 +106,9 @@ export default function MedicationEditor({ navigation, route }) {
             ></Input>
             <Label>Hora de início</Label>
             <ButtonPicker
-              text={time.getHours() + ":" + time.getMinutes()}
+              text={initialHour.getHours() + ":" + initialHour.getMinutes()}
               onPress={() => setShowTime(true)}
             ></ButtonPicker>
-            <TextCentred>Horários de uso</TextCentred>
-            <ContainerHour>
-              {hours.map((item, index) => {
-                return <Hour key={index}>{hours.length <= 5 && item}</Hour>;
-              })}
-            </ContainerHour>
-
             <Button text="Salvar" onPress={saveMedicationAlert} />
           </>
         </ScrollView>

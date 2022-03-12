@@ -43,7 +43,7 @@ export default function MedicationManage({ navigation }) {
 
             {medications.map((medication) => (
               <MedicationButton
-                name={medication.name}
+                name={medication.title}
                 hours={"16H|17H|20H"}
                 onPress={() =>
                   navigation.navigate("medicationEditor", {

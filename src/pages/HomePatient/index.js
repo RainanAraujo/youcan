@@ -63,13 +63,9 @@ export default function HomePatient({ navigation }) {
 
   const onScanned = (code) => {
     setEnableScanner(false);
-    createUserConnection(userData, code.data)
-      .then(() => {
-        console.log("oi");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    createUserConnection(userData, code.data).catch((err) => {
+      console.log(err);
+    });
   };
 
   const logoff = async () => {

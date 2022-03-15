@@ -1,7 +1,8 @@
-import { auth, firebase } from "../config/firebase";
+import { auth } from "../config/firebase";
+import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
 
-export const currentUser = () => firebase.auth().currentUser;
+export const currentUser = () => auth.currentUser;
 
 const config = {
   androidClientId:
@@ -10,8 +11,6 @@ const config = {
     "984739924695-r3a84528dt66a3e4q2jgudn43mapsfta.apps.googleusercontent.com",
   scopes: ["profile", "email"],
 };
-
-var userAccessToken = "";
 
 export const signInWithGoogleAsync = () => {
   return new Promise(async (resolve, reject) => {
@@ -24,7 +23,7 @@ export const signInWithGoogleAsync = () => {
         idToken,
         accessToken
       );
-      resolve(await firebase.auth().signInWithCredential(credential));
+      resolve(await auth.signInWithCredential(credential));
     } else {
       reject({ cancelled: true });
     }

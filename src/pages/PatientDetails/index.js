@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Topic,
@@ -24,6 +24,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import InteractionButton from "../../components/InteractionButton";
 import { useUserContext } from "../../context/userContext";
 import { getQuestionList } from "../../services/firestore";
+import { timeDiffFormatter } from "../../utils/date";
 
 export default function PatientDetails({ navigation }) {
   const { selectedUser, setSelectedUser } = useUserContext();
@@ -67,7 +68,9 @@ export default function PatientDetails({ navigation }) {
                   </Item>
                   <Item>
                     <Title>Última atualização</Title>
-                    <TextItem>Há 5 dias</TextItem>
+                    <TextItem>
+                      {timeDiffFormatter(selectedUser.lastUpdate.toDate())}
+                    </TextItem>
                   </Item>
                 </Status>
               </RightContent>

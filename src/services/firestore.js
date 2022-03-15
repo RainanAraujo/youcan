@@ -1,5 +1,6 @@
-import { firestore, firebase } from "../config/firebase";
-import { getFormattedDate } from "../utils/date";
+import { firestore } from "../config/firebase";
+import { formatDate } from "../utils/date";
+import firebase from "firebase";
 
 const users = firestore.collection("users");
 const userConnection = firestore.collection("userConnection");
@@ -48,6 +49,7 @@ export const registerPatient = (
         age,
         schooling,
         photoURL,
+        lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
         type: "patient",
       });
       resolve();
@@ -219,11 +221,17 @@ export const deleteQuestion = (questionID) => {
   });
 };
 
-export const createAnswer = (questionID, { dataType, data, questionText }) => {
+export const createAnswer = (
+  userID,
+  questionID,
+  { dataType, data, questionText }
+) => {
   return new Promise(async (resolve, reject) => {
-    const formattedDate = getFormattedDate();
+    const formattedDate = formatDate();
 
-    console.log(data);
+    await users.doc(userID).update({
+      lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 
     answers
       .doc(questionID + "_" + formattedDate)

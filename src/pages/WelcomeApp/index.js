@@ -7,11 +7,10 @@ import {
   Link,
   Information,
 } from "./styles";
-import { SafeAreaView, StatusBar } from "react-native";
+import { StatusBar } from "react-native";
 import Button from "./../../components/Button";
 import LogoApp from "./../../../assets/images/logoApp.png";
 import { AntDesign } from "@expo/vector-icons";
-import { auth, firebase } from "../../config/firebase";
 import { signInWithGoogleAsync } from "../../services/auth";
 import { getUserData } from "../../services/firestore";
 import { currentUser } from "../../services/auth";
@@ -36,7 +35,6 @@ export default function WelcomeApp({ navigation }) {
   useEffect(() => {
     if (currentUser() != null) {
       setLoading(true);
-      checkUserStatus(currentUser().uid);
     }
   }, []);
 

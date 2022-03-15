@@ -40,7 +40,7 @@ export default function QuizDiary({ navigation, route }) {
           answer.audio
         );
       }
-      await createAnswer(question.id, {
+      await createAnswer(uid, question.id, {
         dataType: question.dataType,
         questionText: question.description,
         data: currentAnswer,

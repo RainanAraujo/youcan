@@ -19,17 +19,23 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-
 import { MaterialIcons } from "@expo/vector-icons";
+
 import InteractionButton from "../../components/InteractionButton";
 import { useUserContext } from "../../context/userContext";
 import { getQuestionList } from "../../services/firestore";
 import { timeDiffFormatter } from "../../utils/date";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PatientDetails({ navigation }) {
   const { selectedUser, setSelectedUser } = useUserContext();
 
   useEffect(() => {
+    const lastUpdateTime = selectedUser.lastUpdate.toDate().getTime();
+    AsyncStorage.setItem(
+      `${selectedUser.uid}-update`,
+      lastUpdateTime.toString()
+    );
     getQuestionList([selectedUser.userConnectionID])
       .then((list) =>
         setSelectedUser((data) => {

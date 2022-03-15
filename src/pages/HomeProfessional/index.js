@@ -25,13 +25,12 @@ import { Feather } from "@expo/vector-icons";
 import { currentUser } from "../../services/auth";
 import { getUserData, getPatientList } from "../../services/firestore";
 import { Ionicons } from "@expo/vector-icons";
-import Input from "../../components/Input";
 import ButtonPatient from "../../components/ButtonPatient";
 import PopUp from "../../components/PopUp";
 import QRCode from "react-native-qrcode-svg";
 import logoApp from "../../../assets/images/happyLion.png";
-import FeedbackAction from "../../components/FeedbackAction";
 import { useUserContext } from "../../context/userContext";
+import shortid from "shortid";
 
 export default function HomeProfessional({ navigation }) {
   const [expandedMenu, setExpandedMenu] = useState(false);
@@ -72,7 +71,10 @@ export default function HomeProfessional({ navigation }) {
           open={popUpQRCode}
           title="Código de vinculação"
           description="Aqui está seu qrCode para vincular seus pacientes"
-          onClose={() => setPopUpQRCode(false)}
+          onClose={() => {
+            onRefresh();
+            setPopUpQRCode(false);
+          }}
         >
           <QRCode
             value={userData.uid}
@@ -128,8 +130,9 @@ export default function HomeProfessional({ navigation }) {
         >
           <Title>Dashboard</Title>
 
-          {patientList.map((connectionData) => (
+          {patientList.map((connectionData, index) => (
             <ButtonPatient
+              key={shortid.generate()}
               onPress={(patientData) => {
                 setSelectedUser({
                   ...patientData,

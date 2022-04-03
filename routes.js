@@ -10,11 +10,13 @@ import QuestionEditor from "./src/pages/QuestionEditor";
 import QuizManage from "./src/pages/QuizManage";
 import QuestionPreview from "./src/pages/QuestionPreview";
 import QuizDiary from "./src/pages/QuizDiary";
+import RegisterEvent from "./src/pages/RegisterEvent";
 import Annotation from "./src/pages/Annotation";
 import AnnotationEditor from "./src/pages/AnnotationEditor";
 import HistoricPanel from "./src/pages/HistoricPanel";
 import Historic from "./src/pages/Historic";
 import Agenda from "./src/pages/Agenda";
+import HistoricPatient from "./src/pages/HistoricPatient";
 import MedicationManage from "./src/pages/MedicationManage";
 import NewAgenda from "./src/pages/NewAgenda";
 import MedicationEditor from "./src/pages/MedicationEditor";
@@ -128,6 +130,20 @@ export default function App() {
         <RootStack.Screen
           name="medicationEditor"
           component={MedicationEditor}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="registerEvent"
+          component={RegisterEvent}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="historicPatient"
+          component={HistoricPatient}
           options={{
             headerShown: false,
           }}

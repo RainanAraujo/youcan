@@ -29,7 +29,7 @@ export const Description = styled.Text`
   font-family: "LatoRegular";
   font-size: 14px;
   line-height: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 `;
 
 export const Or = styled.Text`

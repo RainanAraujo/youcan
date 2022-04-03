@@ -26,14 +26,17 @@ export default function WelcomeApp({ navigation }) {
         } else {
           navigation.replace("homeProfessional");
         }
+        setLoading(false);
       })
       .catch(() => {
         navigation.replace("register");
+        setLoading(false);
       });
   };
 
   useEffect(() => {
     if (currentUser() != null) {
+      checkUserStatus(currentUser().uid);
       setLoading(true);
     }
   }, []);

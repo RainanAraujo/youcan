@@ -96,11 +96,15 @@ export default function HomePatient({ navigation }) {
                   <Ionicons name="qr-code" size={22} color="#53555f" />
                   <TextOption>Vincular Profissional</TextOption>
                 </ButtonOption>
-                <ButtonOption>
+                <ButtonOption
+                  onPress={() => navigation.navigate("historicPatient")}
+                >
                   <Ionicons name="ios-list-outline" size={22} color="#53555f" />
                   <TextOption>Relatório pessoal</TextOption>
                 </ButtonOption>
-                <ButtonOption>
+                <ButtonOption
+                  onPress={() => navigation.navigate("medicationManage")}
+                >
                   <MaterialCommunityIcons
                     name="pill"
                     size={22}
@@ -120,14 +124,7 @@ export default function HomePatient({ navigation }) {
                   <Feather name="user" size={22} color="#53555f" />
                   <TextOption>Seus profissionais</TextOption>
                 </ButtonOption>
-                <ButtonOption>
-                  <SimpleLineIcons
-                    name="location-pin"
-                    size={22}
-                    color="#53555f"
-                  />
-                  <TextOption>Localizar atendimento</TextOption>
-                </ButtonOption>
+
                 <ButtonOption onPress={logoff}>
                   <MaterialCommunityIcons
                     name="exit-to-app"
@@ -176,6 +173,7 @@ export default function HomePatient({ navigation }) {
                   <FontAwesome5 name="heartbeat" size={18} color="#FFD4D4" />
                 )}
                 type="red"
+                onPress={() => navigation.navigate("registerEvent")}
               />
               <CardButton
                 onPress={() => navigation.navigate("medicationManage")}
@@ -191,6 +189,7 @@ export default function HomePatient({ navigation }) {
                 )}
               />
               <CardButton
+                onPress={() => navigation.navigate("historicPatient")}
                 category="Ultima Semana"
                 description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
                 title="Seu histórico"

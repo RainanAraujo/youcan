@@ -18,7 +18,7 @@ export default function Button({
       onPress={onPress}
       isButtonText={buttonText}
       buttonSmall={buttonSmall}
-      disable={loading ? loading : disable}
+      disable={loading || disable}
     >
       {loading ? (
         <ActivityIndicator size="small" color="#fff" />

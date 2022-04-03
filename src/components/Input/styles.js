@@ -5,7 +5,7 @@ const deviceWidth = Dimensions.get("window").width;
 export const Container = styled.View`
   position: relative;
   margin-top: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
 `;
 
 export const TextInput = styled.TextInput`

@@ -35,7 +35,6 @@ export default function MedicationManage({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>{selectedUser.name}</Name>
             <NewTopicButton
               text="Nova medicação"
               onPress={() => navigation.navigate("medicationEditor")}
@@ -43,6 +42,7 @@ export default function MedicationManage({ navigation }) {
 
             {medications.map((medication) => (
               <MedicationButton
+                onDelete={() => console.log("delete")}
                 name={medication.title}
                 hours={"16H|17H|20H"}
                 onPress={() =>

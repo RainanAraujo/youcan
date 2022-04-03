@@ -1,19 +1,14 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Title,
-  Description,
-  Date,
-  ButtonDown,
-  TrashButton,
-} from "./styles";
-import { AntDesign } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { Container, Title, Description, TrashButton } from "./styles";
 
-export default function MedicationButton({ onPress, name, hours }) {
-  const [expanded, setExpanded] = useState(false);
+import { Feather } from "@expo/vector-icons";
+
+export default function MedicationButton({ onPress, name, hours, onDelete }) {
   return (
     <Container onPress={onPress}>
+      <TrashButton onPress={onDelete}>
+        <Feather name="trash" size={18} color="#FE6161" />
+      </TrashButton>
       <Title>{name}</Title>
       <Description>{hours}</Description>
     </Container>

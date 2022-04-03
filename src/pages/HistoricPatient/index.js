@@ -8,28 +8,29 @@ import { getAnswers } from "../../services/firestore";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useUserContext } from "../../context/userContext";
 import { getFormattedDate } from "../../utils/date";
+import { currentUser } from "../../services/auth";
 
-export default function HistoricPatient({ navigation, route }) {
+export default function HistoricPanel({ navigation, route }) {
   const { selectedUser } = useUserContext();
   const [answers, setAnswers] = useState([]);
 
-  useEffect(() => {
-    getAnswers(selectedUser.questions.map((item) => item.id))
-      .then((list) => {
-        const dates = [
-          ...new Set(list.map((item) => getFormattedDate(item.createdAt))),
-        ];
-        const answersGroups = [];
-        for (let date of dates) {
-          answersGroups.push(
-            list.filter((item) => getFormattedDate(item.createdAt) === date)
-          );
-        }
-        console.log(answersGroups);
-        setAnswers(answersGroups);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  // useEffect(() => {
+  //   getAnswers(selectedUser.questions.map((item) => item.id))
+  //     .then((list) => {
+  //       const dates = [
+  //         ...new Set(list.map((item) => getFormattedDate(item.createdAt))),
+  //       ];
+  //       const answersGroups = [];
+  //       for (let date of dates) {
+  //         answersGroups.push(
+  //           list.filter((item) => getFormattedDate(item.createdAt) === date)
+  //         );
+  //       }
+  //       console.log(answersGroups);
+  //       setAnswers(answersGroups);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -44,7 +45,6 @@ export default function HistoricPatient({ navigation, route }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>{selectedUser.name}</Name>
             <Input
               Icon={() => (
                 <MaterialIcons name="date-range" size={24} color="#373D53" />

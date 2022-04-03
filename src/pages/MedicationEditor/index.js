@@ -16,7 +16,8 @@ export default function MedicationEditor({ navigation, route }) {
   const { medication } = route.params || {};
   const [title, setTitle] = useState(medication?.title || "");
   const [initialHour, setInitialHour] = useState(
-    new Date(medication?.initialHour || Date.now()));
+    new Date(medication?.initialHour || Date.now())
+  );
   const [interval, setInterval] = useState(medication?.interval || 6);
 
   const saveMedicationAlert = async () => {
@@ -32,11 +33,10 @@ export default function MedicationEditor({ navigation, route }) {
       const dataString = await AsyncStorage.getItem("medications");
       if (dataString != null) {
         let data = JSON.parse(dataString);
-        data.medication = data.medication.filter(
+        data.medications = data.medications.filter(
           (item) => item.id !== medicationID
         );
-        console.log(data);
-        data.medication.push(medicationAlert);
+        data.medications.push(medicationAlert);
         await AsyncStorage.setItem("medications", JSON.stringify(data));
 
         navigation.goBack();
@@ -76,7 +76,7 @@ export default function MedicationEditor({ navigation, route }) {
           />
         )}
         <StatusBar backgroundColor="#fff" />
-        {route.params?.annotation == null ? (
+        {route.params?.medication == null ? (
           <Header
             title="Nova medicação"
             onBackButtonPress={() => navigation.goBack()}
@@ -108,8 +108,8 @@ export default function MedicationEditor({ navigation, route }) {
             <ButtonPicker
               text={initialHour.getHours() + ":" + initialHour.getMinutes()}
               onPress={() => setShowTime(true)}
-            ></ButtonPicker>
-            <Button text="Salvar" onPress={saveMedicationAlert} />
+            />
+            <Button text="Salvar" onPress={() => saveMedicationAlert()} />
           </>
         </ScrollView>
       </Container>

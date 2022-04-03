@@ -68,8 +68,7 @@ export const ButtonDown = styled.TouchableOpacity`
 `;
 
 export const TrashButton = styled.TouchableOpacity`
-  width: 100%;
-  align-items: flex-end;
-  margin-bottom: 6px;
-  padding-right: 28px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
 `;

@@ -6,7 +6,7 @@ export const Container = styled.View`
   justify-content: space-between;
   flex-direction: row;
   width: 100%;
-  padding-bottom: 15px;
+  padding-bottom: 18px;
 `;
 
 export const ButtonBack = styled.TouchableOpacity``;

@@ -17,7 +17,7 @@ export const TextButton = styled.Text`
   color: #7a7d87;
   font-family: "LatoRegular";
   font-size: 16px;
-  padding: 0 50px;
+  padding: 0 16px;
 `;
 
 export const IconViewer = styled.View`

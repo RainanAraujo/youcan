@@ -189,7 +189,9 @@ export default function HomePatient({ navigation }) {
                 )}
               />
               <CardButton
-                onPress={() => navigation.navigate("historicPatient")}
+                onPress={() =>
+                  navigation.navigate("historicPatient", { userConnections })
+                }
                 category="Ultima Semana"
                 description="Baseado em seus relatos diários, tristeza foi a tag utilizada com mais frequência."
                 title="Seu histórico"

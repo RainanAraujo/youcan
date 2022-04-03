@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   ButtonBack,
@@ -14,7 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { currentUser } from "../../services/auth";
 import { getQuestionList, createAnswer } from "../../services/firestore";
 import { uploadFile } from "../../services/storage";
-import { getFormattedDate } from "../../utils/date";
+import { formatDate } from "../../utils/date";
 
 export default function QuizDiary({ navigation, route }) {
   const { userConnections } = route.params;
@@ -33,7 +33,7 @@ export default function QuizDiary({ navigation, route }) {
 
       if (question.dataType === "textOrAudio" && answer.audio !== "") {
         console.log(question.dataType);
-        const formattedDate = getFormattedDate();
+        const formattedDate = formatDate();
         currentAnswer.audio = await uploadFile(
           uid,
           question.id + "_" + formattedDate,

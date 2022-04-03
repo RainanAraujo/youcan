@@ -7,7 +7,7 @@ import ButtonHistoric from "../../components/ButtonHistoric";
 import { getAnswers } from "../../services/firestore";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useUserContext } from "../../context/userContext";
-import { getFormattedDate } from "../../utils/date";
+import { formatDate } from "../../utils/date";
 
 export default function HistoricPatient({ navigation, route }) {
   const { selectedUser } = useUserContext();
@@ -17,12 +17,12 @@ export default function HistoricPatient({ navigation, route }) {
     getAnswers(selectedUser.questions.map((item) => item.id))
       .then((list) => {
         const dates = [
-          ...new Set(list.map((item) => getFormattedDate(item.createdAt))),
+          ...new Set(list.map((item) => formatDate(item.createdAt))),
         ];
         const answersGroups = [];
         for (let date of dates) {
           answersGroups.push(
-            list.filter((item) => getFormattedDate(item.createdAt) === date)
+            list.filter((item) => formatDate(item.createdAt) === date)
           );
         }
         console.log(answersGroups);

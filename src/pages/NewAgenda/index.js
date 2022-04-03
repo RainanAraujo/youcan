@@ -13,10 +13,8 @@ import { AntDesign } from "@expo/vector-icons";
 import ButtonPicker from "../../components/ButtonPicker";
 
 export default function NewAgenda({ navigation, route }) {
-  // const { userConnectionID, annotation } = route.params || {};
+  const { userConnectionID } = route.params || {};
 
-  // const [title, setTitle] = useState(annotation?.title || "");
-  // const [text, setText] = useState(annotation?.text || "");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
@@ -29,7 +27,6 @@ export default function NewAgenda({ navigation, route }) {
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        {/* {route.params?.annotation == null ? ( */}
         {null == null ? (
           <Header
             title="Criar Reunião"
@@ -55,9 +52,9 @@ export default function NewAgenda({ navigation, route }) {
                 display="default"
                 minimumDate={new Date()}
                 onChange={(evt, value) => {
+                  setShowDate(false);
                   const selectedDate = value || date;
                   setDate(new Date(selectedDate));
-                  setShowDate(false);
                 }}
                 onTouchCancel={() => setShowDate(false)}
               />
@@ -70,9 +67,9 @@ export default function NewAgenda({ navigation, route }) {
                 is24Hour={true}
                 display="default"
                 onChange={(evt, value) => {
+                  setShowTime(false);
                   const selectedTime = value || date;
                   setTime(new Date(selectedTime));
-                  setShowTime(false);
                 }}
                 onTouchCancel={() => setShowTime(false)}
               />

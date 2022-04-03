@@ -4,33 +4,40 @@ import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Input from "../../components/Input";
 import Header from "../../components/Header";
 import ButtonHistoric from "../../components/ButtonHistoric";
-import { getAnswers } from "../../services/firestore";
+import { getAnswers, getQuestionList } from "../../services/firestore";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useUserContext } from "../../context/userContext";
-import { getFormattedDate } from "../../utils/date";
-import { currentUser } from "../../services/auth";
+import { formatDate } from "../../utils/date";
 
 export default function HistoricPanel({ navigation, route }) {
-  const { selectedUser } = useUserContext();
+  const { userConnections } = route.params;
   const [answers, setAnswers] = useState([]);
 
-  // useEffect(() => {
-  //   getAnswers(selectedUser.questions.map((item) => item.id))
-  //     .then((list) => {
-  //       const dates = [
-  //         ...new Set(list.map((item) => getFormattedDate(item.createdAt))),
-  //       ];
-  //       const answersGroups = [];
-  //       for (let date of dates) {
-  //         answersGroups.push(
-  //           list.filter((item) => getFormattedDate(item.createdAt) === date)
-  //         );
-  //       }
-  //       console.log(answersGroups);
-  //       setAnswers(answersGroups);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  const loadAnswers = async (userConnectionsIDList) => {
+    const questions = await getQuestionList(userConnectionsIDList);
+    getAnswers(questions.map((item) => item.id))
+      .then((list) => {
+        console.log(list);
+        const dates = [
+          ...new Set(list.map((item) => formatDate(item.createdAt))),
+        ];
+        const answersGroups = [];
+        for (let date of dates) {
+          answersGroups.push(
+            list.filter((item) => formatDate(item.createdAt) === date)
+          );
+        }
+        console.log(answersGroups);
+        setAnswers(answersGroups);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    const userConnectionsIDList = userConnections.map(
+      (userConnection) => userConnection.id
+    );
+    loadAnswers(userConnectionsIDList);
+  }, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>

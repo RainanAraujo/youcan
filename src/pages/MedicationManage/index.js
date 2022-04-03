@@ -40,18 +40,44 @@ export default function MedicationManage({ navigation }) {
               onPress={() => navigation.navigate("medicationEditor")}
             />
 
-            {medications.map((medication) => (
-              <MedicationButton
-                onDelete={() => console.log("delete")}
-                name={medication.title}
-                hours={"16H|17H|20H"}
-                onPress={() =>
-                  navigation.navigate("medicationEditor", {
-                    medication,
-                  })
-                }
-              />
-            ))}
+            {medications.map((medication) => {
+              const initial = new Date(medication.initialHour);
+              const interval = medication.interval;
+              const hours = [];
+              console.log(initial);
+              for (const index of Array(3)) {
+                const hour = initial.getHours();
+                const min = initial.getMinutes().toString().padStart(2, 0);
+                hours.push(`${hour}:${min}h`);
+                initial.setTime(initial.getTime() + interval * 60 * 60 * 1000);
+              }
+
+              return (
+                <MedicationButton
+                  onDelete={async () => {
+                    const dataString = await AsyncStorage.getItem(
+                      "medications"
+                    );
+                    let data = JSON.parse(dataString);
+                    data.medications = data.medications.filter(
+                      (item) => item.id !== medication.id
+                    );
+                    await AsyncStorage.setItem(
+                      "medications",
+                      JSON.stringify(data)
+                    );
+                    setMedications(data.medications);
+                  }}
+                  name={medication.title}
+                  hours={hours.join(" | ")}
+                  onPress={() =>
+                    navigation.navigate("medicationEditor", {
+                      medication,
+                    })
+                  }
+                />
+              );
+            })}
           </>
         </ScrollView>
       </Container>

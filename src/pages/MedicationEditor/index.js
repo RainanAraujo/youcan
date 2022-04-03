@@ -106,7 +106,12 @@ export default function MedicationEditor({ navigation, route }) {
             ></Input>
             <Label>Hora de início</Label>
             <ButtonPicker
-              text={initialHour.getHours() + ":" + initialHour.getMinutes()}
+              text={
+                initialHour.getHours() +
+                ":" +
+                initialHour.getMinutes().toString().padStart(2, 0) +
+                "h"
+              }
               onPress={() => setShowTime(true)}
             />
             <Button text="Salvar" onPress={() => saveMedicationAlert()} />

@@ -11,19 +11,19 @@ export default function Agenda({ navigation }) {
   const { selectedUser } = useUserContext();
   const [annotations, setAnnotations] = useState([]);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      AsyncStorage.getItem(selectedUser.userConnectionID)
-        .then((dataString) => {
-          const data = JSON.parse(dataString);
-          if (data) {
-            setAnnotations(data.annotations);
-          }
-        })
-        .catch((err) => console.log(err));
-    });
-    return unsubscribe;
-  }, [navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener("focus", () => {
+  //     AsyncStorage.getItem(selectedUser.userConnectionID)
+  //       .then((dataString) => {
+  //         const data = JSON.parse(dataString);
+  //         if (data) {
+  //           setAnnotations(data.annotations);
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   });
+  //   return unsubscribe;
+  // }, [navigation]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -35,7 +35,7 @@ export default function Agenda({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <AgendaDetails />
+            <AgendaDetails onDelete={null} />
           </>
         </ScrollView>
       </Container>

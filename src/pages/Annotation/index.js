@@ -48,10 +48,24 @@ export default function Annotation({ navigation }) {
                 })
               }
             />
-            {annotations?.map((annotation) => (
+            {annotations.map((annotation) => (
               <AnnotationButton
                 title={annotation.title}
                 description={annotation.text}
+                onDelete={async () => {
+                  const dataString = await AsyncStorage.getItem(
+                    selectedUser.userConnectionID
+                  );
+                  let data = JSON.parse(dataString);
+                  data.annotations = data.annotations.filter(
+                    (item) => item.id !== annotation.id
+                  );
+                  await AsyncStorage.setItem(
+                    selectedUser.userConnectionID,
+                    JSON.stringify(data)
+                  );
+                  setAnnotations(data.annotations);
+                }}
                 onPress={() =>
                   navigation.navigate("annotationEditor", {
                     userConnectionID: selectedUser.userConnectionID,

@@ -16,6 +16,7 @@ import AnnotationEditor from "./src/pages/AnnotationEditor";
 import HistoricPanel from "./src/pages/HistoricPanel";
 import Historic from "./src/pages/Historic";
 import Agenda from "./src/pages/Agenda";
+import YourProfessionals from "./src/pages/YourProfessionals";
 import HistoricPatient from "./src/pages/HistoricPatient";
 import MedicationManage from "./src/pages/MedicationManage";
 import NewAgenda from "./src/pages/NewAgenda";
@@ -144,6 +145,13 @@ export default function App() {
         <RootStack.Screen
           name="historicPatient"
           component={HistoricPatient}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <RootStack.Screen
+          name="yourProfessionals"
+          component={YourProfessionals}
           options={{
             headerShown: false,
           }}

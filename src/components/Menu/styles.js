@@ -1,15 +1,15 @@
 import styled, { css } from "styled-components/native";
 import { Dimensions, Animated } from "react-native";
-const deviceWidth = Dimensions.get("window").width;
-const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("screen").width;
+const deviceHeight = Dimensions.get("screen").height;
 
 export const Container = styled.TouchableOpacity`
   position: absolute;
   z-index: 1;
   left: 0px;
   background-color: #00000030;
-  height: ${deviceHeight * 1.1}px;
-  width: ${deviceWidth * 1}px;
+  height: ${deviceHeight}px;
+  width: ${deviceWidth}px;
   display: flex;
   overflow: hidden;
   align-items: center;
@@ -27,14 +27,18 @@ export const Container = styled.TouchableOpacity`
 export const MenuContainer = styled(Animated.View)`
   position: relative;
   z-index: 2;
-  height: ${deviceHeight * 0.6}px;
   background-color: #fff;
-  width: ${deviceWidth * 1}px;
+  width: ${deviceWidth}px;
   elevation: 15;
-  top: ${deviceHeight * 1 + 50}px;
+  top: ${deviceHeight}px;
   padding: 20px;
   align-items: center;
   border-radius: 20px;
+  ${(props) =>
+    props.height &&
+    css`
+      height: ${props.height};
+    `}
 `;
 
 export const ButtonClose = styled.TouchableOpacity`

@@ -12,6 +12,9 @@ import {
   ButtonRoom,
   Room,
   TrashButton,
+  DateHour,
+  Hour,
+  Place,
 } from "./styles";
 import { Linking } from "react-native";
 import { getUserData } from "../../services/firestore";
@@ -27,9 +30,11 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
 
   return (
     <Container>
-      <TrashButton onPress={onDelete}>
-        <FontAwesome5 name="trash" size={16} color="#FE6161" />
-      </TrashButton>
+      {onDelete && (
+        <TrashButton onPress={onDelete}>
+          <FontAwesome5 name="trash" size={16} color="#FE6161" />
+        </TrashButton>
+      )}
       <TopInformation>
         <Avatar
           source={{
@@ -37,7 +42,11 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
           }}
         />
         <Data>
-          <Day>{"Terça-Feira"}</Day>
+          <DateHour>
+            <Day>{"Terça-Feira"}</Day>
+            <Hour>17h</Hour>
+          </DateHour>
+          <Place>Local: CAPS Codó</Place>
           <UserInformation>
             {"Emanuelly Ribeiro"} | {"Psicóloga"}
           </UserInformation>
@@ -46,13 +55,14 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
           <DateText>16/06</DateText>
         </Date>
       </TopInformation>
+      {/* caso seja reunião online */}
       <BottomInformation>
         <ButtonRoom
           onPress={() => {
             Linking.openURL(link);
           }}
         >
-          <Room>{"lçsdkfmsdlk"}</Room>
+          <Room>{"Link Meet"}</Room>
         </ButtonRoom>
       </BottomInformation>
     </Container>

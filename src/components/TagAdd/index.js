@@ -36,7 +36,7 @@ const MenuExpanded = ({ onSubmit, onClose }) => {
         Placeholder="Buscar palavra chave"
       />
       <FlatList
-        style={{ width: "100%" }}
+        style={{ width: "100%", height: 300 }}
         data={feelings.data.filter((word) =>
           word.toUpperCase().includes(search.toUpperCase())
         )}

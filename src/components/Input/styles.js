@@ -16,8 +16,7 @@ export const TextInput = styled.TextInput`
     css`
       padding-left: 50px;
     `}
-
-  height:  ${(props) => (props.bigArea ? 200 : 55)}px;
+  height: ${(props) => (props.bigArea ? 200 : 55)}px;
   background-color: #f5f6fa;
   border-radius: 10px;
   color: #7a7d87;

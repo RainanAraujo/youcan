@@ -24,6 +24,7 @@
     "expo-font": "~10.0.4",
     "expo-google-app-auth": "~8.3.0",
     "expo-google-sign-in": "~10.1.0",
+    "expo-navigation-bar": "~1.1.1",
     "expo-notifications": "~0.14.0",
     "firebase": "^8.10.1",
     "react": "17.0.1",

@@ -34,7 +34,7 @@ export const Avatar = styled.Image`
   width: 80px;
   height: 80px;
   border-radius: 100px;
-  border: 2px solid #f2c029;
+  border: 2px #f2c029;
 `;
 
 export const ProfileDescriptions = styled.View`

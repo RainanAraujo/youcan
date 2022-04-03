@@ -6,6 +6,7 @@ const users = firestore.collection("users");
 const userConnection = firestore.collection("userConnection");
 const questions = firestore.collection("questions");
 const answers = firestore.collection("answers");
+const meet = firestore.collection("meet");
 
 export const isRegistered = (userID) => {
   return new Promise(async (resolve, reject) => {
@@ -263,12 +264,28 @@ export const getAnswers = (questionIDList) => {
   });
 };
 
-export const addMeet = (userConnectionID, meetingData) => {
+export const getMeets = (userID) => {
   return new Promise(async (resolve, reject) => {
-    userConnection
-      .doc(userConnectionID)
-      .update({
-        meetingData,
+    meet
+      .where("participants", "array-contains", userID)
+      .get()
+      .then((docList) => {
+        const meetList = docList.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        resolve(meetList);
+      })
+      .catch((err) => reject(err));
+  });
+};
+
+export const addMeet = (professionalID, patientID, meetingData) => {
+  return new Promise(async (resolve, reject) => {
+    meet
+      .add({
+        participants: [professionalID, patientID],
+        ...meetingData,
       })
       .then(() => resolve())
       .catch((err) => reject(err));

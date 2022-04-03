@@ -11,17 +11,32 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign } from "@expo/vector-icons";
 import ButtonPicker from "../../components/ButtonPicker";
+import { addMeet } from "../../services/firestore";
+import { currentUser } from "../../services/auth";
 
 export default function NewAgenda({ navigation, route }) {
-  const { userConnectionID } = route.params || {};
-
+  const { patientID } = route.params || {};
+  const { uid } = currentUser();
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
-  const [typeAgenda, setTypeAgenda] = useState(null);
+  const [meetType, setMeetType] = useState(null);
   const [showTime, setShowTime] = useState(false);
 
   const [text, setText] = useState("");
+
+  const newMeeting = async () => {
+    date.setHours(time.getHours());
+    date.setMinutes(time.getMinutes());
+    await addMeet(uid, patientID, {
+      startIn: date,
+      meetType,
+      data: text,
+    });
+    navigation.pop();
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -100,14 +115,11 @@ export default function NewAgenda({ navigation, route }) {
             <DropDownContainer>
               <DropDown
                 mode="dropdown"
-                selectedValue={typeAgenda}
-                onValueChange={(itemValue, itemIndex) =>
-                  setTypeAgenda(itemValue)
-                }
+                selectedValue={meetType}
+                onValueChange={(itemValue, itemIndex) => setMeetType(itemValue)}
               >
                 <DropDown.Item
                   label="Selecionar"
-                  value=""
                   selectedValue
                   enabled={false}
                 />
@@ -115,9 +127,9 @@ export default function NewAgenda({ navigation, route }) {
                 <DropDown.Item label="Presencial" value="place" />
               </DropDown>
             </DropDownContainer>
-            {typeAgenda && (
+            {meetType && (
               <>
-                {typeAgenda == "online" ? (
+                {meetType == "online" ? (
                   <Label>Link da reunião meet</Label>
                 ) : (
                   <Label>Local da reunião</Label>
@@ -125,7 +137,7 @@ export default function NewAgenda({ navigation, route }) {
                 <Input value={text} onChangeText={(value) => setText(value)} />
               </>
             )}
-            <Button text="Salvar" />
+            <Button text="Salvar" onPress={newMeeting} />
           </>
         </ScrollView>
       </Container>

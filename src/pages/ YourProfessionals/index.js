@@ -5,9 +5,9 @@ import NewTopicButton from "../../components/NewTopicButton";
 import Header from "../../components/Header";
 import { useUserContext } from "../../context/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AgendaDetails from "../../components/AgendaDetails";
+import ProfessionalDetails from "../../components/ProfessionalDetails";
 
-export default function Agenda({ navigation }) {
+export default function YourProfessionals({ navigation }) {
   const { selectedUser } = useUserContext();
   const [annotations, setAnnotations] = useState([]);
 
@@ -29,13 +29,16 @@ export default function Agenda({ navigation }) {
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
       <Container>
         <StatusBar backgroundColor="#fff" />
-        <Header title="Agenda" onBackButtonPress={() => navigation.goBack()} />
+        <Header
+          title="Seus Profissionais"
+          onBackButtonPress={() => navigation.goBack()}
+        />
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ width: "100%" }}
         >
           <>
-            <AgendaDetails onDelete={null} />
+            <ProfessionalDetails profession={"Piscícola"} name="Emanuelle" />
           </>
         </ScrollView>
       </Container>

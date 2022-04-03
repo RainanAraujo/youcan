@@ -27,7 +27,6 @@ export const Container = styled.TouchableOpacity`
 export const MenuContainer = styled(Animated.View)`
   position: relative;
   z-index: 2;
-  height: ${deviceHeight * 0.6}px;
   background-color: #fff;
   width: ${deviceWidth * 1}px;
   elevation: 15;

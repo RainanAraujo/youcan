@@ -42,6 +42,7 @@ export default function MedicationManage({ navigation }) {
 
             {medications.map((medication) => (
               <MedicationButton
+                key={medication.id}
                 onDelete={() => console.log("delete")}
                 name={medication.title}
                 hours={"16H|17H|20H"}

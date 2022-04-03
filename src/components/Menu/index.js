@@ -17,20 +17,24 @@ export default function Menu({ children, open, onClose }) {
 
   const expandMenuAnim = useRef(new Animated.Value(0)).current;
   const [lastColor, setLastColor] = useState();
+  const [heightMenuContainer, setHeightMenuContainer] = useState(0);
 
+  const onLayout = (event) => {
+    setHeightMenuContainer(event.nativeEvent.layout.height);
+  };
   useEffect(() => {
     if (open) {
       expandMenuIn();
     } else {
       expandMenuOut();
     }
-  }, [open]);
+  }, [open, heightMenuContainer]);
 
   const expandMenuIn = () => {
     StatusBar.setBackgroundColor("#00000030");
     setVisible(true);
     Animated.timing(expandMenuAnim, {
-      toValue: -Dimensions.get("window").height * 0.6,
+      toValue: -heightMenuContainer,
       duration: 200,
       useNativeDriver: true,
     }).start();
@@ -57,6 +61,7 @@ export default function Menu({ children, open, onClose }) {
         style={{ position: "relative", zIndex: 3, flex: 1 }}
       >
         <MenuContainer
+          onLayout={onLayout}
           style={{
             transform: [
               {

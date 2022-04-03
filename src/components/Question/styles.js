@@ -54,7 +54,8 @@ export const TextOption = styled.Text`
   text-align: center;
   color: #7a7d87;
   font-family: "LatoBold";
-  font-size: 16px; ;
+  font-size: 16px;
+  margin-left: 12px;
 `;
 
 export const TagsContainer = styled.View``;

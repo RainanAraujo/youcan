@@ -112,7 +112,7 @@ export default function HomePatient({ navigation }) {
                   />
                   <TextOption>Receita médica</TextOption>
                 </ButtonOption>
-                <ButtonOption>
+                <ButtonOption onPress={() => navigation.navigate("agenda")}>
                   <MaterialCommunityIcons
                     name="history"
                     size={22}
@@ -120,7 +120,10 @@ export default function HomePatient({ navigation }) {
                   />
                   <TextOption>Agenda</TextOption>
                 </ButtonOption>
-                <ButtonOption>
+
+                <ButtonOption
+                  onPress={() => navigation.navigate("yourProfessionals")}
+                >
                   <Feather name="user" size={22} color="#53555f" />
                   <TextOption>Seus profissionais</TextOption>
                 </ButtonOption>

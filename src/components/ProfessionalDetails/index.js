@@ -20,7 +20,7 @@ import { Linking } from "react-native";
 import { getUserData } from "../../services/firestore";
 import { FontAwesome5 } from "@expo/vector-icons";
 
-export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
+export default function ProfessionalDetails({ patientID, name, profession }) {
   const [patientData, setPatientData] = useState(null);
   useEffect(() => {
     if (patientID) {
@@ -30,11 +30,6 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
 
   return (
     <Container>
-      {onDelete && (
-        <TrashButton onPress={onDelete}>
-          <FontAwesome5 name="trash" size={16} color="#FE6161" />
-        </TrashButton>
-      )}
       <TopInformation>
         <Avatar
           source={{
@@ -42,29 +37,10 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
           }}
         />
         <Data>
-          <DateHour>
-            <Day>{"Terça-Feira"}</Day>
-            <Hour>17h</Hour>
-          </DateHour>
-          <Place>Local: CAPS Codó</Place>
-          <UserInformation>
-            {"Emanuelly Ribeiro"} | {"Psicóloga"}
-          </UserInformation>
+          <Day>{name}</Day>
+          <UserInformation>{profession}</UserInformation>
         </Data>
-        <Date>
-          <DateText>16/06</DateText>
-        </Date>
       </TopInformation>
-      {/* caso seja reunião online */}
-      <BottomInformation>
-        <ButtonRoom
-          onPress={() => {
-            Linking.openURL(link);
-          }}
-        >
-          <Room>{"Link Meet"}</Room>
-        </ButtonRoom>
-      </BottomInformation>
     </Container>
   );
 }

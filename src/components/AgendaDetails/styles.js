@@ -100,8 +100,11 @@ export const DateText = styled.Text`
 `;
 
 export const TrashButton = styled.TouchableOpacity`
+  position: absolute;
   width: 100%;
   align-items: flex-end;
+  right: 12px;
+  top: 12px;
   margin-bottom: 6px;
 `;
 

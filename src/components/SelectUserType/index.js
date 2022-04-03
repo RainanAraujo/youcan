@@ -12,6 +12,7 @@ import LionDialogue from "./../LionDialogue";
 import HappyLion from "../../../assets/images/happyLion.png";
 import Person from "../../../assets/images/person.png";
 import Professional from "../../../assets/images/professional.png";
+import { currentUser } from "../../services/auth";
 export default function SelectUserType({
   OnPressPatient,
   OnPressProfessional,
@@ -19,7 +20,10 @@ export default function SelectUserType({
   return (
     <Container>
       <StatusBar backgroundColor="#fff" />
-      <LionDialogue Lion={HappyLion} TextDialogue="Olá, fulano" />
+      <LionDialogue
+        Lion={HappyLion}
+        TextDialogue={"Olá, " + currentUser().displayName}
+      />
       <DescriptionPage>
         Para iniciarmos preciso saber em que situação você se encontra no
         momento.

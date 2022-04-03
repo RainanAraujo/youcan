@@ -11,6 +11,11 @@ export const Container = styled.TouchableOpacity`
   margin-top: 8px;
   margin-bottom: 14px;
   justify-content: center;
+  ${(props) =>
+    props.icon &&
+    css`
+      padding-left: 30px;
+    `}
 `;
 
 export const TextButton = styled.Text`

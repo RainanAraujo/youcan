@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Container, Label } from "./styles";
-import { SafeAreaView, ScrollView, StatusBar, Platform } from "react-native";
+import { Container, Label, DropDownContainer, DropDown } from "./styles";
+import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Header from "../../components/Header";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
@@ -18,7 +18,7 @@ export default function NewAgenda({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
-
+  const [typeAgenda, setTypeAgenda] = useState(null);
   const [showTime, setShowTime] = useState(false);
 
   const [text, setText] = useState("");
@@ -76,7 +76,13 @@ export default function NewAgenda({ navigation, route }) {
             )}
             <Label>Data</Label>
             <ButtonPicker
-              text={date.getDate() + ""}
+              text={
+                date.getDate() +
+                "-" +
+                date.getMonth() +
+                "-" +
+                date.getFullYear()
+              }
               onPress={() => setShowDate(true)}
               Icon={() => (
                 <MaterialIcons name="date-range" size={24} color="#373D53" />
@@ -84,15 +90,41 @@ export default function NewAgenda({ navigation, route }) {
             />
             <Label>Horas</Label>
             <ButtonPicker
-              text={time.getHours() + ""}
+              text={time.getHours() + "h"}
               onPress={() => setShowTime(true)}
               Icon={() => (
                 <AntDesign name="clockcircleo" size={24} color="#373D53" />
               )}
             />
-
-            <Label>Link da reunião</Label>
-            <Input value={text} onChangeText={(value) => setText(value)} />
+            <Label>Tipo de reunião</Label>
+            <DropDownContainer>
+              <DropDown
+                mode="dropdown"
+                selectedValue={typeAgenda}
+                onValueChange={(itemValue, itemIndex) =>
+                  setTypeAgenda(itemValue)
+                }
+              >
+                <DropDown.Item
+                  label="Selecionar"
+                  value=""
+                  selectedValue
+                  enabled={false}
+                />
+                <DropDown.Item label="Online" value="online" />
+                <DropDown.Item label="Presencial" value="place" />
+              </DropDown>
+            </DropDownContainer>
+            {typeAgenda && (
+              <>
+                {typeAgenda == "online" ? (
+                  <Label>Link da reunião meet</Label>
+                ) : (
+                  <Label>Local da reunião</Label>
+                )}
+                <Input value={text} onChangeText={(value) => setText(value)} />
+              </>
+            )}
             <Button text="Salvar" />
           </>
         </ScrollView>

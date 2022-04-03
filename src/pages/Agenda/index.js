@@ -7,7 +7,8 @@ import { useUserContext } from "../../context/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AgendaDetails from "../../components/AgendaDetails";
 
-export default function Agenda({ navigation }) {
+export default function Agenda({ navigation, route }) {
+  const { isEditor } = route.params || {};
   const { selectedUser } = useUserContext();
   const [annotations, setAnnotations] = useState([]);
 
@@ -35,7 +36,13 @@ export default function Agenda({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <AgendaDetails onDelete={null} />
+            {isEditor == true && (
+              <NewTopicButton
+                text="Nova medicação"
+                onPress={() => navigation.navigate("newAgenda")}
+              />
+            )}
+            <AgendaDetails onDelete={() => {}} />
           </>
         </ScrollView>
       </Container>

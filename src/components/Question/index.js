@@ -16,7 +16,7 @@ import TagAdd from "../TagAdd";
 export default function Question({ questionData, onChange }) {
   const { id, name, description, dataType, options } = questionData || {};
   const [text, setText] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([null, null, null]);
   const [audio, setAudio] = useState("");
   const [selectedOptions, setSelectedOptions] = useState([]);
 

@@ -7,7 +7,7 @@ import Button from "../../components/Button";
 export default function FormProfessional({ onValidate, loading }) {
   const [name, setName] = useState("");
   const [CAPS, setCAPS] = useState("");
-  const [schooling, setSchooling] = useState("");
+  const [schooling, setSchooling] = useState(null);
   const [CRP, setCRP] = useState("");
 
   const validForm = () => {
@@ -35,20 +35,28 @@ export default function FormProfessional({ onValidate, loading }) {
         >
           <DropDown.Item
             label="Selecionar"
-            value=""
+            value={null}
             selectedValue
             enabled={false}
           />
-          <DropDown.Item label="Psiquiatra" value="psychiatrist" />
-          <DropDown.Item label="Psicologo" value="psychologist" />
+          <DropDown.Item label="Psiquiatra" value="Psiquiatra" />
+          <DropDown.Item label="Psicologo" value="Psicologo" />
           <DropDown.Item
             label="Terapeuta Ocupacional"
-            value="occupationalTherapist"
+            value="Terapeuta Ocupacional"
           />
+          <DropDown.Item label="Enfermeiro(a)" value="Enfermeiro(a)" />
+          <DropDown.Item label="Assistente Social" value="Assistente Social" />
         </DropDown>
       </DropDownContainer>
-      <Label>CRP</Label>
-      <Input value={CRP} onChangeText={(text) => setCRP(text)} />
+
+      {schooling && (
+        <>
+          <Label>Código de identificação (Ex: CRP)</Label>
+          <Input value={CRP} onChangeText={(text) => setCRP(text)} />
+        </>
+      )}
+
       <Button loading={loading} text="Finalizar" onPress={validForm}></Button>
     </Container>
   );

@@ -52,12 +52,6 @@ export default function HistoricPanel({ navigation, route }) {
           style={{ width: "100%" }}
         >
           <>
-            <Input
-              Icon={() => (
-                <MaterialIcons name="date-range" size={24} color="#373D53" />
-              )}
-              Placeholder="Filtrar por data"
-            />
             <Period>Este mês</Period>
             {answers.map((answer) => (
               <ButtonHistoric

@@ -38,7 +38,7 @@ export default function Annotation({ navigation }) {
           style={{ width: "100%" }}
         >
           <>
-            <Name>Jasmim Pereira</Name>
+            <Name>{selectedUser.name}</Name>
             <NewTopicButton
               text="Nova Anotação"
               onPress={() =>

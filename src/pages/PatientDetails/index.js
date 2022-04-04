@@ -101,7 +101,12 @@ export default function PatientDetails({ navigation }) {
             />
             <Topic>Interações</Topic>
             <InteractionButton
-              onPress={() => navigation.navigate("agenda", { isEditor: true })}
+              onPress={() =>
+                navigation.navigate("agenda", {
+                  userID: selectedUser.uid,
+                  isEditor: true,
+                })
+              }
               description="Exibir/Adicionar agendas do paciente."
               title="Agenda"
               Icon={() => (

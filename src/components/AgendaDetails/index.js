@@ -19,18 +19,25 @@ import {
 import { Linking } from "react-native";
 import { getUserData } from "../../services/firestore";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { currentUser } from "../../services/auth";
+import { timestampToDayMonth, timestampToDayName } from "../../utils/date";
 
-export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
-  const [patientData, setPatientData] = useState(null);
+export default function MeetDetails({ meetData, onPress, onDelete }) {
+  const [participantData, setParticipantData] = useState({});
+  const { uid } = currentUser();
+
   useEffect(() => {
-    if (patientID) {
-      getUserData(patientID).then((data) => setPatientData(data));
+    const participantID = meetData.participants.filter(
+      (userID) => userID != uid
+    )[0];
+    if (participantID) {
+      getUserData(participantID).then((data) => setParticipantData(data));
     }
-  }, [patientID]);
+  }, []);
 
   return (
     <Container>
-      {onDelete && (
+      {meetData.participants.includes(uid) && onDelete && (
         <TrashButton onPress={onDelete}>
           <FontAwesome5 name="trash" size={16} color="#FE6161" />
         </TrashButton>
@@ -38,33 +45,41 @@ export default function AgendaDetails({ patientID, onPress, link, onDelete }) {
       <TopInformation>
         <Avatar
           source={{
-            uri: "https://conteudo.imguol.com.br/c/noticias/f1/2019/11/02/a-nasa-elegeu-como-foto-astronomica-do-dia-em-22-de-outubro-esta-imagem-da-via-lactea-capturada-por-jheison-huerta-no-salar-de-uyuni-na-bolivia-1572723035380_v2_450x337.jpg",
+            uri: participantData.photoURL,
           }}
         />
         <Data>
           <DateHour>
-            <Day>{"Terça-Feira"}</Day>
-            <Hour>17h</Hour>
+            <Day>{timestampToDayName(meetData.startIn)}</Day>
+            <Hour>
+              {(() => {
+                const date = meetData.startIn.toDate();
+                const hour = date.getHours();
+                const min = date.getMinutes().toString().padStart(2, 0);
+                return `${hour}:${min}h`;
+              })()}
+            </Hour>
           </DateHour>
-          <Place>Local: CAPS Codó</Place>
+          {meetData.meetType == "place" && <Place>Local: CAPS Codó</Place>}
           <UserInformation>
-            {"Emanuelly Ribeiro"} | {"Psicóloga"}
+            {participantData.name} | {"Psicóloga"}
           </UserInformation>
         </Data>
         <Date>
-          <DateText>16/06</DateText>
+          <DateText>{timestampToDayMonth(meetData.startIn)}</DateText>
         </Date>
       </TopInformation>
-      {/* caso seja reunião online */}
-      <BottomInformation>
-        <ButtonRoom
-          onPress={() => {
-            Linking.openURL(link);
-          }}
-        >
-          <Room>{"Link Meet"}</Room>
-        </ButtonRoom>
-      </BottomInformation>
+      {meetData.meetType == "online" && (
+        <BottomInformation>
+          <ButtonRoom
+            onPress={() => {
+              Linking.openURL(meetData.data);
+            }}
+          >
+            <Room>{"Link Meets"}</Room>
+          </ButtonRoom>
+        </BottomInformation>
+      )}
     </Container>
   );
 }

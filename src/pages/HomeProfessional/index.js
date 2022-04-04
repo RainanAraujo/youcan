@@ -22,7 +22,7 @@ import {
 import Menu from "../../components/Menu";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { currentUser } from "../../services/auth";
+import { currentUser, signOut } from "../../services/auth";
 import { getUserData, getPatientList } from "../../services/firestore";
 import { Ionicons } from "@expo/vector-icons";
 import ButtonPatient from "../../components/ButtonPatient";
@@ -56,6 +56,11 @@ export default function HomeProfessional({ navigation }) {
     await loadPatientList();
     setRefreshing(false);
   }, []);
+
+  const logoff = async () => {
+    await signOut();
+    navigation.replace("welcomeApp");
+  };
 
   useEffect(() => {
     getUserData(uid).then((data) => setUserData(data));
@@ -92,11 +97,13 @@ export default function HomeProfessional({ navigation }) {
             <Ionicons name="qr-code" size={22} color="#53555f" />
             <TextOption>Código de vinculação</TextOption>
           </ButtonOption>
-          <ButtonOption onPress={() => navigation.navigate("agenda")}>
+          <ButtonOption
+            onPress={() => navigation.navigate("agenda", { userID: uid })}
+          >
             <Ionicons name="ios-list-outline" size={22} color="#53555f" />
             <TextOption>Sua Agenda</TextOption>
           </ButtonOption>
-          <ButtonOption>
+          <ButtonOption onPress={logoff}>
             <MaterialCommunityIcons
               name="exit-to-app"
               size={22}

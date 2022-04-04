@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Text } from "./styles";
 import { ActivityIndicator } from "react-native";
 
@@ -15,7 +15,7 @@ export default function Button({
   return (
     <Container
       gray={gray}
-      onPress={onPress}
+      onPress={loading || disable ? null : onPress}
       isButtonText={buttonText}
       buttonSmall={buttonSmall}
       disable={loading || disable}

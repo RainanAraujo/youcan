@@ -22,10 +22,12 @@ export default function NewAgenda({ navigation, route }) {
   const [showDate, setShowDate] = useState(false);
   const [meetType, setMeetType] = useState(null);
   const [showTime, setShowTime] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [text, setText] = useState("");
 
   const newMeeting = async () => {
+    setLoading(true);
     date.setHours(time.getHours());
     date.setMinutes(time.getMinutes());
     await addMeet(uid, patientID, {
@@ -137,7 +139,7 @@ export default function NewAgenda({ navigation, route }) {
                 <Input value={text} onChangeText={(value) => setText(value)} />
               </>
             )}
-            <Button text="Salvar" onPress={newMeeting} />
+            <Button loading={loading} text="Salvar" onPress={newMeeting} />
           </>
         </ScrollView>
       </Container>

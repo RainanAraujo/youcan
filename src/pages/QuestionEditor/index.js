@@ -41,7 +41,6 @@ export default function QuestionEditor({ navigation, route }) {
       dataType,
       options,
     };
-    console.log(question);
     if (route.params?.question) {
       await editQuestion(_question.id, question);
     } else {

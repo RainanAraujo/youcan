@@ -8,6 +8,8 @@ const questions = firestore.collection("questions");
 const answers = firestore.collection("answers");
 const meet = firestore.collection("meet");
 
+const usersCache = {};
+
 export const isRegistered = (userID) => {
   return new Promise(async (resolve, reject) => {
     const user = await users.doc(userID).get();
@@ -21,15 +23,20 @@ export const isRegistered = (userID) => {
 
 export const getUserData = (userID) => {
   return new Promise(async (resolve, reject) => {
+    if (userID in usersCache) {
+      resolve(usersCache[userID]);
+    }
     users
       .doc(userID)
       .get()
       .then((user) => {
         if (user.exists) {
-          resolve({
+          const userData = {
             uid: user.id,
             ...user.data(),
-          });
+          };
+          usersCache[userID] = userData;
+          resolve(userData);
         } else {
           reject("user not found");
         }
@@ -290,4 +297,8 @@ export const addMeet = (professionalID, patientID, meetingData) => {
       .then(() => resolve())
       .catch((err) => reject(err));
   });
+};
+
+export const deleteMeet = async (meetID) => {
+  return meet.doc(meetID).delete();
 };

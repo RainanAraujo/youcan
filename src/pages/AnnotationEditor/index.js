@@ -22,11 +22,13 @@ export default function AnnotationEditor({ navigation, route }) {
 
   const [title, setTitle] = useState(annotation?.title || "");
   const [text, setText] = useState(annotation?.text || "");
+  const [loading, setLoading] = useState(false);
 
   const saveAnnotation = async () => {
     const annotationID =
       annotation?.id || Math.random().toString(36).substring(2);
     if ([title, text].some((val) => val != null)) {
+      setLoading(true);
       const dataString = await AsyncStorage.getItem(userConnectionID);
       if (dataString != null) {
         let data = JSON.parse(dataString);
@@ -40,7 +42,6 @@ export default function AnnotationEditor({ navigation, route }) {
           text,
         });
         await AsyncStorage.setItem(userConnectionID, JSON.stringify(data));
-
         navigation.goBack();
       } else {
         await AsyncStorage.setItem(
@@ -83,7 +84,7 @@ export default function AnnotationEditor({ navigation, route }) {
               onChangeText={(value) => setText(value)}
             ></Input>
 
-            <Button text="Salvar" onPress={saveAnnotation} />
+            <Button loading={loading} text="Salvar" onPress={saveAnnotation} />
           </>
         </ScrollView>
       </Container>

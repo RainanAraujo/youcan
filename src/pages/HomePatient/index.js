@@ -112,7 +112,9 @@ export default function HomePatient({ navigation }) {
                   />
                   <TextOption>Receita médica</TextOption>
                 </ButtonOption>
-                <ButtonOption onPress={() => navigation.navigate("agenda")}>
+                <ButtonOption
+                  onPress={() => navigation.navigate("agenda", { userID: uid })}
+                >
                   <MaterialCommunityIcons
                     name="history"
                     size={22}

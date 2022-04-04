@@ -5,21 +5,32 @@ import NewTopicButton from "../../components/NewTopicButton";
 import Header from "../../components/Header";
 import { useUserContext } from "../../context/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import AgendaDetails from "../../components/AgendaDetails";
-import { getMeets } from "../../services/firestore";
+import MeetDetails from "../../components/AgendaDetails";
+import { deleteMeet, getMeets } from "../../services/firestore";
 
 export default function Agenda({ navigation, route }) {
-  const { isEditor } = route.params || {};
+  const { isEditor, userID } = route.params || {};
   const { selectedUser } = useUserContext();
   const [meets, setMeets] = useState([]);
 
   const loadMeets = async () => {
-    const meets = await getMeets(selectedUser.uid);
+    const meets = await getMeets(userID);
     setMeets(meets);
   };
 
+  const removeMeet = async (meetID) => {
+    console.log("teste");
+    await deleteMeet(meetID);
+    setMeets((list) => list.filter((meet) => meet.id != meetID));
+    console.log(meets);
+  };
+
   useEffect(() => {
-    loadMeets();
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadMeets();
+    });
+
+    return unsubscribe;
   }, [navigation]);
 
   return (
@@ -42,7 +53,12 @@ export default function Agenda({ navigation, route }) {
                 }
               />
             )}
-            <AgendaDetails onDelete={() => {}} />
+            {meets.map((meet) => (
+              <MeetDetails
+                meetData={meet}
+                onDelete={() => removeMeet(meet.id)}
+              />
+            ))}
           </>
         </ScrollView>
       </Container>

@@ -23,7 +23,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 import InteractionButton from "../../components/InteractionButton";
 import { useUserContext } from "../../context/userContext";
-import { getQuestionList } from "../../services/firestore";
+import {
+  getAlerts,
+  getAnswers,
+  getQuestionList,
+} from "../../services/firestore";
 import { timeDiffFormatter } from "../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -45,6 +49,21 @@ export default function PatientDetails({ navigation }) {
       )
       .catch((err) => console.log(err));
   });
+
+  const lastUpdate = async () => {
+    let date = selectedUser.lastUpdate.toDate();
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const answersList = await getAnswers(
+      selectedUser.questions.map((item) => item.id)
+    );
+    const alertsList = await getAlerts(selectedUser.uid);
+    navigation.navigate("historic", {
+      eventGroup: {
+        answers: answersList.length > 0 ? answersList : null,
+        alerts: alertsList.length > 0 ? answersList : null,
+      },
+    });
+  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -83,6 +102,7 @@ export default function PatientDetails({ navigation }) {
             </ProfileDescriptions>
             <Topic>Avisos</Topic>
             <ButtonNotification
+              onPress={lastUpdate}
               title="Último relato diário"
               Icon={() => (
                 <MaterialCommunityIcons
@@ -128,7 +148,16 @@ export default function PatientDetails({ navigation }) {
                 <MaterialIcons name="history" size={40} color="#373D53" />
               )}
               type="gray"
-              onPress={() => navigation.navigate("historicPanel")}
+              onPress={() =>
+                navigation.navigate("historicPatient", {
+                  userConnections: [
+                    {
+                      id: selectedUser.userConnectionID,
+                      patient: selectedUser.uid,
+                    },
+                  ],
+                })
+              }
             />
             <InteractionButton
               description="Editar/Adicionar perguntas no questionário diário"

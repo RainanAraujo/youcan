@@ -97,7 +97,9 @@ export default function HomePatient({ navigation }) {
                   <TextOption>Vincular Profissional</TextOption>
                 </ButtonOption>
                 <ButtonOption
-                  onPress={() => navigation.navigate("historicPatient")}
+                  onPress={() =>
+                    navigation.navigate("historicPatient", { userConnections })
+                  }
                 >
                   <Ionicons name="ios-list-outline" size={22} color="#53555f" />
                   <TextOption>Relatório pessoal</TextOption>

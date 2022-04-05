@@ -4,38 +4,51 @@ import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import Input from "../../components/Input";
 import Header from "../../components/Header";
 import ButtonHistoric from "../../components/ButtonHistoric";
-import { getAnswers, getQuestionList } from "../../services/firestore";
-import { MaterialIcons } from "@expo/vector-icons";
+import {
+  getAlerts,
+  getAnswers,
+  getQuestionList,
+} from "../../services/firestore";
 import { formatDate } from "../../utils/date";
 
 export default function HistoricPanel({ navigation, route }) {
-  const { userConnections } = route.params;
-  const [answers, setAnswers] = useState([]);
+  const { userConnections } = route.params || {};
+  const [eventsGroups, setEventsGroups] = useState([]);
 
   const loadAnswers = async (userConnectionsIDList) => {
+    const targetUser = userConnections[0].patient;
     const questions = await getQuestionList(userConnectionsIDList);
-    getAnswers(questions.map((item) => item.id))
-      .then((list) => {
-        console.log(list);
-        const dates = [
-          ...new Set(list.map((item) => formatDate(item.createdAt))),
-        ];
-        const answersGroups = [];
-        for (let date of dates) {
-          answersGroups.push(
-            list.filter((item) => formatDate(item.createdAt) === date)
-          );
-        }
-        console.log(answersGroups);
-        setAnswers(answersGroups);
-      })
-      .catch((err) => console.log(err));
+    const answersList = await getAnswers(questions.map((item) => item.id));
+    const alertsList = await getAlerts(targetUser);
+    const dates = [
+      ...new Set(
+        [...answersList, ...alertsList].map((item) =>
+          formatDate(item.createdAt)
+        )
+      ),
+    ];
+    const eventGroupsList = [];
+
+    for (let date of dates) {
+      const answersFromDate = answersList.filter(
+        (item) => formatDate(item.createdAt) === date
+      );
+      const alertsFromDate = alertsList.filter(
+        (item) => formatDate(item.createdAt) === date
+      );
+      eventGroupsList.push({
+        answers: answersFromDate.length > 0 ? answersFromDate : null,
+        alerts: alertsFromDate.length > 0 ? alertsFromDate : null,
+      });
+    }
+    setEventsGroups(eventGroupsList);
   };
 
   useEffect(() => {
     const userConnectionsIDList = userConnections.map(
       (userConnection) => userConnection.id
     );
+    console.log(userConnections);
     loadAnswers(userConnectionsIDList);
   }, []);
 
@@ -53,13 +66,27 @@ export default function HistoricPanel({ navigation, route }) {
         >
           <>
             <Period>Este mês</Period>
-            {answers.map((answer) => (
-              <ButtonHistoric
-                date={answer[0].createdAt}
-                onPress={() => navigation.navigate("historic", { answer })}
-                tags={answer.filter((item) => item.dataType == "tags")[0]?.data}
-              />
-            ))}
+            {eventsGroups.map((eventGroup, index) => {
+              const tags = [
+                ...(eventGroup.answers?.filter(
+                  (item) => item.dataType == "tags"
+                ) || []),
+                ...(eventGroup.alerts?.map((item) => {
+                  data: item.tags;
+                }) || []),
+              ];
+
+              return (
+                <ButtonHistoric
+                  key={index}
+                  date={(eventGroup.answers || eventGroup.alerts)[0]?.createdAt}
+                  onPress={() =>
+                    navigation.navigate("historic", { eventGroup })
+                  }
+                  tags={tags[0]?.data}
+                />
+              );
+            })}
           </>
         </ScrollView>
       </Container>

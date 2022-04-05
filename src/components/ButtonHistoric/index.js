@@ -14,8 +14,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { timestampToDayMonth, timestampToDayName } from "../../utils/date";
 
 export default function ButtonHistoric({ onPress, date, tags }) {
-  console.log(tags);
-
   return (
     <Container onPress={onPress}>
       <LeftContent>

@@ -83,7 +83,7 @@ export default function Question({ questionData, onChange }) {
           onChange={(value) =>
             setTags((list) => {
               list[0] = value;
-              return list;
+              return list.slice();
             })
           }
         />
@@ -91,7 +91,7 @@ export default function Question({ questionData, onChange }) {
           onChange={(value) =>
             setTags((list) => {
               list[1] = value;
-              return list;
+              return list.slice();
             })
           }
         />
@@ -99,7 +99,7 @@ export default function Question({ questionData, onChange }) {
           onChange={(value) =>
             setTags((list) => {
               list[2] = value;
-              return list;
+              return list.slice();
             })
           }
         />

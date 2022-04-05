@@ -7,7 +7,7 @@ import ButtonAudioPlay from "../../components/ButtonAudioPlay";
 import { timestampToDayMonth } from "../../utils/date";
 
 export default function Historic({ navigation, route }) {
-  const answerList = route.params?.answer || [];
+  const { alerts, answers } = route.params?.eventGroup || {};
 
   return (
     <SafeAreaView style={{ backgroundColor: "#fff" }}>
@@ -22,16 +22,22 @@ export default function Historic({ navigation, route }) {
           style={{ width: "100%" }}
         >
           <>
-            <Period>{timestampToDayMonth(answerList[0].createdAt)}</Period>
-            <Title>Acontecimento extraordinário</Title>
-            <ButtonAudioPlay currentTime={30} timeTotal={60} />
-            <PreviewAnswer
-              text={
-                "Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto Teste de texto "
-              }
-            />
-            <Title>Relato do dia</Title>
-            {answerList.map((answer) => {
+            <Period>
+              {timestampToDayMonth((alerts || answers)[0]?.createdAt)}
+            </Period>
+            {alerts != null && <Title>Acontecimento extraordinário</Title>}
+            {alerts?.map((alert) => (
+              <>
+                {alert.textOrAudio.audio != "" && (
+                  <ButtonAudioPlay uri={alert.textOrAudio.audio} />
+                )}
+                {alert.textOrAudio.text != "" && (
+                  <PreviewAnswer text={alert.textOrAudio.text} />
+                )}
+              </>
+            ))}
+            {answers != null && <Title>Relato do dia</Title>}
+            {answers?.map((answer) => {
               if (answer.dataType === "text") {
                 if (answer.data === null) return;
                 return (

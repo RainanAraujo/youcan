@@ -1,12 +1,14 @@
 import { firestore } from "../config/firebase";
 import { formatDate } from "../utils/date";
 import firebase from "firebase";
+import { add } from "react-native-reanimated";
 
 const users = firestore.collection("users");
 const userConnection = firestore.collection("userConnection");
 const questions = firestore.collection("questions");
 const answers = firestore.collection("answers");
 const meet = firestore.collection("meet");
+const alerts = firestore.collection("alerts");
 
 const usersCache = {};
 
@@ -129,7 +131,7 @@ export const getPatientList = (userID) => {
       .then((docList) => {
         const patientList = docList.docs.map((doc) => ({
           id: doc.id,
-          patient: doc.data().patient,
+          ...doc.data(),
         }));
         resolve(patientList);
       })
@@ -145,7 +147,7 @@ export const getProfessionalList = (userID) => {
       .then((docList) => {
         const professionalList = docList.docs.map((doc) => ({
           id: doc.id,
-          professional: doc.data().professional,
+          ...doc.data(),
         }));
         resolve(professionalList);
       })
@@ -255,10 +257,11 @@ export const createAnswer = (
   });
 };
 
-export const getAnswers = (questionIDList) => {
+export const getAnswers = (questionIDList, fromDate = new Date(0)) => {
   return new Promise(async (resolve, reject) => {
     answers
       .where("questionID", "in", questionIDList)
+      .where("createdAt", ">", fromDate)
       .get()
       .then((docList) => {
         const answersList = docList.docs.map((doc) => ({
@@ -301,4 +304,40 @@ export const addMeet = (professionalID, patientID, meetingData) => {
 
 export const deleteMeet = async (meetID) => {
   return meet.doc(meetID).delete();
+};
+
+export const createAlert = async (userID, { tags, textOrAudio }) => {
+  return new Promise(async (resolve, reject) => {
+    await users.doc(userID).update({
+      lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    alerts
+      .add({
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        author: userID,
+        tags,
+        textOrAudio,
+        dataType: "alert",
+      })
+      .then(() => resolve())
+      .catch((err) => reject(err));
+  });
+};
+
+export const getAlerts = (userID, fromDate = new Date(0)) => {
+  console.log(fromDate);
+  return new Promise(async (resolve, reject) => {
+    alerts
+      .where("author", "==", userID)
+      .where("createdAt", ">", fromDate)
+      .get()
+      .then((docList) => {
+        const alertsList = docList.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        resolve(alertsList);
+      })
+      .catch((err) => reject(err));
+  });
 };

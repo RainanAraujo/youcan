@@ -35,7 +35,6 @@ export default function Question({ questionData, onChange }) {
     setTags([]);
     setAudio("");
     setSelectedOptions(options.map(() => false));
-    console.log(id);
   }, [id]);
 
   const inputTypes = {

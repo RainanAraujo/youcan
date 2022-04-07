@@ -49,20 +49,19 @@ export const getUserData = (userID) => {
 
 export const registerPatient = (
   userID,
-  { name, phoneNumber, age, schooling, photoURL }
+  { name, phoneNumber, birthDate, schooling, photoURL }
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
       await users.doc(userID).set({
         name,
         phoneNumber,
-        age,
+        birthDate,
         schooling,
         photoURL,
         lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
         type: "patient",
       });
-      resolve();
     } catch (error) {
       reject(error);
     }
@@ -309,7 +308,7 @@ export const deleteMeet = async (meetID) => {
 export const createAlert = async (userID, { tags, textOrAudio }) => {
   return new Promise(async (resolve, reject) => {
     await users.doc(userID).update({
-      lastUpdate: firebase.firestore.FieldValue.serverTimestamp(),
+      lastAlertTime: firebase.firestore.FieldValue.serverTimestamp(),
     });
     alerts
       .add({
@@ -325,7 +324,6 @@ export const createAlert = async (userID, { tags, textOrAudio }) => {
 };
 
 export const getAlerts = (userID, fromDate = new Date(0)) => {
-  console.log(fromDate);
   return new Promise(async (resolve, reject) => {
     alerts
       .where("author", "==", userID)

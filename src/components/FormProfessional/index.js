@@ -11,7 +11,6 @@ export default function FormProfessional({ onValidate, loading }) {
   const [CRP, setCRP] = useState("");
 
   const validForm = () => {
-    console.log({ name, CAPS, schooling, CRP });
     if ([name, CAPS, schooling, CRP].some((str) => str === "")) {
       Alert.alert("Erro", "Formulário invalido");
     } else {

@@ -160,17 +160,6 @@ export default function HomePatient({ navigation }) {
               showsVerticalScrollIndicator={false}
             >
               <Title>Dashboard</Title>
-              <Topic>Avisos</Topic>
-              <ButtonNotification
-                title="Nova agenda de atendimento"
-                Icon={() => (
-                  <MaterialCommunityIcons
-                    name="account-clock-outline"
-                    size={20}
-                    color="#fff"
-                  />
-                )}
-              />
               <Topic>Sobre você</Topic>
               <CardButton
                 category="Alerta"

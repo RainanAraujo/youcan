@@ -10,15 +10,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 export default function FormPatient({ onValidate, loading }) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [age, setAge] = useState(new Date());
+  const [birthDate, setBirthDate] = useState(null);
   const [schooling, setSchooling] = useState("");
   const [showDate, setShowDate] = useState(false);
 
   const validForm = () => {
-    if ([name, phoneNumber, age, schooling].some((str) => str === "")) {
+    if ([name, phoneNumber, birthDate, schooling].some((str) => str === "")) {
       Alert.alert("Erro", "Formulário invalido");
     } else {
-      onValidate({ name, phoneNumber, age, schooling });
+      onValidate({ name, phoneNumber, birthDate, schooling });
     }
   };
 
@@ -27,16 +27,15 @@ export default function FormPatient({ onValidate, loading }) {
       {showDate && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={age}
+          value={birthDate || new Date()}
           mode={"date"}
           is24Hour={true}
           display="default"
-          minimumDate={new Date()}
+          maximumDate={new Date()}
           onChange={(evt, value) => {
             setShowDate(false);
             const selectedDate = value || date;
-
-            setAge(new Date(selectedDate));
+            setBirthDate(new Date(selectedDate));
           }}
           onTouchCancel={() => setShowDate(false)}
         />
@@ -53,7 +52,15 @@ export default function FormPatient({ onValidate, loading }) {
         <Label>Data de Nascimento</Label>
 
         <ButtonPicker
-          text={age.getDate() + "-" + age.getMonth() + "-" + age.getFullYear()}
+          text={
+            birthDate != null
+              ? birthDate.getDate() +
+                "/" +
+                (birthDate.getMonth() + 1) +
+                "/" +
+                birthDate.getFullYear()
+              : "Selecione"
+          }
           onPress={() => setShowDate(true)}
           Icon={() => (
             <MaterialIcons name="date-range" size={24} color="#373D53" />

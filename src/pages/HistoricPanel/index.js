@@ -25,7 +25,6 @@ export default function HistoricPatient({ navigation, route }) {
             list.filter((item) => formatDate(item.createdAt) === date)
           );
         }
-        console.log(answersGroups);
         setAnswers(answersGroups);
       })
       .catch((err) => console.log(err));

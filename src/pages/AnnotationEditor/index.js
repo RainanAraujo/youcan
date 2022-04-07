@@ -35,7 +35,6 @@ export default function AnnotationEditor({ navigation, route }) {
         data.annotations = data.annotations.filter(
           (item) => item.id !== annotationID
         );
-        console.log(data);
         data.annotations.push({
           id: annotationID,
           title,

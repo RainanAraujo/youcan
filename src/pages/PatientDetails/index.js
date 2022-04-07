@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Topic,
@@ -28,18 +28,49 @@ import {
   getAnswers,
   getQuestionList,
 } from "../../services/firestore";
-import { timeDiffFormatter } from "../../utils/date";
+import { timeDiffFormatter, getAge } from "../../utils/date";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PatientDetails({ navigation }) {
   const { selectedUser, setSelectedUser } = useUserContext();
+  const [newAlertPopup, setAlertPopup] = useState(false);
+  const [newUpdatePopup, setUpdatePopup] = useState(false);
+
+  const updateLastTime = async () => {
+    const lastUpdateTime = selectedUser.lastUpdate.toDate().getTime();
+    const lastAlertTime = selectedUser.lastAlertTime?.toDate().getTime() || 0;
+
+    const lastCheckedUpdateTime = await AsyncStorage.getItem(
+      `${selectedUser.uid}-update`
+    )
+      .then((value) => parseInt(value))
+      .catch(() => 0);
+
+    const lastCheckedAlertTime = await AsyncStorage.getItem(
+      `${selectedUser.uid}-alert`
+    )
+      .then((value) => parseInt(value))
+      .catch(() => 0);
+
+    if (lastUpdateTime != lastCheckedUpdateTime) {
+      setUpdatePopup(true);
+      AsyncStorage.setItem(
+        `${selectedUser.uid}-update`,
+        lastUpdateTime.toString()
+      );
+    }
+
+    if (lastAlertTime != lastCheckedAlertTime) {
+      setAlertPopup(true);
+      AsyncStorage.setItem(
+        `${selectedUser.uid}-alert`,
+        lastAlertTime.toString()
+      );
+    }
+  };
 
   useEffect(() => {
-    const lastUpdateTime = selectedUser.lastUpdate.toDate().getTime();
-    AsyncStorage.setItem(
-      `${selectedUser.uid}-update`,
-      lastUpdateTime.toString()
-    );
+    updateLastTime();
     getQuestionList([selectedUser.userConnectionID])
       .then((list) =>
         setSelectedUser((data) => {
@@ -54,13 +85,23 @@ export default function PatientDetails({ navigation }) {
     let date = selectedUser.lastUpdate.toDate();
     date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const answersList = await getAnswers(
-      selectedUser.questions.map((item) => item.id)
+      selectedUser.questions.map((item) => item.id),
+      date
     );
-    const alertsList = await getAlerts(selectedUser.uid);
     navigation.navigate("historic", {
       eventGroup: {
         answers: answersList.length > 0 ? answersList : null,
-        alerts: alertsList.length > 0 ? answersList : null,
+      },
+    });
+  };
+
+  const lastAlert = async () => {
+    let date = selectedUser.lastAlertTime?.toDate();
+    date = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const alertsList = await getAlerts(selectedUser.uid, date);
+    navigation.navigate("historic", {
+      eventGroup: {
+        alerts: alertsList.length > 0 ? alertsList : null,
       },
     });
   };
@@ -89,7 +130,9 @@ export default function PatientDetails({ navigation }) {
                 <Status>
                   <Item>
                     <Title>Idade</Title>
-                    <TextItem>{selectedUser.age}</TextItem>
+                    <TextItem>
+                      {getAge(selectedUser.birthDate.toDate())}
+                    </TextItem>
                   </Item>
                   <Item>
                     <Title>Última atualização</Title>
@@ -100,25 +143,30 @@ export default function PatientDetails({ navigation }) {
                 </Status>
               </RightContent>
             </ProfileDescriptions>
-            <Topic>Avisos</Topic>
-            <ButtonNotification
-              onPress={lastUpdate}
-              title="Último relato diário"
-              Icon={() => (
-                <MaterialCommunityIcons
-                  name="account-clock-outline"
-                  size={20}
-                  color="#fff"
-                />
-              )}
-            />
-            <ButtonNotification
-              title="Registrou um Alerta"
-              type="yellow"
-              Icon={() => (
-                <Ionicons name="alert-outline" size={14} color="#fff" />
-              )}
-            />
+            {(newAlertPopup || newUpdatePopup) && <Topic>Avisos</Topic>}
+            {newUpdatePopup && (
+              <ButtonNotification
+                onPress={lastUpdate}
+                title="Último relato diário"
+                Icon={() => (
+                  <MaterialCommunityIcons
+                    name="account-clock-outline"
+                    size={20}
+                    color="#fff"
+                  />
+                )}
+              />
+            )}
+            {newAlertPopup && (
+              <ButtonNotification
+                onPress={lastAlert}
+                title="Registrou um Alerta"
+                type="yellow"
+                Icon={() => (
+                  <Ionicons name="alert-outline" size={14} color="#fff" />
+                )}
+              />
+            )}
             <Topic>Interações</Topic>
             <InteractionButton
               onPress={() =>

@@ -16,7 +16,6 @@ export default function Menu({ children, open, height, onClose }) {
 
   const onLayout = (event) => {
     setHeightMenuContainer(event.nativeEvent.layout.height);
-    console.log(event.nativeEvent.layout.height);
   };
   useEffect(() => {
     if (open) {

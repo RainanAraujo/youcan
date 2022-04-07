@@ -19,10 +19,8 @@ export default function Agenda({ navigation, route }) {
   };
 
   const removeMeet = async (meetID) => {
-    console.log("teste");
     await deleteMeet(meetID);
     setMeets((list) => list.filter((meet) => meet.id != meetID));
-    console.log(meets);
   };
 
   useEffect(() => {

@@ -48,7 +48,6 @@ export default function HistoricPanel({ navigation, route }) {
     const userConnectionsIDList = userConnections.map(
       (userConnection) => userConnection.id
     );
-    console.log(userConnections);
     loadAnswers(userConnectionsIDList);
   }, []);
 

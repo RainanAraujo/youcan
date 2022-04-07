@@ -9,16 +9,14 @@ import {
   Diagnostic,
 } from "./styles";
 
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import { getUserData } from "../../services/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { parse } from "react-native-svg";
 
 export default function ButtonPatient({ patientID, status, onPress }) {
   const [patientData, setPatientData] = useState(null);
 
-  const [alertGreen, setAlertGreen] = useState(false);
+  const [alertBlue, setAlertBlue] = useState(false);
   const [alertRed, setAlertRed] = useState(false);
   const [alertYellow, setAlertYellow] = useState(false);
 
@@ -44,20 +42,20 @@ export default function ButtonPatient({ patientID, status, onPress }) {
         const daysWithoutUpdate = Math.floor(
           (Date.now() - lastUpdateTime) / (24 * 3600 * 1000)
         );
-        if (daysWithoutUpdate > 7) {
-          setAlertYellow(true);
-        }
 
-        if (lastAlertTime > lastCheckedAlertTime) {
-          await AsyncStorage.setItem(
-            `${patientID}-alert`,
-            lastAlertTime.toString()
-          );
+        const daysWithoutAlert = Math.floor(
+          (Date.now() - lastAlertTime) / (24 * 3600 * 1000)
+        );
+
+        if (Math.min(daysWithoutUpdate, daysWithoutAlert) > 7) {
           setAlertRed(true);
         }
-        console.log(lastCheckedUpdateTime, lastUpdateTime);
-        if (lastCheckedUpdateTime == lastUpdateTime) {
-          setAlertGreen(true);
+
+        if (lastAlertTime != lastCheckedAlertTime) {
+          setAlertYellow(true);
+        }
+        if (lastCheckedUpdateTime != lastUpdateTime) {
+          setAlertBlue(true);
         }
       });
     }
@@ -75,11 +73,6 @@ export default function ButtonPatient({ patientID, status, onPress }) {
         <Diagnostic>{status}</Diagnostic>
       </Data>
       <Alerts>
-        {alertGreen && (
-          <Alert type="green">
-            <MaterialIcons name="done" size={14} color="#fff" />
-          </Alert>
-        )}
         {alertYellow && (
           <Alert type="yellow">
             <Ionicons name="alert-outline" size={14} color="#fff" />
@@ -87,7 +80,7 @@ export default function ButtonPatient({ patientID, status, onPress }) {
         )}
         {alertRed && (
           <Alert type="red">
-            <Ionicons name="alert-outline" size={14} color="#fff" />
+            <Feather name="clock" size={14} color="#fff" />
           </Alert>
         )}
       </Alerts>

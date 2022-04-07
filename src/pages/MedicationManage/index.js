@@ -44,7 +44,6 @@ export default function MedicationManage({ navigation }) {
               const initial = new Date(medication.initialHour);
               const interval = medication.interval;
               const hours = [];
-              console.log(initial);
               for (const index of Array(3)) {
                 const hour = initial.getHours();
                 const min = initial.getMinutes().toString().padStart(2, 0);

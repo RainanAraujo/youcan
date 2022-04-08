@@ -172,6 +172,15 @@ export default function HomePatient({ navigation }) {
                 onPress={() => navigation.navigate("registerEvent")}
               />
               <CardButton
+                onPress={() => navigation.navigate("agenda", { userID: uid })}
+                category="Programação"
+                description="Confira informações sobre os próximos encontros com seus profissionais."
+                title="Sua Agenda"
+                Icon={() => (
+                  <Feather name="calendar" size={18} color="#929292" />
+                )}
+              />
+              <CardButton
                 onPress={() => navigation.navigate("medicationManage")}
                 category="Medicação"
                 description="Adicione as medicações prescritas por o seu profissional"

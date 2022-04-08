@@ -7,13 +7,14 @@ import {
   Alert,
   Name,
   Diagnostic,
+  NewInfoIndicator,
 } from "./styles";
 
 import { Ionicons, Feather } from "@expo/vector-icons";
 import { getUserData } from "../../services/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ButtonPatient({ patientID, status, onPress }) {
+export default function ButtonPatient({ patientID, onPress }) {
   const [patientData, setPatientData] = useState(null);
 
   const [alertBlue, setAlertBlue] = useState(false);
@@ -70,7 +71,7 @@ export default function ButtonPatient({ patientID, status, onPress }) {
       />
       <Data>
         <Name>{patientData?.name}</Name>
-        <Diagnostic>{status}</Diagnostic>
+        <Diagnostic>{patientData?.phoneNumber}</Diagnostic>
       </Data>
       <Alerts>
         {alertYellow && (
@@ -84,6 +85,7 @@ export default function ButtonPatient({ patientID, status, onPress }) {
           </Alert>
         )}
       </Alerts>
+      {alertBlue && <NewInfoIndicator />}
     </Container>
   );
 }

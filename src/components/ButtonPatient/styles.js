@@ -62,3 +62,13 @@ export const Diagnostic = styled.Text`
   font-family: "LatoLight";
   font-size: 12px;
 `;
+
+export const NewInfoIndicator = styled.View`
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background-color: #05aff2;
+  border-radius: 100px;
+  height: 8px;
+  width: 8px;
+`;

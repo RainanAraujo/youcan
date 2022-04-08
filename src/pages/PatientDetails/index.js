@@ -131,7 +131,7 @@ export default function PatientDetails({ navigation }) {
                   <Item>
                     <Title>Idade</Title>
                     <TextItem>
-                      {getAge(selectedUser.birthDate.toDate())}
+                      {getAge(selectedUser.birthDate?.toDate())}
                     </TextItem>
                   </Item>
                   <Item>

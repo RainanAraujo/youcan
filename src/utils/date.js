@@ -63,6 +63,7 @@ export const timeDiffFormatter = (date) => {
 };
 
 export const getAge = (birthDate) => {
+  if (!birthDate) return;
   var today = new Date();
   var age = today.getFullYear() - birthDate.getFullYear();
   var m = today.getMonth() - birthDate.getMonth();

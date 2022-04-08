@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Container, Name, Period } from "./styles";
+import { Container, Period } from "./styles";
 import { SafeAreaView, ScrollView, StatusBar } from "react-native";
-import Input from "../../components/Input";
 import Header from "../../components/Header";
 import ButtonHistoric from "../../components/ButtonHistoric";
 import { getAnswers } from "../../services/firestore";
-import { MaterialIcons } from "@expo/vector-icons";
 import { useUserContext } from "../../context/userContext";
 import { formatDate } from "../../utils/date";
 
@@ -14,6 +12,7 @@ export default function HistoricPatient({ navigation, route }) {
   const [answers, setAnswers] = useState([]);
 
   useEffect(() => {
+    console.log(selectedUser);
     getAnswers(selectedUser.questions.map((item) => item.id))
       .then((list) => {
         const dates = [

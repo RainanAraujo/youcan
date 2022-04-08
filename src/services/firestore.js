@@ -166,6 +166,7 @@ export const editUserConnection = (userConnectionID, newData) => {
 
 export const getQuestionList = (userConnectionList) => {
   return new Promise(async (resolve, reject) => {
+    if (!userConnectionList) resolve([]);
     questions
       .where("userConnectionID", "in", userConnectionList)
       .get()
@@ -257,7 +258,9 @@ export const createAnswer = (
 };
 
 export const getAnswers = (questionIDList, fromDate = new Date(0)) => {
+  console.log(questionIDList);
   return new Promise(async (resolve, reject) => {
+    if (!questionIDList.length) resolve([]);
     answers
       .where("questionID", "in", questionIDList)
       .where("createdAt", ">", fromDate)

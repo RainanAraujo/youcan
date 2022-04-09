@@ -34,8 +34,7 @@ export default function FormPatient({ onValidate, loading }) {
           maximumDate={new Date()}
           onChange={(evt, value) => {
             setShowDate(false);
-            const selectedDate = value || date;
-            setBirthDate(new Date(selectedDate));
+            value && setBirthDate(new Date(selectedDate));
           }}
           onTouchCancel={() => setShowDate(false)}
         />

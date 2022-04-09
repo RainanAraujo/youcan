@@ -41,3 +41,24 @@ export const Hour = styled.Text`
   font-family: "LatoRegular";
   color: #7a7d87;
 `;
+
+export const DropDownContainer = styled.View`
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: ${deviceWidth * 0.9}px;
+  padding: 0 8px;
+  height: 65px;
+  background-color: #f5f6fa;
+  border-radius: 10px;
+  color: #7a7d87;
+  font-family: "LatoRegular";
+  font-size: 16px;
+`;
+
+export const DropDown = styled(Picker)`
+  width: 100%;
+  height: 65px;
+  color: #7a7d87;
+  font-family: "LatoRegular";
+  font-size: 16px;
+`;

@@ -12,11 +12,21 @@ import {
 import { UserProvider } from "./src/context/userContext";
 import { GlobalComponents } from "./src/context/globalComponentsContext";
 import * as NavigationBar from "expo-navigation-bar";
+import * as Notifications from "expo-notifications";
 
 LogBox.ignoreAllLogs(true);
 
 export default function App() {
   NavigationBar.setBackgroundColorAsync("#00000000");
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
+  });
+
   let [fontsLoaded] = useFonts({
     LatoLight,
     LatoRegular,

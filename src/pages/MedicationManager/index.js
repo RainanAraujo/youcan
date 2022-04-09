@@ -4,12 +4,25 @@ import { SafeAreaView, ScrollView, StatusBar } from "react-native";
 import NewTopicButton from "../../components/NewTopicButton";
 import Header from "../../components/Header";
 import MedicationButton from "../../components/MedicationButton";
-import { useUserContext } from "../../context/userContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Notifications from "expo-notifications";
 
 export default function MedicationManage({ navigation }) {
-  const { selectedUser } = useUserContext();
   const [medications, setMedications] = useState([]);
+
+  const onDeleteMedication = async (id) => {
+    const dataString = await AsyncStorage.getItem("medications");
+    const data = JSON.parse(dataString);
+    const { notificationChannels } = data.medications.filter(
+      (item) => item.id === id
+    );
+    for (const notificationID in notificationChannels) {
+      await Notifications.cancelScheduledNotificationAsync(notificationID);
+    }
+    data.medications = data.medications.filter((item) => item.id !== id);
+    await AsyncStorage.setItem("medications", JSON.stringify(data));
+    setMedications(data.medications);
+  };
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -41,10 +54,11 @@ export default function MedicationManage({ navigation }) {
             />
 
             {medications.map((medication) => {
-              const initial = new Date(medication.initialHour);
-              const interval = medication.interval;
+              const { id, title, interval, initialHour } = medication;
+              const initial = new Date(initialHour);
               const hours = [];
-              for (const index of Array(3)) {
+              const hoursNumber = 24 / interval;
+              for (const index in [...Array(hoursNumber).keys()]) {
                 const hour = initial.getHours();
                 const min = initial.getMinutes().toString().padStart(2, 0);
                 hours.push(`${hour}:${min}h`);
@@ -53,21 +67,9 @@ export default function MedicationManage({ navigation }) {
 
               return (
                 <MedicationButton
-                  onDelete={async () => {
-                    const dataString = await AsyncStorage.getItem(
-                      "medications"
-                    );
-                    let data = JSON.parse(dataString);
-                    data.medications = data.medications.filter(
-                      (item) => item.id !== medication.id
-                    );
-                    await AsyncStorage.setItem(
-                      "medications",
-                      JSON.stringify(data)
-                    );
-                    setMedications(data.medications);
-                  }}
-                  name={medication.title}
+                  key={id}
+                  onDelete={() => onDeleteMedication(id)}
+                  name={title}
                   hours={hours.join(" | ")}
                   onPress={() =>
                     navigation.navigate("medicationEditor", {

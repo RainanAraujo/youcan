@@ -67,8 +67,7 @@ export default function NewAgenda({ navigation, route }) {
                 minimumDate={new Date()}
                 onChange={(evt, value) => {
                   setShowDate(false);
-                  const selectedDate = value || date;
-                  setDate(new Date(selectedDate));
+                  value && setDate(new Date(selectedDate));
                 }}
                 onTouchCancel={() => setShowDate(false)}
               />
@@ -82,8 +81,7 @@ export default function NewAgenda({ navigation, route }) {
                 display="default"
                 onChange={(evt, value) => {
                   setShowTime(false);
-                  const selectedTime = value || date;
-                  setTime(new Date(selectedTime));
+                  value && setTime(new Date(selectedTime));
                 }}
                 onTouchCancel={() => setShowTime(false)}
               />

@@ -18,7 +18,7 @@ import Historic from "./src/pages/Historic";
 import Agenda from "./src/pages/Agenda";
 import YourProfessionals from "./src/pages/YourProfessionals";
 import HistoricPatient from "./src/pages/HistoricPatient";
-import MedicationManage from "./src/pages/MedicationManage";
+import MedicationManage from "./src/pages/MedicationManager";
 import NewAgenda from "./src/pages/NewAgenda";
 import MedicationEditor from "./src/pages/MedicationEditor";
 

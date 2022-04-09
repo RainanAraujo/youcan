@@ -29,7 +29,7 @@ export default function QuizDiary({ navigation, route }) {
 
     if (step <= questions.length) {
       setLoading(true);
-      let currentAnswer = answer;
+      let currentAnswer = Object.assign({}, answer);
 
       if (question.dataType === "textOrAudio" && answer.audio !== "") {
         console.log(question.dataType);
